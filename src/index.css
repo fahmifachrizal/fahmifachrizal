@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* General Styling */
+body {
+  background: #272727;
+}
+
+::selection {
+  background: rgb(156 163 175);
+  color: rgb(39 39 42);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Magic Text */
+:root {  
+  --purple: rgb(123, 31, 162);
+  --violet: rgb(103, 58, 183);
+  --pink: rgb(244, 143, 177);
+
+  /* Hero section */
+  --dark: rgb(20, 20, 20);
+  --yellow: rgb(253, 216, 53);
+  --blue: rgb(98, 0, 234);
+  
+  --c1: rgb(38, 70, 83);
+  --c2: #2a9d90;
+  
+  --left-color: var(--c1);
+  --right-color: var(--c2);
+}
+
+@keyframes background-pan {
+  from {
+    background-position: 0% center;
+  }
+  
+  to {
+    background-position: -200% center;
+  }
+}
+
+@keyframes scale {
+  from, to {
+    transform: scale(0);
+  }
+  
+  50% {
+    transform: scale(0.5);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+#bio {
+  color: white;
+  text-align: center;
+}
+
+#bio > .magic {
+  display: inline-block;
+  position: relative;
+}
+
+#bio > .magic > .magic-star {
+  --size: clamp(10px, 1.5vw, 20px);
+  
+  animation: scale 700ms ease forwards;
+  display: block;
+  height: var(--size);
+  left: var(--star-left);
+  position: absolute;
+  top: var(--star-top);
+  width: var(--size);
+}
+
+#bio > .magic > .magic-star > svg {
+  animation: rotate 1000ms linear infinite;
+  display: block;
+  opacity: 0.7;
+}
+
+#bio > .magic > .magic-star > svg > path {
+  fill: var(--violet);
+}
+
+#bio > .magic > .magic-text {
+  animation: background-pan 3s linear infinite;
+  background: linear-gradient(
+    to right,
+    var(--purple),
+    var(--violet),
+    var(--pink),
+    var(--purple)
+  );
+  background-size: 200%;
+  background-clip: content-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hero Section */
+.side {
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  position: absolute;
+  width: 100%;
+}
+
+.side .title {
+  margin: 0px 10vw;
+  width: 80vw;
+}
+
+#left-side {
+  background-color: var(--left-color);
+  width: 100%;
+  z-index: 2;
+}
+
+#left-side .title {  
+  color: white;  
+}
+
+#left-side .fancy {
+  color: var(--right-color);
+}
+
+#right-side {
+  background-color: var(--right-color);
+}
+
+#right-side .title {
+  color: var(--dark);
+}
+
+#right-side .fancy {
+  color: white;
+}
