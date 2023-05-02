@@ -74,9 +74,9 @@ const BioSection = function() {
               Lets connect
             </span>
             <div className='flex flex-row gap-4'>
-              <TbBrandTwitter className="text-gray-400 text-4xl hover:text-white duration-100"/>
-              <TbBrandLinkedin className="text-gray-400 text-4xl hover:text-white duration-100"/>
-              <TbBrandGithub className="text-gray-400 text-4xl hover:text-white duration-100"/>
+              <a href="https://twitter.com/mf_fachrizal" target='_blank'><TbBrandTwitter className="text-gray-400 text-4xl hover:text-white duration-100"/></a>
+              <a href="https://www.linkedin.com/in/fahmi-fachrizal-8a5102102/" target='_blank'><TbBrandLinkedin className="text-gray-400 text-4xl hover:text-white duration-100"/></a>
+              <a href="https://github.com/fahmifachrizal" target='_blank'><TbBrandGithub className="text-gray-400 text-4xl hover:text-white duration-100"/></a>
             </div>
           </div>
         </div>
