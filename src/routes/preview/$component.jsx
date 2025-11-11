@@ -1,22 +1,72 @@
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/hooks/useTheme"
 import { createFileRoute } from "@tanstack/react-router"
-import { Moon, Sun } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { Moon, Sun, AlertCircle } from "lucide-react"
+import { useEffect, useRef, useState, lazy, Suspense } from "react"
 
 export const Route = createFileRoute("/preview/$component")({
   component: PreviewComponent,
 })
 
+// Component loader function
+const loadComponent = (componentName) => {
+  return lazy(() => 
+    import(`../../components/${componentName}.jsx`)
+      .catch(() => import(`../../components/error-component.jsx`))
+  )
+}
+
 export default function PreviewComponent() {
+  const { component: componentParam } = Route.useParams()
   const canvasRef = useRef(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0, gridX: 0, gridY: 0 })
+  const componentRef = useRef(null)
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0, gridX: 0, gridY: 0, isInside: false })
   const [showCoords, setShowCoords] = useState(false)
+  const [componentBounds, setComponentBounds] = useState(null)
   const { theme, setTheme } = useTheme()
 
-  // Mock component data - replace with actual component logic later
-  const [component, _] = useState({ x: 100, y: 100, width: 300, height: 200 })
-  // Example: setComponent({ x: 100, y: 100, width: 300, height: 200 })
+  // Load component dynamically
+  const [DynamicComponent, setDynamicComponent] = useState(null)
+  
+  useEffect(() => {
+    if (componentParam) {
+      const Component = loadComponent(componentParam)
+      setDynamicComponent(() => Component)
+    }
+  }, [componentParam])
+
+  // Update component bounds when component loads or window resizes
+  useEffect(() => {
+    const updateBounds = () => {
+      if (componentRef.current) {
+        const rect = componentRef.current.getBoundingClientRect()
+        setComponentBounds({
+          x: rect.left,
+          y: rect.top,
+          width: rect.width,
+          height: rect.height,
+        })
+      }
+    }
+
+    updateBounds()
+    window.addEventListener('resize', updateBounds)
+    
+    // Use MutationObserver to detect when component renders
+    const observer = new MutationObserver(updateBounds)
+    if (componentRef.current) {
+      observer.observe(componentRef.current, { 
+        childList: true, 
+        subtree: true,
+        attributes: true 
+      })
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateBounds)
+      observer.disconnect()
+    }
+  }, [DynamicComponent])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -33,12 +83,12 @@ export default function PreviewComponent() {
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Calculate origin point - center if no component, component top-left if present
+      // Calculate origin point - component top-left if loaded, otherwise center
       let originX, originY
-
-      if (component) {
-        originX = component.x
-        originY = component.y
+      
+      if (componentBounds) {
+        originX = componentBounds.x
+        originY = componentBounds.y
       } else {
         originX = window.innerWidth * 0.5
         originY = window.innerHeight * 0.5
@@ -55,12 +105,9 @@ export default function PreviewComponent() {
       const majorColor = isDark
         ? "rgba(156, 163, 175, 0.5)"
         : "rgba(100, 116, 139, 0.5)"
-      const originColor = isDark
-        ? "rgba(239, 68, 68, 0.8)"
-        : "rgba(220, 38, 38, 0.8)"
-      const axisColor = isDark
-        ? "rgba(239, 68, 68, 0.3)"
-        : "rgba(220, 38, 38, 0.3)"
+      const guideColor = isDark
+        ? "rgba(59, 130, 246, 0.6)"
+        : "rgba(37, 99, 235, 0.6)"
 
       // Draw minor ticks
       ctx.fillStyle = minorColor
@@ -82,39 +129,36 @@ export default function PreviewComponent() {
         }
       }
 
-      // Draw component border if present
-      if (component) {
-        ctx.strokeStyle = isDark
-          ? "rgba(59, 130, 246, 0.6)"
-          : "rgba(37, 99, 235, 0.6)"
-        ctx.lineWidth = 2
-        ctx.strokeRect(
-          component.x,
-          component.y,
-          component.width,
-          component.height
-        )
+      // Draw component guide lines if component bounds exist
+      if (componentBounds) {
+        ctx.strokeStyle = guideColor
+        ctx.lineWidth = 1
+        ctx.setLineDash([5, 5])
+
+        // Vertical guide lines (left and right edges)
+        ctx.beginPath()
+        ctx.moveTo(componentBounds.x, 0)
+        ctx.lineTo(componentBounds.x, canvas.height)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.moveTo(componentBounds.x + componentBounds.width, 0)
+        ctx.lineTo(componentBounds.x + componentBounds.width, canvas.height)
+        ctx.stroke()
+
+        // Horizontal guide lines (top and bottom edges)
+        ctx.beginPath()
+        ctx.moveTo(0, componentBounds.y)
+        ctx.lineTo(canvas.width, componentBounds.y)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.moveTo(0, componentBounds.y + componentBounds.height)
+        ctx.lineTo(canvas.width, componentBounds.y + componentBounds.height)
+        ctx.stroke()
+
+        ctx.setLineDash([])
       }
-
-      // Draw origin marker
-      ctx.fillStyle = originColor
-      ctx.beginPath()
-      ctx.arc(originX, originY, 4, 0, Math.PI * 2)
-      ctx.fill()
-
-      // Draw axis lines from origin
-      ctx.strokeStyle = axisColor
-      ctx.lineWidth = 1
-
-      ctx.beginPath()
-      ctx.moveTo(0, originY)
-      ctx.lineTo(canvas.width, originY)
-      ctx.stroke()
-
-      ctx.beginPath()
-      ctx.moveTo(originX, 0)
-      ctx.lineTo(originX, canvas.height)
-      ctx.stroke()
     }
 
     const handleMouseMove = (e) => {
@@ -123,10 +167,10 @@ export default function PreviewComponent() {
       const y = e.clientY - rect.top
 
       let originX, originY
-
-      if (component) {
-        originX = component.x
-        originY = component.y
+      
+      if (componentBounds) {
+        originX = componentBounds.x
+        originY = componentBounds.y
       } else {
         originX = window.innerWidth * 0.5
         originY = window.innerHeight * 0.5
@@ -135,7 +179,15 @@ export default function PreviewComponent() {
       const gridX = Math.round(x - originX)
       const gridY = Math.round(y - originY)
 
-      setMousePos({ x, y, gridX, gridY })
+      // Check if mouse is inside component bounds
+      const isInside = componentBounds ? (
+        x >= componentBounds.x && 
+        x <= componentBounds.x + componentBounds.width &&
+        y >= componentBounds.y && 
+        y <= componentBounds.y + componentBounds.height
+      ) : false
+
+      setMousePos({ x, y, gridX, gridY, isInside })
       setShowCoords(true)
     }
 
@@ -145,15 +197,15 @@ export default function PreviewComponent() {
 
     resizeCanvas()
     window.addEventListener("resize", resizeCanvas)
-    canvas.addEventListener("mousemove", handleMouseMove)
-    canvas.addEventListener("mouseleave", handleMouseLeave)
+    window.addEventListener("mousemove", handleMouseMove)
+    window.addEventListener("mouseleave", handleMouseLeave)
 
     return () => {
       window.removeEventListener("resize", resizeCanvas)
-      canvas.removeEventListener("mousemove", handleMouseMove)
-      canvas.removeEventListener("mouseleave", handleMouseLeave)
+      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("mouseleave", handleMouseLeave)
     }
-  }, [component, theme])
+  }, [componentBounds, theme])
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark")
@@ -163,8 +215,33 @@ export default function PreviewComponent() {
     <div className="relative w-screen h-screen overflow-hidden bg-background">
       <canvas ref={canvasRef} className="absolute inset-0" />
 
+      {/* Component Container - Centered */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div ref={componentRef} className="pointer-events-auto">
+          {DynamicComponent ? (
+            <Suspense fallback={
+              <div className="flex items-center justify-center p-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            }>
+              <DynamicComponent />
+            </Suspense>
+          ) : (
+            <div className="flex flex-col items-center justify-center p-12 text-center bg-card border border-border rounded-lg">
+              <AlertCircle className="w-16 h-16 text-muted-foreground mb-4" />
+              <h2 className="text-2xl font-bold text-foreground mb-2">
+                No Component Specified
+              </h2>
+              <p className="text-muted-foreground">
+                Navigate to /preview/component-name to view a component
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Theme Toggle - Top Right */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 z-10">
         <Button
           variant="outline"
           size="icon"
@@ -178,30 +255,44 @@ export default function PreviewComponent() {
         </Button>
       </div>
 
-      {/* X Coordinate - Top */}
+      {/* Mouse coordinate overlays */}
       {showCoords && (
-        <div
-          className="absolute"
-          style={{ left: mousePos.x, transform: "translateX(-50%)" }}>
-          <p className="text-sm font-mono text-foreground whitespace-nowrap">
-            <span className="">{mousePos.gridX}</span>
-          </p>
-        </div>
-      )}
+        <>
+          {/* X coordinate (top center) */}
+          <div
+            className={`px-1 absolute z-9999 pointer-events-none transition-colors ${
+              mousePos.isInside
+                ? "text-secondary-foreground"
+                : "bg-card/90 text-foreground"
+            }`}
+            style={{
+              left: mousePos.x,
+              transform: "translateX(-50%)",
+            }}
+          >
+            <span className="text-xs font-mono font-semibold">
+              {Math.round(mousePos.gridX)}px
+            </span>
+          </div>
 
-      {/* Y Coordinate - Left */}
-      {showCoords && (
-        <div
-          className="absolute"
-          style={{
-            top: mousePos.y,
-            left: 0,
-            transform: "translateY(-50%) rotate(-90deg)",
-          }}>
-          <p className="text-sm font-mono text-foreground whitespace-nowrap">
-            <span className="">{mousePos.y}</span>
-          </p>
-        </div>
+          {/* Y coordinate (left side, rotated) */}
+          <div
+            className={`px-1 absolute z-9999 pointer-events-none transition-colors ${
+              mousePos.isInside
+                ? "text-secondary-foreground"
+                : "bg-card/90 text-foreground"
+            }`}
+            style={{
+              top: mousePos.y,
+              transform: "translateY(-50%) rotate(-90deg)",
+              transformOrigin: "center",
+            }}
+          >
+            <span className="text-xs font-mono font-semibold">
+              {Math.round(mousePos.gridY)}px
+            </span>
+          </div>
+        </>
       )}
     </div>
   )
