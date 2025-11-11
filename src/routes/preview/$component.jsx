@@ -1,14 +1,22 @@
+import { Button } from "@/components/ui/button"
+import { useTheme } from "@/hooks/useTheme"
 import { createFileRoute } from "@tanstack/react-router"
+import { Moon, Sun } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 export const Route = createFileRoute("/preview/$component")({
   component: PreviewComponent,
 })
 
-function PreviewComponent() {
+export default function PreviewComponent() {
   const canvasRef = useRef(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0, gridX: 0, gridY: 0 })
   const [showCoords, setShowCoords] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  // Mock component data - replace with actual component logic later
+  const [component, _] = useState({ x: 100, y: 100, width: 300, height: 200 })
+  // Example: setComponent({ x: 100, y: 100, width: 300, height: 200 })
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -16,7 +24,6 @@ function PreviewComponent() {
 
     const ctx = canvas.getContext("2d")
 
-    // Set canvas size to full viewport
     const resizeCanvas = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
@@ -26,16 +33,37 @@ function PreviewComponent() {
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Calculate origin point (25vw, 25vh from top-left)
-      const originX = window.innerWidth * 0.25
-      const originY = window.innerHeight * 0.25
+      // Calculate origin point - center if no component, component top-left if present
+      let originX, originY
 
-      const minorTick = 10 // 10px minor tick
-      const majorTick = 100 // 100px major tick
+      if (component) {
+        originX = component.x
+        originY = component.y
+      } else {
+        originX = window.innerWidth * 0.5
+        originY = window.innerHeight * 0.5
+      }
 
-      // Draw minor ticks (10px grid)
-      ctx.fillStyle = "rgba(156, 163, 175, 0.2)" // Lighter dots for minor ticks
+      const minorTick = 10
+      const majorTick = 100
 
+      // Determine colors based on theme
+      const isDark = document.documentElement.classList.contains("dark")
+      const minorColor = isDark
+        ? "rgba(156, 163, 175, 0.2)"
+        : "rgba(100, 116, 139, 0.2)"
+      const majorColor = isDark
+        ? "rgba(156, 163, 175, 0.5)"
+        : "rgba(100, 116, 139, 0.5)"
+      const originColor = isDark
+        ? "rgba(239, 68, 68, 0.8)"
+        : "rgba(220, 38, 38, 0.8)"
+      const axisColor = isDark
+        ? "rgba(239, 68, 68, 0.3)"
+        : "rgba(220, 38, 38, 0.3)"
+
+      // Draw minor ticks
+      ctx.fillStyle = minorColor
       for (let x = originX % minorTick; x < canvas.width; x += minorTick) {
         for (let y = originY % minorTick; y < canvas.height; y += minorTick) {
           ctx.beginPath()
@@ -44,9 +72,8 @@ function PreviewComponent() {
         }
       }
 
-      // Draw major ticks (100px grid)
-      ctx.fillStyle = "rgba(156, 163, 175, 0.5)" // Darker dots for major ticks
-
+      // Draw major ticks
+      ctx.fillStyle = majorColor
       for (let x = originX % majorTick; x < canvas.width; x += majorTick) {
         for (let y = originY % majorTick; y < canvas.height; y += majorTick) {
           ctx.beginPath()
@@ -55,28 +82,35 @@ function PreviewComponent() {
         }
       }
 
-      // Draw origin marker (0,0)
-      ctx.fillStyle = "rgba(239, 68, 68, 0.8)" // Red color for origin
+      // Draw component border if present
+      if (component) {
+        ctx.strokeStyle = isDark
+          ? "rgba(59, 130, 246, 0.6)"
+          : "rgba(37, 99, 235, 0.6)"
+        ctx.lineWidth = 2
+        ctx.strokeRect(
+          component.x,
+          component.y,
+          component.width,
+          component.height
+        )
+      }
+
+      // Draw origin marker
+      ctx.fillStyle = originColor
       ctx.beginPath()
       ctx.arc(originX, originY, 4, 0, Math.PI * 2)
       ctx.fill()
 
-      // Draw origin label
-      ctx.fillStyle = "rgba(239, 68, 68, 1)"
-      ctx.font = "12px monospace"
-      ctx.fillText("(0, 0)", originX + 8, originY - 8)
-
       // Draw axis lines from origin
-      ctx.strokeStyle = "rgba(239, 68, 68, 0.3)"
+      ctx.strokeStyle = axisColor
       ctx.lineWidth = 1
 
-      // Horizontal line
       ctx.beginPath()
       ctx.moveTo(0, originY)
       ctx.lineTo(canvas.width, originY)
       ctx.stroke()
 
-      // Vertical line
       ctx.beginPath()
       ctx.moveTo(originX, 0)
       ctx.lineTo(originX, canvas.height)
@@ -88,10 +122,16 @@ function PreviewComponent() {
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
 
-      const originX = window.innerWidth * 0.25
-      const originY = window.innerHeight * 0.25
+      let originX, originY
 
-      // Calculate grid coordinates relative to origin
+      if (component) {
+        originX = component.x
+        originY = component.y
+      } else {
+        originX = window.innerWidth * 0.5
+        originY = window.innerHeight * 0.5
+      }
+
       const gridX = Math.round(x - originX)
       const gridY = Math.round(y - originY)
 
@@ -113,67 +153,56 @@ function PreviewComponent() {
       canvas.removeEventListener("mousemove", handleMouseMove)
       canvas.removeEventListener("mouseleave", handleMouseLeave)
     }
-  }, [])
+  }, [component, theme])
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-background">
       <canvas ref={canvasRef} className="absolute inset-0" />
 
-      {/* Info panel */}
-      <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-sm">
-        <h2 className="text-lg font-bold text-foreground mb-2">Grid Preview</h2>
-        <div className="space-y-1 text-sm text-muted-foreground">
-          <p>
-            • <span className="text-foreground font-medium">Origin (0,0):</span>{" "}
-            25vw, 25vh
-          </p>
-          <p>
-            • <span className="text-foreground font-medium">Major tick:</span>{" "}
-            100px (darker dots)
-          </p>
-          <p>
-            • <span className="text-foreground font-medium">Minor tick:</span>{" "}
-            10px (lighter dots)
-          </p>
-          <p>
-            • <span className="text-red-500 font-medium">Red marker:</span>{" "}
-            Origin point
-          </p>
-        </div>
+      {/* Theme Toggle - Top Right */}
+      <div className="absolute top-4 right-4">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={toggleTheme}
+          className="bg-card/90 backdrop-blur-sm shadow-lg">
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5" />
+          ) : (
+            <Moon className="w-5 h-5" />
+          )}
+        </Button>
       </div>
 
-      {/* Mouse coordinate display */}
+      {/* X Coordinate - Top */}
       {showCoords && (
         <div
-          className="absolute pointer-events-none bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-lg transform -translate-x-1/2 -translate-y-full -mt-2"
-          style={{
-            left: `${mousePos.x}px`,
-            top: `${mousePos.y}px`,
-          }}>
-          <p className="text-xs font-mono text-foreground whitespace-nowrap">
-            Grid: ({mousePos.gridX}, {mousePos.gridY})px
+          className="absolute"
+          style={{ left: mousePos.x, transform: "translateX(-50%)" }}>
+          <p className="text-sm font-mono text-foreground whitespace-nowrap">
+            <span className="">{mousePos.gridX}</span>
           </p>
         </div>
       )}
 
-      {/* Coordinate display */}
-      <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 shadow-lg">
-        <div className="space-y-1">
-          <p className="text-xs font-mono text-muted-foreground">
-            Grid System Active
+      {/* Y Coordinate - Left */}
+      {showCoords && (
+        <div
+          className="absolute"
+          style={{
+            top: mousePos.y,
+            left: 0,
+            transform: "translateY(-50%) rotate(-90deg)",
+          }}>
+          <p className="text-sm font-mono text-foreground whitespace-nowrap">
+            <span className="">{mousePos.y}</span>
           </p>
-          {showCoords && (
-            <>
-              <p className="text-xs font-mono text-foreground">
-                Screen: ({Math.round(mousePos.x)}, {Math.round(mousePos.y)})
-              </p>
-              <p className="text-xs font-mono text-primary">
-                Grid: ({mousePos.gridX}, {mousePos.gridY})
-              </p>
-            </>
-          )}
         </div>
-      </div>
+      )}
     </div>
   )
 }
