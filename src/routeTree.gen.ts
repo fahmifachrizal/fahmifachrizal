@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PreviewIndexRouteImport } from './routes/preview/index'
+import { Route as PreviewComponentRouteImport } from './routes/preview/$component'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PreviewIndexRoute = PreviewIndexRouteImport.update({
+  id: '/preview/',
+  path: '/preview/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewComponentRoute = PreviewComponentRouteImport.update({
+  id: '/preview/$component',
+  path: '/preview/$component',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/preview/$component': typeof PreviewComponentRoute
+  '/preview': typeof PreviewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/preview/$component': typeof PreviewComponentRoute
+  '/preview': typeof PreviewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/preview/$component': typeof PreviewComponentRoute
+  '/preview/': typeof PreviewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/preview/$component' | '/preview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/preview/$component' | '/preview'
+  id: '__root__' | '/' | '/preview/$component' | '/preview/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PreviewComponentRoute: typeof PreviewComponentRoute
+  PreviewIndexRoute: typeof PreviewIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/preview/': {
+      id: '/preview/'
+      path: '/preview'
+      fullPath: '/preview'
+      preLoaderRoute: typeof PreviewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preview/$component': {
+      id: '/preview/$component'
+      path: '/preview/$component'
+      fullPath: '/preview/$component'
+      preLoaderRoute: typeof PreviewComponentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PreviewComponentRoute: PreviewComponentRoute,
+  PreviewIndexRoute: PreviewIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
