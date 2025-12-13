@@ -22,14 +22,9 @@ export function Navbar({ isFloating }: NavigationMenuProps) {
       <div
         className={`mx-auto flex items-center justify-center gap-1 px-4 py-4 backdrop-blur-xl transition-all duration-300 ease-out md:gap-2 ${
           isFloating
-            ? "max-w-3xl rounded-lg border border-border shadow-2xl"
-            : "max-w-7xl border-t border-border"
-        }`}
-        style={{
-          backgroundColor: isFloating
-            ? "rgba(222, 215, 213, 0.95)"
-            : "rgba(222, 215, 213, 0.8)",
-        }}>
+            ? "max-w-3xl rounded-lg border border-border shadow-2xl bg-background/40"
+            : "max-w-7xl border-t border-border bg-background/50"
+        }`}>
         <Button
           size="lg"
           variant="ghost"

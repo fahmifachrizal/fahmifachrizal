@@ -9,6 +9,7 @@ import {
   BlogSection,
   ContactSection,
 } from "@/components/sections"
+
 export default function Home() {
   const [isFloating, setIsFloating] = useState(false)
 
@@ -23,7 +24,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="relative min-h-screen w-full pb-32">
+    <div className="relative min-h-screen w-full pb-24">
       {/* Hero Section */}
       <HeroSection />
 
