@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { FloatingNavbar } from "@/components/layout/floating-navbar"
+import { Footer } from "@/components/layout/footer"
 import {
   HeroSection,
   AboutSection,
@@ -41,7 +42,7 @@ export default function Home() {
           <ExperienceSection />
         </section>
 
-        {/* Blogs Section */}
+        {/* Blog Section */}
         <section id="blog">
           <BlogSection />
         </section>
@@ -58,6 +59,9 @@ export default function Home() {
         <div className="pointer-events-none fixed left-0 top-1/4 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
         <div className="pointer-events-none fixed bottom-0 right-0 h-96 w-96 rounded-full bg-accent/5 blur-3xl" />
       </div>
+
+      {/* Footer */}
+      <Footer />
     </>
   )
 }

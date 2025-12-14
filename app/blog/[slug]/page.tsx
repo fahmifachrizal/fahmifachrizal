@@ -6,20 +6,21 @@ import { MDXRemote } from "next-mdx-remote/rsc"
 import { mdxComponents } from "@/components/mdx-components"
 import { TableOfContents } from "@/components/table-of-contents"
 import { TopNavbar } from "@/components/layout/top-navbar"
+import { Footer } from "@/components/layout/footer"
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts()
   return posts.map((post) => ({ slug: post.slug }))
 }
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
   const post = await getBlogPost(slug)
-  
+
   if (!post) {
     return {}
   }
@@ -45,15 +46,14 @@ export default async function BlogPostPage({
   return (
     <>
       <TopNavbar />
-      
+
       <div className="min-h-screen bg-background">
         {/* Breadcrumb Navigation */}
         <div className="border-b">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
               <ChevronLeft className="size-4" />
               Back to blog
             </Link>
@@ -99,6 +99,8 @@ export default async function BlogPostPage({
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

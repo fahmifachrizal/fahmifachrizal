@@ -11,7 +11,7 @@ export function TopNavbar() {
             href="/"
             className="flex items-center gap-2 text-lg font-bold hover:text-primary transition-colors">
             <span className="text-2xl">✦</span>
-            <span>Your Brand</span>
+            <span>fahmifachrizal</span>
           </Link>
 
           {/* Navigation Links */}

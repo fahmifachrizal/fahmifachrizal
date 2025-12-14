@@ -2,6 +2,7 @@ import Link from "next/link"
 import { getBlogPosts } from "@/lib/mdx"
 import { TopNavbar } from "@/components/layout/top-navbar"
 import { MainLayout } from "@/components/layout/main-layout"
+import { Footer } from "@/components/layout/footer"
 
 export default async function BlogPage() {
   const posts = await getBlogPosts()
@@ -53,6 +54,7 @@ export default async function BlogPage() {
           </main>
         </div>
       </MainLayout>
+      <Footer />
     </>
   )
 }

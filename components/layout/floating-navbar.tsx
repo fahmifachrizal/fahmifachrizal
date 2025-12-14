@@ -16,20 +16,16 @@ export function FloatingNavbar({ isFloating }: NavigationMenuProps) {
 
   return (
     <nav
-      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-300 ease-out ${
-        isFloating ? "bottom-0 md:bottom-8" : "bottom-0"
+      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-500 ease-out bottom-2 max-w-fit ${
+        isFloating &&
+        "rounded-full border border-border shadow-2xl bg-background/40 backdrop-blur-2xl"
       }`}>
-      <div
-        className={`mx-auto flex items-center justify-center gap-1 px-4 py-4 backdrop-blur-xl transition-all duration-300 ease-out md:gap-2 ${
-          isFloating
-            ? "max-w-fit rounded-lg border border-border shadow-2xl bg-white/40"
-            : "w-full border-t border-border bg-background/50"
-        }`}>
+      <div className="mx-auto flex items-center justify-center px-1 md:px-2 md:py-2 transition-all duration-500 ease-out md:gap-2">
         <Button
           size="lg"
           variant="ghost"
           onClick={() => scrollToSection("about")}
-          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none rounded-full">
           <User />
           <span className="hidden sm:inline">About</span>
         </Button>
@@ -37,23 +33,23 @@ export function FloatingNavbar({ isFloating }: NavigationMenuProps) {
           size="lg"
           variant="ghost"
           onClick={() => scrollToSection("experience")}
-          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none rounded-full">
           <Briefcase />
           <span className="hidden sm:inline">Experience</span>
         </Button>
         <Button
           size="lg"
           variant="ghost"
-          onClick={() => scrollToSection("blogs")}
-          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          onClick={() => scrollToSection("blog")}
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none rounded-full">
           <BookOpen />
-          <span className="hidden sm:inline">Blogs</span>
+          <span className="hidden sm:inline">Blog</span>
         </Button>
         <Button
           size="lg"
           variant="ghost"
           onClick={() => scrollToSection("contact")}
-          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none rounded-full">
           <Mail />
           <span className="hidden sm:inline">Contact</span>
         </Button>
