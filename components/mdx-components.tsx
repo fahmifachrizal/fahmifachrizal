@@ -3,7 +3,15 @@ import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { CopyButton } from "@/components/mdx/copy-button"
-import { FileIcon } from "lucide-react"
+import { FileIcon, AlertCircle, Info, CheckCircle, AlertTriangle } from "lucide-react"
+
+// Generate ID from heading text
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+}
 
 // Icon component for code blocks
 function getIconForLanguage(language: string) {
@@ -28,35 +36,88 @@ function getIconForLanguage(language: string) {
   return icons[language] || <FileIcon className="size-4" />
 }
 
+// Callout component for special messages
+interface CalloutProps extends React.HTMLAttributes<HTMLDivElement> {
+  type?: "info" | "warning" | "danger" | "success"
+}
+
+const Callout = ({ type = "info", className, children, ...props }: CalloutProps) => {
+  const icons = {
+    info: <Info className="size-5" />,
+    warning: <AlertTriangle className="size-5" />,
+    danger: <AlertCircle className="size-5" />,
+    success: <CheckCircle className="size-5" />,
+  }
+
+  const styles = {
+    info: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100",
+    warning: "bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-100",
+    danger: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800 text-red-900 dark:text-red-100",
+    success: "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800 text-green-900 dark:text-green-100",
+  }
+
+  return (
+    <div
+      className={cn(
+        "my-6 flex gap-3 rounded-lg border p-4",
+        styles[type],
+        className
+      )}
+      {...props}
+    >
+      <div className="mt-0.5">{icons[type]}</div>
+      <div className="flex-1 space-y-2">{children}</div>
+    </div>
+  )
+}
+
 export const mdxComponents = {
   // Typography
-  h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
-    <h1
-      className={cn(
-        "mt-2 scroll-m-20 text-4xl font-bold tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h2: ({ className, ...props }: React.ComponentProps<"h2">) => (
-    <h2
-      className={cn(
-        "mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h3: ({ className, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  ),
+  h1: ({ className, children, ...props }: React.ComponentProps<"h1">) => {
+    const id = typeof children === "string" ? slugify(children) : ""
+    return (
+      <h1
+        id={id}
+        className={cn(
+          "mt-2 scroll-m-20 text-4xl font-bold tracking-tight",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </h1>
+    )
+  },
+  h2: ({ className, children, ...props }: React.ComponentProps<"h2">) => {
+    const id = typeof children === "string" ? slugify(children) : ""
+    return (
+      <h2
+        id={id}
+        className={cn(
+          "mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </h2>
+    )
+  },
+  h3: ({ className, children, ...props }: React.ComponentProps<"h3">) => {
+    const id = typeof children === "string" ? slugify(children) : ""
+    return (
+      <h3
+        id={id}
+        className={cn(
+          "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </h3>
+    )
+  },
   h4: ({ className, ...props }: React.ComponentProps<"h4">) => (
     <h4
       className={cn(
@@ -86,7 +147,10 @@ export const mdxComponents = {
   ),
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn(
+        "font-medium text-primary underline underline-offset-4 hover:text-primary/80",
+        className
+      )}
       {...props}
     />
   ),
@@ -107,28 +171,34 @@ export const mdxComponents = {
   ),
   blockquote: ({ className, ...props }: React.ComponentProps<"blockquote">) => (
     <blockquote
-      className={cn("mt-6 border-l-2 pl-6 italic", className)}
+      className={cn(
+        "mt-6 border-l-4 border-primary pl-6 italic text-muted-foreground",
+        className
+      )}
       {...props}
     />
   ),
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    <img className={cn("rounded-md", className)} alt={alt} {...props} />
+    <img className={cn("rounded-md border", className)} alt={alt} {...props} />
   ),
   hr: ({ ...props }: React.ComponentProps<"hr">) => (
-    <hr className="my-4 md:my-8" {...props} />
+    <hr className="my-8 border-border" {...props} />
   ),
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
     <div className="my-6 w-full overflow-y-auto">
-      <table className={cn("w-full", className)} {...props} />
+      <table className={cn("w-full border-collapse", className)} {...props} />
     </div>
   ),
   tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
-    <tr className={cn("m-0 border-t p-0", className)} {...props} />
+    <tr
+      className={cn("m-0 border-t border-border p-0 even:bg-muted/50", className)}
+      {...props}
+    />
   ),
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
       className={cn(
-        "border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border border-border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...props}
@@ -137,7 +207,7 @@ export const mdxComponents = {
   td: ({ className, ...props }: React.ComponentProps<"td">) => (
     <td
       className={cn(
-        "border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border border-border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...props}
@@ -147,14 +217,17 @@ export const mdxComponents = {
   // Code blocks
   pre: ({ className, children, ...props }: React.ComponentProps<"pre">) => {
     return (
-      <pre
-        className={cn(
-          "mb-4 mt-6 overflow-x-auto rounded-lg border bg-muted p-4",
-          className
-        )}
-        {...props}>
-        {children}
-      </pre>
+      <div className="relative my-6">
+        <pre
+          className={cn(
+            "overflow-x-auto rounded-lg border bg-muted/50 p-4 font-mono text-sm",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </pre>
+      </div>
     )
   },
 
@@ -171,10 +244,11 @@ export const mdxComponents = {
       return (
         <code
           className={cn(
-            "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
+            "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
             className
           )}
-          {...props}>
+          {...props}
+        >
           {children}
         </code>
       )
@@ -182,50 +256,34 @@ export const mdxComponents = {
 
     // Code block
     const language = className?.replace("language-", "") || "text"
+    const codeString = String(children).trim()
 
     return (
-      <div className="relative">
+      <div className="relative group">
+        <div className="flex items-center justify-between rounded-t-lg border border-b-0 bg-muted/30 px-4 py-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {getIconForLanguage(language)}
+            <span className="font-medium">{language}</span>
+          </div>
+          <CopyButton value={codeString} />
+        </div>
         <code
-          className={cn("relative font-mono text-sm", className)}
-          {...props}>
+          className={cn("relative block font-mono text-sm", className)}
+          {...props}
+        >
           {children}
         </code>
       </div>
     )
   },
 
-  // Figure and figcaption for code blocks with titles
-  figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
-    return <figure className={cn("relative my-6", className)} {...props} />
-  },
-
-  figcaption: ({
-    className,
-    children,
-    ...props
-  }: React.ComponentProps<"figcaption"> & {
-    "data-language"?: string
-  }) => {
-    const language = props["data-language"]
-    const icon = language ? getIconForLanguage(language) : null
-
-    return (
-      <figcaption
-        className={cn(
-          "mb-2 flex items-center gap-2 text-sm text-muted-foreground",
-          className
-        )}
-        {...props}>
-        {icon}
-        {children}
-      </figcaption>
-    )
-  },
-
   // Custom components
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn(
+        "font-medium text-primary underline underline-offset-4 hover:text-primary/80",
+        className
+      )}
       {...props}
     />
   ),
@@ -239,7 +297,7 @@ export const mdxComponents = {
     ...props
   }: React.ComponentProps<"img">) => (
     <Image
-      className={cn("mt-6 rounded-md border", className)}
+      className={cn("mt-6 rounded-lg border", className)}
       src={(src as string) || ""}
       width={Number(width) || 800}
       height={Number(height) || 400}
@@ -247,4 +305,6 @@ export const mdxComponents = {
       {...props}
     />
   ),
+
+  Callout,
 }

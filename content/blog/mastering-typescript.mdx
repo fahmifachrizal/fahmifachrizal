@@ -1,0 +1,379 @@
+---
+title: "Mastering TypeScript: Advanced Patterns and Best Practices"
+description: "Deep dive into advanced TypeScript patterns, generic types, and practical examples for building type-safe applications."
+date: "2024-12-10"
+readTime: "8 min read"
+---
+
+# Mastering TypeScript: Advanced Patterns and Best Practices
+
+TypeScript has become the de facto standard for building scalable JavaScript applications. In this guide, we'll explore advanced patterns that will take your TypeScript skills to the next level.
+
+## Why TypeScript Matters
+
+TypeScript adds static typing to JavaScript, catching errors at compile time rather than runtime. This leads to more maintainable code and better developer experience.
+
+<Callout type="info">
+According to the 2024 Stack Overflow survey, TypeScript is one of the most loved programming languages, with over 73% of developers expressing interest in continuing to use it.
+</Callout>
+
+## Advanced Generic Types
+
+Generics are one of TypeScript's most powerful features. Let's explore some advanced patterns.
+
+### Generic Constraints
+
+```typescript
+interface HasId {
+  id: number
+}
+
+function findById<T extends HasId>(items: T[], id: number): T | undefined {
+  return items.find(item => item.id === id)
+}
+
+// Usage
+const users = [
+  { id: 1, name: 'Alice', email: 'alice@example.com' },
+  { id: 2, name: 'Bob', email: 'bob@example.com' }
+]
+
+const user = findById(users, 1) // Type: { id: number; name: string; email: string } | undefined
+```
+
+### Conditional Types
+
+Conditional types allow you to create types that depend on other types:
+
+```typescript
+type IsString<T> = T extends string ? true : false
+
+type A = IsString<string>  // true
+type B = IsString<number>  // false
+
+// Practical example: Extract function return type
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never
+
+function getUser() {
+  return { id: 1, name: 'Alice' }
+}
+
+type User = ReturnType<typeof getUser> // { id: number; name: string }
+```
+
+## Utility Types Deep Dive
+
+TypeScript provides many built-in utility types. Let's explore the most useful ones.
+
+### Pick and Omit
+
+```typescript
+interface User {
+  id: number
+  name: string
+  email: string
+  password: string
+  createdAt: Date
+}
+
+// Pick only specific properties
+type UserPublic = Pick<User, 'id' | 'name' | 'email'>
+
+// Omit sensitive properties
+type UserSafe = Omit<User, 'password'>
+
+// Practical usage
+function displayUser(user: UserPublic) {
+  console.log(`${user.name} (${user.email})`)
+}
+```
+
+### Record and Partial
+
+```typescript
+// Record: Create object type with specific key-value pairs
+type Roles = 'admin' | 'user' | 'guest'
+type Permissions = Record<Roles, string[]>
+
+const permissions: Permissions = {
+  admin: ['read', 'write', 'delete'],
+  user: ['read', 'write'],
+  guest: ['read']
+}
+
+// Partial: Make all properties optional
+interface Config {
+  host: string
+  port: number
+  ssl: boolean
+}
+
+function updateConfig(config: Partial<Config>) {
+  // All properties are optional
+}
+```
+
+<Callout type="warning">
+**Be Careful:** When using `Partial`, remember that all properties become optional, which means you need to handle `undefined` cases.
+</Callout>
+
+## Type Guards and Narrowing
+
+Type guards help TypeScript understand the type of a variable in different code paths.
+
+### Custom Type Guards
+
+```typescript
+interface Dog {
+  type: 'dog'
+  bark: () => void
+}
+
+interface Cat {
+  type: 'cat'
+  meow: () => void
+}
+
+type Pet = Dog | Cat
+
+// Type guard function
+function isDog(pet: Pet): pet is Dog {
+  return pet.type === 'dog'
+}
+
+function handlePet(pet: Pet) {
+  if (isDog(pet)) {
+    pet.bark() // TypeScript knows this is a Dog
+  } else {
+    pet.meow() // TypeScript knows this is a Cat
+  }
+}
+```
+
+### Discriminated Unions
+
+```typescript
+interface Success<T> {
+  status: 'success'
+  data: T
+}
+
+interface Error {
+  status: 'error'
+  error: string
+}
+
+type Result<T> = Success<T> | Error
+
+function handleResult<T>(result: Result<T>) {
+  switch (result.status) {
+    case 'success':
+      console.log(result.data) // TypeScript knows result.data exists
+      break
+    case 'error':
+      console.error(result.error) // TypeScript knows result.error exists
+      break
+  }
+}
+```
+
+## Mapped Types
+
+Mapped types allow you to transform existing types into new ones.
+
+```typescript
+// Make all properties readonly
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P]
+}
+
+// Make all properties mutable
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}
+
+// Add prefix to all keys
+type Prefixed<T, P extends string> = {
+  [K in keyof T as `${P}${string & K}`]: T[K]
+}
+
+interface User {
+  name: string
+  age: number
+}
+
+type PrefixedUser = Prefixed<User, 'user_'>
+// Result: { user_name: string; user_age: number }
+```
+
+## Template Literal Types
+
+TypeScript 4.1 introduced template literal types, allowing you to create types from string templates.
+
+```typescript
+type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type Endpoint = '/users' | '/posts' | '/comments'
+
+// Combine types
+type Route = `${HTTPMethod} ${Endpoint}`
+// Result: 'GET /users' | 'GET /posts' | 'GET /comments' | 'POST /users' | ...
+
+// Practical example: Event handling
+type EventName = 'click' | 'focus' | 'blur'
+type EventHandler = `on${Capitalize<EventName>}`
+// Result: 'onClick' | 'onFocus' | 'onBlur'
+```
+
+<Callout type="success">
+**Pro Tip:** Template literal types are especially useful for creating type-safe event handling systems and API route definitions.
+</Callout>
+
+## Real-World Example: Type-Safe API Client
+
+Let's build a type-safe API client using advanced TypeScript features:
+
+```typescript
+// Define API structure
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+interface Post {
+  id: number
+  title: string
+  content: string
+  userId: number
+}
+
+// API endpoints mapping
+interface APIEndpoints {
+  '/users': User[]
+  '/users/:id': User
+  '/posts': Post[]
+  '/posts/:id': Post
+}
+
+// Extract path parameters
+type ExtractParams<T extends string> = 
+  T extends `${infer _Start}:${infer Param}/${infer Rest}`
+    ? { [K in Param | keyof ExtractParams<`/${Rest}`>]: string }
+    : T extends `${infer _Start}:${infer Param}`
+    ? { [K in Param]: string }
+    : {}
+
+// Type-safe fetch function
+async function apiFetch<T extends keyof APIEndpoints>(
+  endpoint: T,
+  params?: ExtractParams<T>
+): Promise<APIEndpoints[T]> {
+  let url = endpoint as string
+  
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      url = url.replace(`:${key}`, value)
+    })
+  }
+  
+  const response = await fetch(url)
+  return response.json()
+}
+
+// Usage - fully type-safe!
+const users = await apiFetch('/users') // Type: User[]
+const user = await apiFetch('/users/:id', { id: '123' }) // Type: User
+```
+
+## Performance Considerations
+
+### Avoid Excessive Type Complexity
+
+```typescript
+// ❌ Bad: Too complex
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object
+    ? DeepPartial<T[P]>
+    : T[P]
+}
+
+// ✅ Good: Simple and clear
+type PartialUser = Partial<User>
+```
+
+### Use Type Inference
+
+```typescript
+// ❌ Bad: Redundant type annotations
+const names: string[] = ['Alice', 'Bob', 'Charlie']
+const numbers: number[] = [1, 2, 3, 4, 5]
+
+// ✅ Good: Let TypeScript infer
+const names = ['Alice', 'Bob', 'Charlie']
+const numbers = [1, 2, 3, 4, 5]
+```
+
+<Callout type="danger">
+**Performance Warning:** Extremely complex types can slow down your IDE and TypeScript compiler. Keep types as simple as possible while maintaining type safety.
+</Callout>
+
+## Testing with TypeScript
+
+TypeScript makes testing more robust by catching type errors:
+
+```typescript
+import { describe, it, expect } from 'vitest'
+
+interface Calculator {
+  add(a: number, b: number): number
+  subtract(a: number, b: number): number
+}
+
+class SimpleCalculator implements Calculator {
+  add(a: number, b: number): number {
+    return a + b
+  }
+  
+  subtract(a: number, b: number): number {
+    return a - b
+  }
+}
+
+describe('Calculator', () => {
+  it('should add numbers correctly', () => {
+    const calc = new SimpleCalculator()
+    expect(calc.add(2, 3)).toBe(5)
+  })
+  
+  it('should subtract numbers correctly', () => {
+    const calc = new SimpleCalculator()
+    expect(calc.subtract(5, 3)).toBe(2)
+  })
+})
+```
+
+## Best Practices Summary
+
+| Practice | Description | Priority |
+|----------|-------------|----------|
+| Enable strict mode | Use `"strict": true` in tsconfig.json | High |
+| Avoid `any` | Use `unknown` for truly unknown types | High |
+| Use discriminated unions | Better type narrowing and exhaustiveness | Medium |
+| Leverage utility types | Don't reinvent built-in utilities | Medium |
+| Document complex types | Add JSDoc comments for clarity | Low |
+
+## Conclusion
+
+TypeScript's type system is incredibly powerful and continues to evolve with each release. By mastering these advanced patterns, you'll write more maintainable, bug-free code.
+
+> "Types are about enabling scalable code, not constraining what you can do." - Anders Hejlsberg
+
+Keep practicing these patterns in your projects, and you'll soon find yourself writing better, more robust TypeScript code naturally.
+
+## Further Reading
+
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [Type Challenges](https://github.com/type-challenges/type-challenges)
+- [Effective TypeScript](https://effectivetypescript.com/)
+
+Happy typing! 💙

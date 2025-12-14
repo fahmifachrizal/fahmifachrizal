@@ -28,14 +28,17 @@ export function CopyButton({
   return (
     <button
       className={cn(
-        "absolute right-4 top-4 z-10 size-8 rounded-md border bg-background p-1.5 opacity-70 hover:opacity-100",
+        "size-8 rounded-md border bg-background p-1.5 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-accent",
+        hasCopied && "opacity-100",
         className
       )}
       onClick={copyToClipboard}
-      {...props}>
+      title={hasCopied ? "Copied!" : "Copy to clipboard"}
+      {...props}
+    >
       <span className="sr-only">Copy</span>
       {hasCopied ? (
-        <Check className="size-full" />
+        <Check className="size-full text-green-500" />
       ) : (
         <Copy className="size-full" />
       )}
