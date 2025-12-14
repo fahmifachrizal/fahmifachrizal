@@ -1,0 +1,86 @@
+---
+title: "Getting Started with Next.js and MDX"
+description: "Learn how to set up MDX in your Next.js project"
+date: "2024-12-14"
+readTime: "5 min read"
+---
+
+# Getting Started with Next.js and MDX
+
+Welcome to this tutorial on using MDX with Next.js! In this post, we'll explore how to create dynamic, component-rich blog posts.
+
+## What is MDX?
+
+MDX is a format that lets you write JSX in your Markdown files. This means you can import and use React components directly in your content.
+
+### Benefits of MDX
+
+- **Interactive**: Embed React components
+- **Type-safe**: Full TypeScript support
+- **Flexible**: Customize every element
+- **Powerful**: Combine Markdown's simplicity with React's capabilities
+
+## Code Examples
+
+Here's a simple React component:
+
+```typescript
+interface ButtonProps {
+  label: string
+  onClick: () => void
+}
+
+export function Button({ label, onClick }: ButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-4 py-2 bg-primary text-white rounded">
+      {label}
+    </button>
+  )
+}
+```
+
+### Installation
+
+Install the necessary packages:
+
+```bash
+npm install @next/mdx @mdx-js/loader @mdx-js/react
+npm install -D @types/mdx
+```
+
+## Styling Your Content
+
+You can use inline code like `const x = 10` or code blocks for longer snippets.
+
+> **Note**: MDX supports all standard Markdown syntax plus JSX!
+
+## Lists and More
+
+Here's what you can do:
+
+1. Write in Markdown
+2. Import React components
+3. Use TypeScript
+4. Create interactive content
+
+And unordered lists:
+
+- Easy to write
+- Easy to read
+- Easy to extend
+
+## Tables
+
+| Feature    | Supported | Notes             |
+| ---------- | --------- | ----------------- |
+| Markdown   | ✅        | Full support      |
+| JSX        | ✅        | React components  |
+| TypeScript | ✅        | Type-safe content |
+
+## Conclusion
+
+MDX is a powerful tool for creating rich, interactive content. Give it a try in your next project!
+
+[Learn more about MDX →](https://mdxjs.com)
