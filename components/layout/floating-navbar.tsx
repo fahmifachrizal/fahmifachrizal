@@ -1,104 +1,62 @@
-"use client"
+import React from "react"
+import { Button } from "@/components/ui/button"
+import { User, Briefcase, BookOpen, Mail } from "lucide-react"
 
-import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Home, User, Briefcase, BookOpen, Mail } from "lucide-react"
-import { Button } from "../ui/button"
-
-interface FloatingNavbarProps {
-  isFloating?: boolean
+interface NavigationMenuProps {
+  isFloating: boolean
 }
 
-const navItems = [
-  { id: "hero", icon: Home, label: "Home" },
-  { id: "about", icon: User, label: "About" },
-  { id: "experience", icon: Briefcase, label: "Experience" },
-  { id: "blog", icon: BookOpen, label: "Blog" },
-  { id: "contact", icon: Mail, label: "Contact" },
-]
-
-export function FloatingNavbar({ isFloating = false }: FloatingNavbarProps) {
-  const [activeSection, setActiveSection] = useState("hero")
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems
-        .map((item) => {
-          const element = document.getElementById(item.id)
-          if (element) {
-            const rect = element.getBoundingClientRect()
-            return {
-              id: item.id,
-              top: rect.top,
-              bottom: rect.bottom,
-            }
-          }
-          return null
-        })
-        .filter(Boolean)
-
-      // Find the section that's most visible in viewport
-      const viewportMiddle = window.innerHeight / 2
-      const currentSection = sections.find(
-        (section) =>
-          section &&
-          section.top <= viewportMiddle &&
-          section.bottom >= viewportMiddle
-      )
-
-      if (currentSection) {
-        setActiveSection(currentSection.id)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    handleScroll() // Initial check
-
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
+export function FloatingNavbar({ isFloating }: NavigationMenuProps) {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
     if (element) {
-      const top = element.offsetTop - 100
-      window.scrollTo({ top, behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" })
     }
   }
 
   return (
     <nav
-      className={cn(
-        "fixed bottom-8 left-1/2 z-50 -translate-x-1/2 transition-all duration-300",
-        "hidden md:block", // Hide on mobile
-        isFloating ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
-      )}>
-      <div className="flex items-center gap-2 rounded-full border bg-background/95 px-4 py-3 shadow-lg backdrop-blur supports-backdrop-filter:bg-background/60">
-        {navItems.map((item) => {
-          const Icon = item.icon
-          const isActive = activeSection === item.id
-
-          return (
-            <Button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={cn(
-                "group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all",
-                isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              )}
-              title={item.label}>
-              <Icon className="size-4" />
-              <span
-                className={cn(
-                  "max-w-0 overflow-hidden transition-all duration-300",
-                  isActive && "max-w-xs"
-                )}>
-                {item.label}
-              </span>
-            </Button>
-          )
-        })}
+      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-300 ease-out ${
+        isFloating ? "bottom-0 md:bottom-8" : "bottom-0"
+      }`}>
+      <div
+        className={`mx-auto flex items-center justify-center gap-1 px-4 py-4 backdrop-blur-xl transition-all duration-300 ease-out md:gap-2 ${
+          isFloating
+            ? "max-w-fit rounded-lg border border-border shadow-2xl bg-white/40"
+            : "w-full border-t border-border bg-background/50"
+        }`}>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={() => scrollToSection("about")}
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          <User />
+          <span className="hidden sm:inline">About</span>
+        </Button>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={() => scrollToSection("experience")}
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          <Briefcase />
+          <span className="hidden sm:inline">Experience</span>
+        </Button>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={() => scrollToSection("blogs")}
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          <BookOpen />
+          <span className="hidden sm:inline">Blogs</span>
+        </Button>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={() => scrollToSection("contact")}
+          className="flex-1 hover:bg-primary hover:text-primary-foreground md:flex-none">
+          <Mail />
+          <span className="hidden sm:inline">Contact</span>
+        </Button>
       </div>
     </nav>
   )
