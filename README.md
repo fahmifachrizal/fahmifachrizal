@@ -65,11 +65,11 @@ Integrated AI capabilities into a customer service chatbot, improving response a
 
 <div align="center">
   
-  ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08&icon_color=1D0B08)
+  ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=fahmifachrizal&show_icons=true&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08&icon_color=1D0B08)
   
-  ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08)
+  ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=fahmifachrizal&layout=compact&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08)
   
-  ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=YOUR_USERNAME&theme=default&hide_border=true&background=E7E0DE&ring=1D0B08&fire=1D0B08&currStreakLabel=1D0B08&sideNums=1D0B08&currStreakNum=1D0B08&dates=1D0B08&sideLabels=1D0B08)
+  ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=fahmifachrizal&theme=default&hide_border=true&background=E7E0DE&ring=1D0B08&fire=1D0B08&currStreakLabel=1D0B08&sideNums=1D0B08&currStreakNum=1D0B08&dates=1D0B08&sideLabels=1D0B08)
 
 </div>
 
@@ -85,10 +85,10 @@ Integrated AI capabilities into a customer service chatbot, improving response a
 
 <div align="center">
   
-  [![Email](https://img.shields.io/badge/Email-fahmi%40example.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:fahmi@example.com)
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/YOUR_PROFILE)
-  [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_USERNAME)
-  [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-1D0B08?style=for-the-badge&logo=google-chrome&logoColor=white)](https://your-portfolio.com)
+  [![Email](https://img.shields.io/badge/Email-fahmi%40example.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mff.online.acc@gmail.com)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/fahmi-fachrizal-8a5102102)
+  [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fahmifachrizal)
+  [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-1D0B08?style=for-the-badge&logo=google-chrome&logoColor=white)](https://fahmifachrizal.vercel.app)
 
 </div>
 
@@ -96,7 +96,7 @@ Integrated AI capabilities into a customer service chatbot, improving response a
 
 <div align="center">
 
-  ![Profile Views](https://komarev.com/ghpvc/?username=YOUR_USERNAME&color=1D0B08&style=for-the-badge&label=Profile+Views)
+  ![Profile Views](https://komarev.com/ghpvc/?username=fahmifachrizal&color=1D0B08&style=for-the-badge&label=Profile+Views)
 
   **💡 "Crafting elegant solutions with modern technologies"**
 
