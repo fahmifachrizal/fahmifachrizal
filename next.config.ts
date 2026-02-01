@@ -1,19 +1,28 @@
-import type { NextConfig } from "next"
-import createMDX from "@next/mdx"
+import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  // Configure `pageExtensions` to include markdown and MDX files
+  // 1. Enable Static Export for your VPS
+  output: "export",
+
+  // 2. Disable default image optimization (required for static export)
+  images: {
+    unoptimized: true,
+  },
+
+  // 3. Keep your existing page extension settings
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
-  // Optionally, add any other Next.js config below
-}
+
+  // Optional: Add other Next.js 16/15 features if needed
+  // reactCompiler: true, 
+};
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
   options: {
     remarkPlugins: [],
     rehypePlugins: [],
   },
-})
+});
 
-// Merge MDX config with Next.js config
-export default withMDX(nextConfig)
+// Merge and export
+export default withMDX(nextConfig);
