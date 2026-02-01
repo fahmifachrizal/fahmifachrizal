@@ -2,7 +2,7 @@
 
 <div align="center">
   
-  ![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=1D0B08&center=true&vCenter=true&repeat=true&width=600&lines=Full+Stack+Developer;UI%2FUX+Enthusiast;Problem+Solver;Code+Craftsman)
+  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=999999&center=true&vCenter=true&width=435&lines=Full+Stack+Developer;UI%2FUX+Enthusiast;Problem+Solver;Code+Craftsman)](https://git.io/typing-svg)
 
 </div>
 
@@ -65,11 +65,7 @@ Integrated AI capabilities into a customer service chatbot, improving response a
 
 <div align="center">
   
-  ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=fahmifachrizal&show_icons=true&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08&icon_color=1D0B08)
-  
-  ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=fahmifachrizal&layout=compact&theme=default&hide_border=true&bg_color=E7E0DE&title_color=1D0B08&text_color=1D0B08)
-  
-  ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=fahmifachrizal&theme=default&hide_border=true&background=E7E0DE&ring=1D0B08&fire=1D0B08&currStreakLabel=1D0B08&sideNums=1D0B08&currStreakNum=1D0B08&dates=1D0B08&sideLabels=1D0B08)
+  [![GitHub Streak](http://github-readme-streak-stats.herokuapp.com?user=fahmifachrizal&theme=gotham&border_radius=0&exclude_days=Sun%2CSat)](https://git.io/streak-stats)
 
 </div>
 
@@ -96,7 +92,7 @@ Integrated AI capabilities into a customer service chatbot, improving response a
 
 <div align="center">
 
-  ![Profile Views](https://komarev.com/ghpvc/?username=fahmifachrizal&color=1D0B08&style=for-the-badge&label=Profile+Views)
+  ![Profile Views](https://komarev.com/ghpvc/?username=fahmifachrizal&color=999999&style=for-the-badge&label=Profile+Views)
 
   **💡 "Crafting elegant solutions with modern technologies"**
 
