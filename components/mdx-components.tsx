@@ -2,8 +2,9 @@ import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { CopyButton } from "@/components/mdx/copy-button"
 import { FileIcon, AlertCircle, Info, CheckCircle, AlertTriangle } from "lucide-react"
+import { Presentation } from "@/components/mdx/step-container"
+import { CopyButton } from "@/components/mdx/copy-button"
 
 // Generate ID from heading text
 function slugify(text: string) {
@@ -307,4 +308,8 @@ export const mdxComponents = {
   ),
 
   Callout,
+  Presentation,
+  Step: ({ children }: { children: React.ReactNode }) => (
+    <div className="w-full">{children}</div>
+  ),
 }
