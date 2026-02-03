@@ -4,7 +4,9 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { FileIcon, AlertCircle, Info, CheckCircle, AlertTriangle } from "lucide-react"
 import { Presentation } from "@/components/mdx/step-container"
+import { DatabaseDiagram } from "@/components/mdx/database-diagram"
 import { CopyButton } from "@/components/mdx/copy-button"
+import { LatestBlog } from "@/components/mdx/latest-blog"
 
 // Generate ID from heading text
 function slugify(text: string) {
@@ -51,10 +53,10 @@ const Callout = ({ type = "info", className, children, ...props }: CalloutProps)
   }
 
   const styles = {
-    info: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100",
-    warning: "bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-100",
-    danger: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800 text-red-900 dark:text-red-100",
-    success: "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800 text-green-900 dark:text-green-100",
+    info: "bg-primary/5 border-primary/10 text-primary",
+    warning: "bg-yellow-500/10 border-yellow-500/20 text-yellow-700 dark:text-yellow-400",
+    danger: "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400",
+    success: "bg-green-500/10 border-green-500/20 text-green-700 dark:text-green-400",
   }
 
   return (
@@ -149,7 +151,7 @@ export const mdxComponents = {
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
       className={cn(
-        "font-medium text-primary underline underline-offset-4 hover:text-primary/80",
+        "font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground",
         className
       )}
       {...props}
@@ -216,20 +218,8 @@ export const mdxComponents = {
   ),
 
   // Code blocks
-  pre: ({ className, children, ...props }: React.ComponentProps<"pre">) => {
-    return (
-      <div className="relative my-6">
-        <pre
-          className={cn(
-            "overflow-x-auto rounded-lg border bg-muted/50 p-4 font-mono text-sm",
-            className
-          )}
-          {...props}
-        >
-          {children}
-        </pre>
-      </div>
-    )
+  pre: ({ children }: React.ComponentProps<"pre">) => {
+    return <>{children}</>
   },
 
   code: ({
@@ -260,20 +250,22 @@ export const mdxComponents = {
     const codeString = String(children).trim()
 
     return (
-      <div className="relative group">
-        <div className="flex items-center justify-between rounded-t-lg border border-b-0 bg-muted/30 px-4 py-2">
+      <div className="relative my-6 group rounded-lg border bg-muted/50">
+        <div className="flex items-center justify-between rounded-t-lg border-b bg-muted/30 px-4 py-2">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {getIconForLanguage(language)}
             <span className="font-medium">{language}</span>
           </div>
           <CopyButton value={codeString} />
         </div>
-        <code
-          className={cn("relative block font-mono text-sm", className)}
-          {...props}
-        >
-          {children}
-        </code>
+        <pre className="overflow-x-auto p-4 font-mono text-sm rounded-b-lg">
+          <code
+            className={cn("relative block font-mono text-sm", className)}
+            {...props}
+          >
+            {children}
+          </code>
+        </pre>
       </div>
     )
   },
@@ -282,7 +274,7 @@ export const mdxComponents = {
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
       className={cn(
-        "font-medium text-primary underline underline-offset-4 hover:text-primary/80",
+        "font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground",
         className
       )}
       {...props}
@@ -309,7 +301,11 @@ export const mdxComponents = {
 
   Callout,
   Presentation,
-  Step: ({ children }: { children: React.ReactNode }) => (
-    <div className="w-full">{children}</div>
+  DatabaseDiagram,
+  LatestBlog,
+  Step: ({ title, children }: { title?: string; children: React.ReactNode }) => (
+    <div className="w-full" data-title={title}>
+      {children}
+    </div>
   ),
 }

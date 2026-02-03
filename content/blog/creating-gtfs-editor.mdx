@@ -1,63 +1,218 @@
-# My Documentation
-
-Here is how the logic works:
+---
+title: "Building a GTFS Editor: From Concept to Production"
+description: "A comprehensive walkthrough of creating a professional GTFS (General Transit Feed Specification) editor with modern web technologies"
+date: "2026-01-31"
+readTime: "20 min read"
+---
 
 <Presentation>
-  <div>
-    ### Introduction to GTFS
-    GTFS (General Transit Feed Specification) defines a common format for public transportation schedules and associated geographic information.
+  <Step title="The Story: The Spark">
+    # The Spark of Inspiration
     
-    It allow public transit agencies to publish their transit data in a format that can be consumed by a wide variety of software applications.
-  </div>
-
-  <div>
-    ### Profile Image
-    Here is an example structure of our team.
-    
-    <Image src="/profile.jpg" alt="Team Profile" width={400} height={400} className="mx-auto" />
-  </div>
-
-  <div>
-    ### Code Example
-    Here is how we parse the GTFS data using Node.js streams.
-
-    ```typescript
-    import { parse } from 'csv-parse';
-    import fs from 'fs';
-
-    const processFile = async (filePath: string) => {
-      const parser = fs
-        .createReadStream(filePath)
-        .pipe(parse({ columns: true }));
-
-      for await (const record of parser) {
-        // Process each record efficiently
-        console.log(record);
-        await saveToDatabase(record);
-      }
-    };
-    ```
-  </div>
-
-  <div>
-    ### Long Content & Preview
-    Sometimes we need to display a lot of information in one slide.
-    
-    1. First point about complexity
-    2. Second point about performance
-    3. Third point about scalability
-    4. Fourth point about maintainability
-    
-    > Optimization is key when handling large datasets like GTFS.
-    
-    And here is a small preview component:
-    
-    <div className="p-4 border rounded bg-background shadow-sm my-4">
-      <h4 className="font-bold">Live Status</h4>
-      <div className="flex gap-2 mt-2">
-        <span className="w-3 h-3 rounded-full bg-green-500"></span>
-        <span>System Operational</span>
+    <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        It all started with a simple observation of how data can make a city's heartbeat visible.
+        
+        I stumbled upon [busrouter.sg](https://busrouter.sg/), a beautifully crafted tool that visualizes Singapore's bus network. But what truly blew my mind was the visualization created by **@cheeaun**. 
+        
+        Watching those dots move across the screen wasn't just looking at data; it was looking at the life of a city. I knew I wanted to build something like this for Indonesia.
+      </div>
+      <div>
+        ![BusRouter Visualization](/bus-router-sg.png)
       </div>
     </div>
-  </div>
+    
+    <Callout type="info">
+      "How do we turn raw transit numbers into a living, breathing map?" — That was the question that started it all.
+    </Callout>
+  </Step>
+
+  <Step title="The Story: Making it Standard">
+    ## The Search for a Standard
+    
+    The ambition was there, but the data was a mystery. How do you define a "route"? How do you synchronize thousands of stops?
+    
+    I quickly realized that to build a real-world tool, I couldn't just "invent" a format. I needed a standard. That's when I discovered **GTFS** (General Transit Feed Specification).
+    
+    ### Why GTFS?
+    - **Global Standard**: Adopted by Google Maps and thousands of agencies.
+    - **Interoperable**: If it works for TransJakarta, it works for the world.
+    - **Human-Readable**: It’s just a collection of specialized CSV files.
+
+
+  </Step>
+
+  <Step title="The Story: The Data">
+    ## Finding the Data
+    
+    The "Aha!" moment came when I found out that **TransJakarta** actually provides public GTFS data. 
+    
+    The data was there, but it was raw. To make it useful—to edit it, fix errors, or optimize routes—I needed more than a text editor. I needed a **Visual GTFS Editor**.
+    
+    <Callout type="success">
+       TransJakarta’s open data became the perfect playground for testing my logic in a high-density urban environment.
+    </Callout>
+  </Step>
+
+  <Step title="Technical: The Stack">
+    ## The Tech Stack
+    
+    To build a scalable, multi-tenant editor, I chose a robust modern stack:
+    
+    - **Frontend**: Vite + React 19 + Tailwind CSS
+    - **Backend**: Node.js (Express) + Prisma
+    - **Database**: PostgreSQL
+    - **Maps**: Leaflet + React-Leaflet
+    
+    This architecture allows us to handle heavy data processing on the server while keeping the client interface snappy and responsive.
+  </Step>
+
+  <Step title="Technical: Upload & Parsing">
+    ## Phase 1: Ingestion & Streaming
+    
+    Handling GTFS files isn't simple. These act as massive ZIP archives containing multiple interrelated CSVs (`routes.txt`, `stops.txt`, `stop_times.txt`), often reaching hundreds of megabytes.
+    
+    ### The Streaming Solution
+    Loading a 500MB file into memory crashes Node.js immediately. We implemented a **Stream-based Processing Pipeline** using `csv-parser` and `unzipper`.
+    
+    ```javascript
+    // gtfs-be/src/services/gtfs/import.service.js
+    
+    fs.createReadStream(zipPath)
+      .pipe(unzipper.Parse())
+      .on('entry', async (entry) => {
+         if (entry.path === 'stop_times.txt') {
+           // We process stop_times row-by-row as they arrive
+           // drastically reducing memory footprint
+           entry.pipe(csv()).on('data', row => queueBatchInsert(row))
+         } else {
+           entry.autodrain()
+         }
+      })
+    ```
+    
+    This allows us to ingest massive feeds like TransJakarta's in seconds without spiking RAM usage.
+
+
+  </Step>
+
+  <Step title="Technical: Database Architecture">
+    ## Phase 2: The Data Core & Multi-Tenancy
+    
+    A professional editor must support multiple projects. We designed a **Multi-Tenant Schema** where every record is scoped to a `project_id`.
+    
+    This ensures that User A's changes to "Corridor 1" never conflict with User B's version of the same route.
+
+    <DatabaseDiagram 
+      tables={[
+        {
+          name: "routes",
+          columns: [
+            { name: "route_id", type: "TEXT", isPrimaryKey: true },
+            { name: "project_id", type: "UUID", isForeignKey: true },
+            { name: "short_name", type: "TEXT" },
+            { name: "color", type: "VARCHAR(6)" },
+          ],
+          position: { x: 50, y: 50 }
+        },
+        {
+          name: "trips",
+          columns: [
+            { name: "trip_id", type: "TEXT", isPrimaryKey: true },
+            { name: "route_id", type: "TEXT", isForeignKey: true },
+            { name: "service_id", type: "TEXT" },
+            { name: "headsign", type: "TEXT" },
+          ],
+          position: { x: 350, y: 50 }
+        },
+        {
+          name: "stop_times",
+          columns: [
+            { name: "trip_id", type: "TEXT", isForeignKey: true },
+            { name: "stop_id", type: "TEXT", isForeignKey: true },
+            { name: "arrival", type: "TIME" },
+            { name: "seq", type: "INT" },
+          ],
+          position: { x: 350, y: 300 }
+        },
+        {
+          name: "stops",
+          columns: [
+            { name: "stop_id", type: "TEXT", isPrimaryKey: true },
+            { name: "project_id", type: "UUID", isForeignKey: true },
+            { name: "lat", type: "FLOAT" },
+            { name: "lon", type: "FLOAT" },
+          ],
+          position: { x: 50, y: 300 }
+        }
+      ]}
+      relationships={[
+        { from: "trips", to: "routes", fromColumn: "route_id", toColumn: "route_id", type: "one-to-many" },
+        { from: "stop_times", to: "trips", fromColumn: "trip_id", toColumn: "trip_id", type: "one-to-many" },
+        { from: "stop_times", to: "stops", fromColumn: "stop_id", toColumn: "stop_id", type: "many-to-one" }
+      ]}
+    />
+  </Step>
+
+  <Step title="Significant Contribution: The Snake Animation">
+    ## Phase 3: Bringing it to Life
+    
+    Static lines are boring. I wanted to see the flow. 
+    
+    I built a custom **Leaflet Plugin** `L.Polyline.SnakeAnim.js`. This isn't just a simple CSS visual; it involves complex geographic mathematics to ensure realism.
+    
+    ### The Challenge: Constant Geographic Speed
+    Standard animations move at a constant *pixel* speed. But on a map, 100 pixels at zoom level 10 covers much more distance than at zoom 18.
+    
+    My implementation calculates the **Haversine distance** between every vertex to ensure buses move at a realistic speed (e.g., 40km/h) regardless of the map's zoom level.
+    
+    ```javascript
+    // utils/leaflet/L.Polyline.SnakeAnim.js
+    
+    _snake: function () {
+      const now = performance.now()
+      const diff = now - this._snakingTime
+      
+      // Calculate exactly how many METERS to travel based on real-world speed
+      // Not pixels!
+      const metersToTravel = (diff / 1000) * this.options.speed
+      
+      this._snakeForward(metersToTravel) 
+    }
+    ```
+    
+    This creates a mesmerizing, geographically accurate visualization of transit flow that remains consistent even as you zoom in and out.
+  </Step>
+
+  <Step title="Technical: Performance">
+    ## Phase 4: Dealing with Scale
+    
+    Rendering thousands of stops on the map is a performance bottleneck.
+    
+    We utilize a **Hybrid Rendering Approach**:
+    1.  **Leaflet Canvas Renderer**: For visualizing thousands of static stops without DOM overhead.
+    2.  **Virtualization**: Using `@tanstack/react-virtual` for data tables, ensuring the UI remains fluid even with 10,000+ stop rows.
+    3.  **Custom Caching Hooks**: We built `useApiRequest` to handle caching and race conditions, ensuring data is only fetched when absolutely necessary.
+  </Step>
+
+  <Step title="Future Roadmap">
+    ## Next Stop: The Future
+    
+    Building the editor was just the beginning. The roadmap ahead involves turning this static data into a dynamic intelligence tool.
+    
+    ### The Future Roadmap
+    - 🚶 **Passenger Trail Integration**: Overlaying heatmaps of actual passenger movement onto the static routes.
+    - � **Real-time Sync**: Collaborative editing using WebSockets.
+    - 📱 **Mobile Apps**: Extending the editor to native iOS/Android for field surveyors.
+  </Step>
+
+  <Step title="Conclusion">
+    ## Conclusion: Data as a Service
+    
+    Building this project taught me that technical skill is just a tool, but **standards like GTFS** are the language that allows us to communicate with cities.
+    
+    <div className="mt-12 text-center text-2xl font-bold">
+      Let's build better transit, one stop at a time. 🚌✨
+    </div>
+  </Step>
 </Presentation>

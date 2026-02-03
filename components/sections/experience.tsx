@@ -3,28 +3,28 @@ import { ExternalLink } from "lucide-react"
 export function ExperienceSection() {
   const projects = [
     {
-      title: "E-Commerce Platform",
+      title: "Wondr by BNI",
       description:
-        "Built a full-featured e-commerce platform with payment integration, inventory management, and real-time order tracking. Implemented using Next.js, PostgreSQL, and Stripe API.",
-      technologies: ["Next.js", "TypeScript", "PostgreSQL"],
+        "Foundational engineering team member for the Wondr digital banking platform. Built investment modules (Bonds, Mutual Funds) and internal developer tools.",
+      technologies: ["React Native", "TypeScript", "Micro-frontends"],
     },
     {
-      title: "Analytics Dashboard",
+      title: "Wanderia",
       description:
-        "Developed a comprehensive analytics dashboard for monitoring business metrics with real-time data visualization and custom reporting features.",
-      technologies: ["React", "D3.js", "Node.js"],
+        "AI-Assisted Travel & Navigation app helping users plan short trips with smart routing. Integrated OpenAI for itinerary generation.",
+      technologies: ["React Native", "OpenAI", "MapsAPI", "PostgreSQL"],
     },
     {
-      title: "Mobile App Development",
+      title: "Zigzag Delivery",
       description:
-        "Created a cross-platform mobile application for task management with offline capabilities, push notifications, and seamless cloud synchronization.",
-      technologies: ["React Native", "Firebase", "Redux"],
+        "Public transport logistics app optimizing delivery routes based on existing schedules to reduce carbon footprint.",
+      technologies: ["Vue", "Pinia", "Firebase", "AWS"],
     },
     {
-      title: "AI-Powered Chatbot",
+      title: "MHEWS",
       description:
-        "Integrated AI capabilities into a customer service chatbot, improving response accuracy and reducing resolution time by 40%.",
-      technologies: ["Python", "OpenAI", "FastAPI"],
+        "Multi Hazard Early Warning System providing real-time weather alerts and hazard monitoring for Indonesia.",
+      technologies: ["WRF Modeling", "Linux", "PHP", "GIS"],
     },
   ]
 

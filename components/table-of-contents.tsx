@@ -20,7 +20,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   useEffect(() => {
     // Parse headings from markdown content
-    const headingRegex = /^(#{1,3})\s+(.+)$/gm
+    const headingRegex = /^\s*(#{1,3})\s+(.+)$/gm
     const headings: TOCItem[] = []
     let match
 

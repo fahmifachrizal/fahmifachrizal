@@ -47,9 +47,9 @@ export default async function BlogPostPage({
     <>
       <TopNavbar />
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-muted/20">
         {/* Breadcrumb Navigation */}
-        <div className="border-b">
+        <div className="border-b bg-background/50 backdrop-blur-sm">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
             <Link
               href="/blog"
@@ -64,7 +64,7 @@ export default async function BlogPostPage({
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_240px] xl:grid-cols-[1fr_280px]">
             {/* Article Content */}
-            <article className="mx-auto w-full max-w-3xl">
+            <article className="mx-auto w-full max-w-3xl bg-white/80 rounded-2xl border p-6 shadow-sm md:p-12">
               <header className="mb-12">
                 <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
                   <time dateTime={post.date}>

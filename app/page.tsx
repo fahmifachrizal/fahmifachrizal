@@ -1,8 +1,6 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { FloatingNavbar } from "@/components/layout/floating-navbar"
 import { Footer } from "@/components/layout/footer"
+import { getBlogPosts } from "@/lib/mdx"
 import {
   HeroSection,
   AboutSection,
@@ -11,18 +9,8 @@ import {
   ContactSection,
 } from "@/components/sections"
 
-export default function Home() {
-  const [isFloating, setIsFloating] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY
-      setIsFloating(scrollY > 100)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+export default async function Home() {
+  const posts = await getBlogPosts()
 
   return (
     <>
@@ -44,7 +32,7 @@ export default function Home() {
 
         {/* Blog Section */}
         <section id="blog">
-          <BlogSection />
+          <BlogSection posts={posts} />
         </section>
 
         {/* Contact Section */}
@@ -53,7 +41,7 @@ export default function Home() {
         </section>
 
         {/* Floating Navigation Menu (Desktop only) */}
-        <FloatingNavbar isFloating={isFloating} />
+        <FloatingNavbar />
 
         {/* Ambient decorative elements */}
         <div className="pointer-events-none fixed left-0 top-1/4 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />

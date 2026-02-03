@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
 import { forwardRef } from "react"
+import { email, github, linkedin } from "@/lib/constant"
 
 export const Footer = forwardRef<HTMLElement>((props, ref) => {
   const currentYear = new Date().getFullYear()
@@ -55,7 +56,7 @@ export const Footer = forwardRef<HTMLElement>((props, ref) => {
             <h3 className="text-sm font-semibold">Connect</h3>
             <div className="flex gap-3">
               <a
-                href="https://github.com"
+                href={github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
@@ -63,7 +64,7 @@ export const Footer = forwardRef<HTMLElement>((props, ref) => {
                 <span className="sr-only">GitHub</span>
               </a>
               <a
-                href="https://linkedin.com"
+                href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
@@ -71,7 +72,7 @@ export const Footer = forwardRef<HTMLElement>((props, ref) => {
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a
-                href="mailto:fahmi@example.com"
+                href={`mailto:${email}`}
                 className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
                 <Mail className="size-4" />
                 <span className="sr-only">Email</span>

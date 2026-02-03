@@ -1,12 +1,22 @@
-import React from "react"
+"use client"
+
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { User, Briefcase, BookOpen, Mail } from "lucide-react"
 
-interface NavigationMenuProps {
-  isFloating: boolean
-}
+export function FloatingNavbar() {
+  const [isFloating, setIsFloating] = useState(false)
 
-export function FloatingNavbar({ isFloating }: NavigationMenuProps) {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      setIsFloating(scrollY > 100)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -16,10 +26,9 @@ export function FloatingNavbar({ isFloating }: NavigationMenuProps) {
 
   return (
     <nav
-      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-500 ease-out bottom-2 max-w-fit ${
-        isFloating &&
+      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-500 ease-out bottom-2 max-w-fit ${isFloating &&
         "rounded-full border border-border shadow-2xl bg-background/40 backdrop-blur-2xl"
-      }`}>
+        }`}>
       <div className="mx-auto flex items-center justify-center px-1 md:px-2 md:py-2 transition-all duration-500 ease-out md:gap-2">
         <Button
           size="lg"
