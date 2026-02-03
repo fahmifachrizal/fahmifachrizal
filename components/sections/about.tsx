@@ -18,6 +18,11 @@ export function AboutSection() {
             believe in writing clean, maintainable code and staying up-to-date
             with the latest industry trends and best practices.
           </p>
+          <div className="pt-4">
+            <a href="/about" className="text-primary hover:underline font-medium inline-flex items-center gap-1">
+              Read more about my journey <span>→</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

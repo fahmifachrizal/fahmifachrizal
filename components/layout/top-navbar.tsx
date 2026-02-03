@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Home, BookOpen, Mail } from "lucide-react"
+import { Home, BookOpen, Mail, User } from "lucide-react"
 
 export function TopNavbar() {
   return (
@@ -21,6 +21,12 @@ export function TopNavbar() {
               className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
               <Home className="size-4" />
               <span className="hidden sm:inline">Home</span>
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+              <User className="size-4" />
+              <span className="hidden sm:inline">About</span>
             </Link>
             <Link
               href="/blog"

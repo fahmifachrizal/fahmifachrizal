@@ -14,7 +14,7 @@ export default function AboutPage() {
         <>
             <TopNavbar />
 
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen bg-background pb-8">
                 {/* Breadcrumb Navigation */}
                 <div className="border-b">
                     <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12 bg-white rounded-2xl">
                     {/* Article Content */}
                     <article className="mx-auto w-full max-w-5xl">
                         <div className="prose prose-neutral prose-sm sm:prose-lg dark:prose-invert max-w-none">

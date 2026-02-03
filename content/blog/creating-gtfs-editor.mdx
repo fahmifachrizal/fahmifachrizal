@@ -67,13 +67,25 @@ readTime: "20 min read"
     This architecture allows us to handle heavy data processing on the server while keeping the client interface snappy and responsive.
   </Step>
 
-  <Step title="Technical: Upload & Parsing">
-    ## Phase 1: Ingestion & Streaming
+  <Step title="Technical: The Ingestion Challenge">
+    ## Phase 1: The Ingestion Challenge
     
     Handling GTFS files isn't simple. These act as massive ZIP archives containing multiple interrelated CSVs (`routes.txt`, `stops.txt`, `stop_times.txt`), often reaching hundreds of megabytes.
     
-    ### The Streaming Solution
-    Loading a 500MB file into memory crashes Node.js immediately. We implemented a **Stream-based Processing Pipeline** using `csv-parser` and `unzipper`.
+    ### The Memory Bottleneck
+    Loading a 500MB file into memory crashes Node.js immediately. We needed a way to process this data without loading it all at once.
+  </Step>
+
+  <Step title="Technical: Streaming Solution">
+    ## Phase 1: Streaming Solution
+
+    We implemented a **Stream-based Processing Pipeline** using `csv-parser` and `unzipper`.
+
+    ### Why this stack?
+    - **`unzipper`**: Reads directly from the compressed archive. We don't extract files to disk, saving I/O and storage.
+    - **`csv-parser`**: Parses lines one by one as they stream in from the unzipper.
+    
+    **Result**: We process 500MB+ files with **O(1) memory usage**, never holding more than a single row in RAM.
     
     ```javascript
     // gtfs-be/src/services/gtfs/import.service.js
@@ -92,8 +104,6 @@ readTime: "20 min read"
     ```
     
     This allows us to ingest massive feeds like TransJakarta's in seconds without spiking RAM usage.
-
-
   </Step>
 
   <Step title="Technical: Database Architecture">
@@ -184,35 +194,191 @@ readTime: "20 min read"
     This creates a mesmerizing, geographically accurate visualization of transit flow that remains consistent even as you zoom in and out.
   </Step>
 
-  <Step title="Technical: Performance">
-    ## Phase 4: Dealing with Scale
-    
-    Rendering thousands of stops on the map is a performance bottleneck.
-    
-    We utilize a **Hybrid Rendering Approach**:
-    1.  **Leaflet Canvas Renderer**: For visualizing thousands of static stops without DOM overhead.
-    2.  **Virtualization**: Using `@tanstack/react-virtual` for data tables, ensuring the UI remains fluid even with 10,000+ stop rows.
-    3.  **Custom Caching Hooks**: We built `useApiRequest` to handle caching and race conditions, ensuring data is only fetched when absolutely necessary.
+
+
+  <Step title="Walkthrough: The Editor Site">
+    ## The Editor Site
+
+    Moving from theory to practice, I've hosted the editor so you can experience it firsthand. 
+
+    <div className="my-6 border rounded-lg overflow-hidden shadow-lg">
+      ![Dashboard Home](/home.jpeg)
+    </div>
   </Step>
 
-  <Step title="Future Roadmap">
-    ## Next Stop: The Future
-    
-    Building the editor was just the beginning. The roadmap ahead involves turning this static data into a dynamic intelligence tool.
-    
-    ### The Future Roadmap
-    - 🚶 **Passenger Trail Integration**: Overlaying heatmaps of actual passenger movement onto the static routes.
-    - � **Real-time Sync**: Collaborative editing using WebSockets.
-    - 📱 **Mobile Apps**: Extending the editor to native iOS/Android for field surveyors.
+  <Step title="Walkthrough: Getting Started">
+    ## Getting Started
+
+    You can jump right in and start exploring standard-compliant GTFS feeds.
+
+    1.  **Login**: Use the demo credentials to access the admin features.
+        - **Username**: `admin`
+        - **Password**: `Password123!`
+    2.  **Projects**: On the dashboard, you can **Add a New Project** or simply open an existing one to see the data in action.
   </Step>
 
-  <Step title="Conclusion">
-    ## Conclusion: Data as a Service
+  <Step title="Editor: Stops">
+    ## Stops 🚏
+
+    The fundamental unit of transit. Single points on a map defined by latitude and longitude. They are the digital anchors of the physical system.
+
+    ![Editor: Stops](/stops.jpeg)
+
+    <div className="mt-4 p-4 bg-gray-50 rounded-md font-mono text-xs text-gray-600 overflow-x-auto">
+      Project → findMany <strong>Stops</strong> (ordered by stop_name)
+    </div>
+  </Step>
+
+  <Step title="Editor: Routes & Shapes">
+    ## Routes & Shapes 🚌
+
+    A **Route** is the logical sequence of stops, while the **Shape** is the physical path.
+
+    <div className="grid grid-cols-2 gap-4 my-4">
+      <div>
+        ![Editor: Routes](/routes.jpeg)
+        <span className="block text-center text-xs text-gray-400 mt-2">Defining the Logical Route</span>
+      </div>
+      <div>
+        ![Editor: Shapes](/shapes.jpeg)
+        <span className="block text-center text-xs text-gray-400 mt-2">Refining the Physical Shape</span>
+      </div>
+    </div>
+
+    <div className="mt-4 p-4 bg-gray-50 rounded-md font-mono text-xs text-gray-600 overflow-x-auto">
+      Route → findUnique <strong>Route</strong> <br/>
+      &nbsp;&nbsp;↳ findFirst <strong>Trip</strong> (shape_id) <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;↳ findMany <strong>Shape</strong> (ordered by sequence) <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;↳ findMany <strong>StopTime</strong> include <strong>Stop</strong>
+    </div>
+  </Step>
+
+  <Step title="Editor: Trips (Concept)">
+    ## Trips: Adding Time to Space
+
+    When you combine a **Route** (Stops) and a **Shape** (Path), you get a **Functional Route Data** (Stops + Order + Path).
     
-    Building this project taught me that technical skill is just a tool, but **standards like GTFS** are the language that allows us to communicate with cities.
+    But it's static. To make it a **Trip**, we need to add **Time**.
+
+    ### The Complexity
+    Creating trips manually is incredibly difficult. For a 30-stop route, you need **60 distinct timestamps** per trip.
+  </Step>
+
+  <Step title="Editor: Trips (Visual)">
+    ## Visualizing Trips
+
+    We built a specialized UI to handle this complexity without spreadsheets.
+
+    ![Editor: Trips](/trips.jpeg)
+
+    <div className="text-center text-sm text-gray-500 mt-4">
+       *Visualizing the temporal dimension on top of the spatial route.*
+    </div>
+  </Step>
+
+  <Step title="Editor: Schedules & Fares">
+    ## Schedules & Fares
+
+    Operational rules: **Calendar** (Availability) & **Fares** (Pricing).
+
+    <div className="my-4">
+        ![Editor: Schedules](/calendar.jpeg)
+    </div>
+    
+    <div className="p-4 bg-gray-50 rounded-md font-mono text-xs text-gray-600 overflow-x-auto w-full">
+        Project → findMany <strong>Calendar</strong> <br/>
+        Project → findMany <strong>FareAttributes</strong>
+    </div>
+  </Step>
+
+  <Step title="Future: The Full Standard">
+    ## Future Development: Completing the Standard
+
+    To make this a true production-grade editor, we plan to implement the remaining complex parts of GTFS:
+
+    - **Stop Times**: The granular schedule for every vehicle at every stop.
+    - **Frequencies**: For high-density transit where "every 5 minutes" matters more than "10:02 AM".
+    - **Transfers**: Defining valid connection points and walking times between routes.
+  </Step>
+
+  <Step title="Future: The Playground">
+    ## The Playground
+
+    Right now, the editor is a **Exploration Playground**—a place to see the data come to life and verify its correctness visually.
+
+    ![Editor: Playground](/playground.jpeg)
+  </Step>
+
+  <Step title="Future: Intelligence Platform">
+    ## Future: Intelligence Platform
+
+    But the vision goes further. I plan to integrate static data sources, such as **TransJakarta operational reports**.
+    
+    Imagine overlaying real-world metrics onto our visual map:
+    - 📊 **Passenger Counts**: Visualizing volume per stop.
+    - 👥 **Crowdedness**: Heatmaps of the most congested stations.
+    - ⚡ **Route Analytics**: Calculating the fastest paths.
+
+    This transforms the tool from a simple *editor* into a powerful *transit intelligence platform*.
+  </Step>
+
+  <Step title="Project Facts">
+    ## Project Facts: By The Numbers
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold border-b pb-2">Backend (gtfs-be) 🛠️</h3>
+        <p className="text-muted-foreground">Express 5 · PostgreSQL · Prisma 7 · JWT</p>
+        
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+          <div className="font-mono bg-muted/50 p-2 rounded">Current Endpoints</div>
+          <div className="font-bold p-2 text-right">~100</div>
+          
+          <div className="font-mono bg-muted/50 p-2 rounded">Prisma Models</div>
+          <div className="font-bold p-2 text-right">23</div>
+          
+          <div className="font-mono bg-muted/50 p-2 rounded">Services</div>
+          <div className="font-bold p-2 text-right">52 files</div>
+        </div>
+
+        <div className="text-xs text-muted-foreground mt-2">
+          Key Models: Agency, Stop, Route, Trip, StopTime, Calendar, Shape...
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold border-b pb-2">Frontend (Web) 💻</h3>
+        <p className="text-muted-foreground">React 19 · Vite · Tailwind 4 · Shadcn</p>
+        
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+          <div className="font-mono bg-muted/50 p-2 rounded">Total Pages</div>
+          <div className="font-bold p-2 text-right">16</div>
+          
+          <div className="font-mono bg-muted/50 p-2 rounded">Components</div>
+          <div className="font-bold p-2 text-right">72 files</div>
+          
+          <div className="font-mono bg-muted/50 p-2 rounded">Client Services</div>
+          <div className="font-bold p-2 text-right">11 modules</div>
+        </div>
+
+        <div className="text-xs text-muted-foreground mt-2">
+          Includes 11 editor sub-pages (Stops, Routes, Calendar, etc.)
+        </div>
+      </div>
+    </div>
+  </Step>
+
+  <Step title="Conclusion: The Journey">
+    ## Beyond Code: The Value of Contribution
+    
+    Building this wasn't just about React or PostgreSQL. It was a **crash course in server management, memory optimization, and deployment strategy**.
+    
+    I learned that code doesn't exist in a vacuum. The real joy comes from realizing that these lines of JavaScript could one day help a commuter save 10 minutes of their day.
+    
+    **This is just the start.** I'm deeply interested in contributing to open data initiatives that drive tangible social change. 
     
     <div className="mt-12 text-center text-2xl font-bold">
-      Let's build better transit, one stop at a time. 🚌✨
+      Here's to building technology that matters. 🌍🚀
     </div>
   </Step>
 </Presentation>
