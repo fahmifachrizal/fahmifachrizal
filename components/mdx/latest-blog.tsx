@@ -76,7 +76,6 @@ export function LatestBlog() {
 
     return (
         <div className="w-full" data-title="Read More">
-            {/* @ts-expect-error Async Server Component */}
             <LatestBlogContent />
         </div>
     )
