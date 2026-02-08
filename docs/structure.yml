@@ -1,0 +1,9 @@
+# Documentation structure for master-docs integration
+# This file defines how docs appear in the master-docs navigation
+
+name: fahmifachrizal
+
+nav:
+  - Overview: index.md
+  - Tech Stack: tech-stack.md
+  - Deployment: deployment.md
