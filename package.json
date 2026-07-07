@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "pnpm build && next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "serve out",
     "lint": "eslint",
     "encrypt:sos": "rm -rf out/sos.txt out/sos && staticrypt out/sos.html -d out --short --template-title \"Emergency Info\" --template-color-primary \"#991b1b\" --template-color-secondary \"#ffffff\" --template-instructions \"Enter the passphrase to view emergency information.\""
   },
@@ -26,6 +26,7 @@
     "next-mdx-remote": "^5.0.0",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "serve": "^14.2.6",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
