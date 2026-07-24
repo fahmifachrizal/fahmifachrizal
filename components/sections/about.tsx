@@ -1,6 +1,6 @@
 export function AboutSection() {
   return (
-    <section id="about" className="scroll-mt-24 px-8 py-16 md:px-16 lg:px-24">
+    <section id="about" className="bg-card/30  scroll-mt-24 px-8 py-16 md:px-16 lg:px-24">
       <div className="mx-auto max-w-4xl space-y-8">
         <h2 className="text-4xl font-bold text-foreground">About Me</h2>
         <div className="space-y-4 text-lg text-muted-foreground">

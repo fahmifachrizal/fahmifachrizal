@@ -11,7 +11,7 @@ export function BlogSection({ posts }: BlogSectionProps) {
   const recentPosts = posts.slice(0, 3)
 
   return (
-    <section id="blogs" className="scroll-mt-24 px-8 py-16 md:px-16 lg:px-24">
+    <section id="blogs" className="bg-card/30 scroll-mt-24 px-8 py-16 md:px-16 lg:px-24">
       <div className="mx-auto max-w-6xl space-y-12">
         <h2 className="text-4xl font-bold text-foreground">Latest Blogs</h2>
 
