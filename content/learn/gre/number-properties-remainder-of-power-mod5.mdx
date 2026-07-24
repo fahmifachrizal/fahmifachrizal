@@ -1,0 +1,38 @@
+---
+title: "Remainder When a Power Is Divided by 5"
+topic: "Number Properties"
+difficulty: "medium"
+date: "2026-07-25"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+What is the remainder when $7^{100}$ is divided by $5$?
+</Question>
+
+<Choices answer="A">
+<Choice label="A">1</Choice>
+<Choice label="B">2</Choice>
+<Choice label="C">3</Choice>
+<Choice label="D">4</Choice>
+<Choice label="E">0</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Reduce the base modulo 5">
+$7 \equiv 2 \pmod{5}$, so $7^{100} \equiv 2^{100} \pmod{5}$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Find the cycle of powers of 2 mod 5">
+$2^1 = 2$, $2^2 = 4$, $2^3 = 3$, $2^4 = 1 \pmod 5$, then the pattern repeats with period $4$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Apply the cycle to the exponent">
+Since $100$ is divisible by $4$ ($100 = 4 \times 25$), $2^{100} \equiv 2^4 \equiv 1 \pmod 5$.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>
