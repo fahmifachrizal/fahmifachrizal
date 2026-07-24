@@ -1,0 +1,38 @@
+---
+title: "Finding k for a Repeated Root"
+topic: "Algebra"
+difficulty: "hard"
+date: "2026-07-24"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+If $x^2 - kx + 25 = 0$ has exactly one real solution for $x$, and $k > 0$, what is the value of $k$?
+</Question>
+
+<Choices answer="C">
+<Choice label="A">5</Choice>
+<Choice label="B">8</Choice>
+<Choice label="C">10</Choice>
+<Choice label="D">12</Choice>
+<Choice label="E">20</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Recall the discriminant condition">
+A quadratic $ax^2 + bx + c = 0$ has exactly one real solution when its discriminant $b^2 - 4ac$ equals 0.
+</SolutionStep>
+
+<SolutionStep number={2} title="Set up the discriminant">
+Here $a = 1$, $b = -k$, and $c = 25$, so the discriminant is $(-k)^2 - 4(1)(25) = k^2 - 100$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Solve for k">
+Setting $k^2 - 100 = 0$ gives $k^2 = 100$, so $k = 10$ or $k = -10$. Since $k > 0$, $k = 10$.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>

@@ -1,0 +1,38 @@
+---
+title: "Remainder of a Multiple"
+topic: "Number Properties"
+difficulty: "medium"
+date: "2026-07-24"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+When positive integer $n$ is divided by 7, the remainder is 4. What is the remainder when $3n$ is divided by 7?
+</Question>
+
+<Choices answer="D">
+<Choice label="A">2</Choice>
+<Choice label="B">3</Choice>
+<Choice label="C">4</Choice>
+<Choice label="D">5</Choice>
+<Choice label="E">6</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Express n in terms of the remainder">
+Since $n$ divided by 7 leaves remainder 4, $n = 7k + 4$ for some non-negative integer $k$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Multiply by 3">
+$3n = 21k + 12 = 7(3k + 1) + 5$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Read off the remainder">
+Since $7(3k+1)$ is divisible by 7, the remainder when $3n$ is divided by 7 is 5.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>

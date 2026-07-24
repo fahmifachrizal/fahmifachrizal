@@ -1,0 +1,38 @@
+---
+title: "Triangle Side via Law of Cosines"
+topic: "Geometry"
+difficulty: "hard"
+date: "2026-07-24"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+In triangle $ABC$, $AB = 5$, $BC = 8$, and angle $B = 60°$. What is the length of $AC$?
+</Question>
+
+<Choices answer="B">
+<Choice label="A">6</Choice>
+<Choice label="B">7</Choice>
+<Choice label="C">8</Choice>
+<Choice label="D">9</Choice>
+<Choice label="E">10</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Apply the Law of Cosines">
+$AC^2 = AB^2 + BC^2 - 2 \cdot AB \cdot BC \cdot \cos(B)$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Substitute values">
+$AC^2 = 5^2 + 8^2 - 2(5)(8)\cos(60°) = 25 + 64 - 80 \left(\frac{1}{2}\right) = 89 - 40 = 49$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Solve for AC">
+$AC = \sqrt{49} = 7$.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>
