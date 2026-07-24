@@ -1,0 +1,41 @@
+---
+title: "Quantitative Comparison: x² + 2 vs. 2x"
+topic: "Quantitative Comparison"
+difficulty: "medium"
+date: "2026-07-20"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+Given that $x$ is a real number, compare the two quantities.
+
+**Quantity A:** $x^2 + 2$
+
+**Quantity B:** $2x$
+</Question>
+
+<Choices answer="A">
+<Choice label="A">Quantity A is greater</Choice>
+<Choice label="B">Quantity B is greater</Choice>
+<Choice label="C">The two quantities are equal</Choice>
+<Choice label="D">The relationship cannot be determined from the information given</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Compare by looking at the difference">
+Instead of comparing $x^2 + 2$ and $2x$ directly, subtract one from the other: $(x^2 + 2) - 2x = x^2 - 2x + 2$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Complete the square">
+$x^2 - 2x + 2 = (x - 1)^2 + 1$. A square is never negative, so $(x - 1)^2 \geq 0$ for every real $x$, which means $(x - 1)^2 + 1 \geq 1$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Draw the conclusion">
+Since $(x^2 + 2) - 2x \geq 1$, the difference is always strictly positive — there's no value of $x$ that makes it zero or negative. So $x^2 + 2 > 2x$ for every real $x$, and **Quantity A is greater**.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>

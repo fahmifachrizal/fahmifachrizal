@@ -1,0 +1,38 @@
+---
+title: "Sum of the Roots of a Quadratic"
+topic: "Algebra"
+difficulty: "medium"
+date: "2026-07-22"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+If $x^2 - 5x + 6 = 0$, what is the sum of the two solutions for $x$?
+</Question>
+
+<Choices answer="B">
+<Choice label="A">1</Choice>
+<Choice label="B">5</Choice>
+<Choice label="C">6</Choice>
+<Choice label="D">7</Choice>
+<Choice label="E">11</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Factor the quadratic">
+$x^2 - 5x + 6$ factors into $(x - 2)(x - 3)$, since $-2 \times -3 = 6$ and $-2 + -3 = -5$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Solve for x">
+Setting each factor to zero: $x - 2 = 0$ gives $x = 2$, and $x - 3 = 0$ gives $x = 3$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Add the solutions">
+$2 + 3 = 5$. (This also matches Vieta's formula: for $x^2 + bx + c = 0$, the sum of the roots is $-b$, and here $-b = 5$.)
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>

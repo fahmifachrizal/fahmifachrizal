@@ -1,0 +1,42 @@
+---
+title: "Solving an Exponential Equation"
+topic: "Algebra"
+difficulty: "hard"
+date: "2026-07-24"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+If $2^{x+1} = 3 \cdot 2^{x-1} + 4$, what is the value of $x$?
+</Question>
+
+<Choices answer="C">
+<Choice label="A">1</Choice>
+<Choice label="B">2</Choice>
+<Choice label="C">3</Choice>
+<Choice label="D">4</Choice>
+<Choice label="E">5</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Rewrite both sides in terms of 2^x">
+$2^{x+1} = 2 \cdot 2^x$, and $3 \cdot 2^{x-1} = \frac{3}{2} \cdot 2^x$. The equation becomes $2 \cdot 2^x = \frac{3}{2} \cdot 2^x + 4$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Isolate the 2^x term">
+Subtracting $\frac{3}{2} \cdot 2^x$ from both sides: $\left(2 - \frac{3}{2}\right) \cdot 2^x = 4$, so $\frac{1}{2} \cdot 2^x = 4$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Solve for 2^x, then x">
+Multiplying both sides by 2: $2^x = 8 = 2^3$, so $x = 3$.
+</SolutionStep>
+
+<SolutionStep number={4} title="Verify">
+Substituting $x = 3$: $2^4 = 16$ and $3 \cdot 2^2 + 4 = 12 + 4 = 16$. Both sides match, confirming $x = 3$, choice **C**.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>

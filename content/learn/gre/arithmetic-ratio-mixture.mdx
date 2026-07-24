@@ -1,0 +1,42 @@
+---
+title: "Ratio Change After Adding to a Mixture"
+topic: "Arithmetic"
+difficulty: "hard"
+date: "2026-07-24"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+A mixture of nuts contains almonds and cashews in the ratio $3:5$. If 4 pounds of cashews are added to the mixture (with no almonds added), the ratio of almonds to cashews becomes $3:7$. How many pounds of almonds are in the mixture?
+</Question>
+
+<Choices answer="C">
+<Choice label="A">3</Choice>
+<Choice label="B">4</Choice>
+<Choice label="C">6</Choice>
+<Choice label="D">9</Choice>
+<Choice label="E">12</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Set up variables for the original amounts">
+Let the original amounts be $3k$ pounds of almonds and $5k$ pounds of cashews, for some positive number $k$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Set up the equation after adding cashews">
+After adding 4 pounds of cashews, the new ratio is $\frac{3k}{5k + 4} = \frac{3}{7}$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Solve for k">
+Cross-multiplying: $7(3k) = 3(5k + 4)$, so $21k = 15k + 12$, giving $6k = 12$ and $k = 2$.
+</SolutionStep>
+
+<SolutionStep number={4} title="Find the amount of almonds">
+Almonds $= 3k = 3(2) = 6$ pounds. Checking: cashews start at $5(2) = 10$, and after adding 4 become 14, giving a ratio of $6:14 = 3:7$, which confirms the answer, choice **C**.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>
