@@ -1,0 +1,41 @@
+---
+title: "Quantitative Comparison: a/b vs. b/a"
+topic: "Quantitative Comparison"
+difficulty: "medium"
+date: "2026-07-25"
+---
+
+<QuestionLayout>
+<QuestionPane>
+<Question>
+Given that $a > b > 0$, compare the two quantities.
+
+**Quantity A:** $\frac{a}{b}$
+
+**Quantity B:** $\frac{b}{a}$
+</Question>
+
+<Choices answer="A">
+<Choice label="A">Quantity A is greater</Choice>
+<Choice label="B">Quantity B is greater</Choice>
+<Choice label="C">The two quantities are equal</Choice>
+<Choice label="D">The relationship cannot be determined from the information given</Choice>
+</Choices>
+</QuestionPane>
+
+<ExplanationPane>
+<Explanation>
+<SolutionStep number={1} title="Subtract to compare">
+Quantity A $-$ Quantity B $= \frac{a}{b} - \frac{b}{a} = \frac{a^2 - b^2}{ab}$.
+</SolutionStep>
+
+<SolutionStep number={2} title="Examine the sign of each factor">
+Since $a > b > 0$, both $a$ and $b$ are positive, so $ab > 0$. Also $a > b > 0$ means $a^2 > b^2$, so $a^2 - b^2 > 0$.
+</SolutionStep>
+
+<SolutionStep number={3} title="Draw the conclusion">
+A positive numerator divided by a positive denominator is always positive, so $\frac{a}{b} - \frac{b}{a} > 0$ for every valid $a$ and $b$. Quantity A is always greater, choice **A**.
+</SolutionStep>
+</Explanation>
+</ExplanationPane>
+</QuestionLayout>
