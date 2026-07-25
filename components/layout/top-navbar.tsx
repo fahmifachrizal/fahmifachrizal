@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Home, BookOpen, Mail, User } from "lucide-react"
+import { Home, BookOpen, GraduationCap, Mail, User } from "lucide-react"
 
 export function TopNavbar() {
   return (
@@ -33,6 +33,12 @@ export function TopNavbar() {
               className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
               <BookOpen className="size-4" />
               <span className="hidden sm:inline">Blog</span>
+            </Link>
+            <Link
+              href="/learn"
+              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+              <GraduationCap className="size-4" />
+              <span className="hidden sm:inline">Learn</span>
             </Link>
             <Link
               href="/#contact"

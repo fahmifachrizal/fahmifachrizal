@@ -3,6 +3,8 @@ import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { getBlogPost, getBlogPosts } from "@/lib/mdx"
 import { MDXRemote } from "next-mdx-remote/rsc"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
 import { mdxComponents } from "@/components/mdx-components"
 import { TableOfContents } from "@/components/table-of-contents"
 import { TopNavbar } from "@/components/layout/top-navbar"
@@ -86,7 +88,16 @@ export default async function BlogPostPage({
               </header>
 
               <div className="prose prose-neutral prose-sm sm:prose-base dark:prose-invert max-w-none">
-                <MDXRemote source={post.content} components={mdxComponents} />
+                <MDXRemote
+                source={post.content}
+                components={mdxComponents}
+                options={{
+                  mdxOptions: {
+                    remarkPlugins: [remarkMath],
+                    rehypePlugins: [rehypeKatex],
+                  },
+                }}
+              />
               </div>
             </article>
 

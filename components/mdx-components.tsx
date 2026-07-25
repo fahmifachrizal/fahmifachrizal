@@ -7,6 +7,15 @@ import { Presentation } from "@/components/mdx/step-container"
 import { DatabaseDiagram } from "@/components/mdx/database-diagram"
 import { CopyButton } from "@/components/mdx/copy-button"
 import { LatestBlog } from "@/components/mdx/latest-blog"
+import { Question } from "@/components/mdx/learn/question"
+import { Choices, Choice } from "@/components/mdx/learn/choices"
+import { Explanation } from "@/components/mdx/learn/explanation"
+import { SolutionStep } from "@/components/mdx/learn/solution-step"
+import {
+  QuestionLayout,
+  QuestionPane,
+  ExplanationPane,
+} from "@/components/mdx/learn/question-layout"
 
 // Generate ID from heading text
 function slugify(text: string) {
@@ -308,4 +317,14 @@ export const mdxComponents = {
       {children}
     </div>
   ),
+
+  // Learn (GRE/GMAT/etc. prep questions)
+  Question,
+  Choices,
+  Choice,
+  Explanation,
+  SolutionStep,
+  QuestionLayout,
+  QuestionPane,
+  ExplanationPane,
 }
