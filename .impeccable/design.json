@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-25T12:00:00Z",
+  "title": "Design System: fahmifachrizal",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Deep Ink",
+        "canonical": "#1d0b08",
+        "tonalRamp": [
+          "oklch(0.10 0.02 30)",
+          "oklch(0.20 0.02 30)",
+          "oklch(0.30 0.02 30)",
+          "oklch(0.40 0.02 30)",
+          "oklch(0.55 0.015 30)",
+          "oklch(0.68 0.01 30)",
+          "oklch(0.82 0.01 30)",
+          "oklch(0.92 0.005 30)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#e7e0de",
+        "tonalRamp": [
+          "oklch(0.20 0.02 60)",
+          "oklch(0.35 0.02 60)",
+          "oklch(0.50 0.02 60)",
+          "oklch(0.65 0.015 60)",
+          "oklch(0.78 0.01 60)",
+          "oklch(0.88 0.008 60)",
+          "oklch(0.93 0.006 60)",
+          "oklch(0.97 0.004 60)"
+        ]
+      },
+      "paper-muted": {
+        "role": "neutral",
+        "displayName": "Soft Paper",
+        "canonical": "#ded7d5"
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(0.556 0 0)"
+      },
+      "surface-neutral": {
+        "role": "neutral",
+        "displayName": "Surface Neutral",
+        "canonical": "oklch(0.97 0 0)"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.922 0 0)"
+      },
+      "focus-ring": {
+        "role": "neutral",
+        "displayName": "Focus Ring",
+        "canonical": "oklch(0.708 0 0)"
+      },
+      "alert-red": {
+        "role": "danger",
+        "displayName": "Alert Red",
+        "canonical": "oklch(0.577 0.245 27.325)"
+      },
+      "success": {
+        "role": "success",
+        "displayName": "Success Green",
+        "canonical": "oklch(0.48 0.14 150)"
+      },
+      "warning": {
+        "role": "warning",
+        "displayName": "Warning Amber",
+        "canonical": "oklch(0.5 0.13 65)"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero name/headline, homepage only." },
+      "headline": { "displayName": "Headline", "purpose": "Page-level titles (Blog, Learn, GRE)." },
+      "title": { "displayName": "Title", "purpose": "Card titles, question titles, MDX h1/h2." },
+      "body": { "displayName": "Body", "purpose": "Prose and UI copy." },
+      "label": { "displayName": "Label", "purpose": "Code language tags, kbd keys, metadata timestamps." }
+    },
+    "shadows": [
+      { "name": "hover-lift", "value": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)", "purpose": "Earned on hover for interactive cards (blog posts, questions)." },
+      { "name": "floating-panel", "value": "0 25px 50px -12px rgba(0,0,0,0.25)", "purpose": "Dropdown menus and the focus-mode floating control cluster." },
+      { "name": "reading-surface", "value": "0 1px 2px 0 rgba(0,0,0,0.05)", "purpose": "Lightest tier, lifts the article reading card off the page." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default Tailwind transition easing used across hover/focus states." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-filled default action button.",
+      "html": "<button class=\"ds-btn-primary\">Get in touch</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #1d0b08; color: #e7e0de; font-family: Geist, sans-serif; font-size: 14px; font-weight: 500; padding: 9px 17px; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.15s cubic-bezier(0.4,0,0.2,1), opacity 0.15s; } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.708 0 0 / 0.5); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action, hairline border, near-invisible resting shadow.",
+      "html": "<button class=\"ds-btn-outline\">Show step-by-step explanation</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #e7e0de; color: #1d0b08; font-family: Geist, sans-serif; font-size: 14px; font-weight: 500; padding: 9px 17px; border: 1px solid oklch(0.922 0 0); border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); cursor: pointer; transition: background-color 0.15s cubic-bezier(0.4,0,0.2,1); } .ds-btn-outline:hover { background: oklch(0.97 0 0); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.708 0 0 / 0.5); }"
+    },
+    {
+      "name": "Question / Post Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat-at-rest listing card, used identically for blog posts and /learn questions.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-card-meta\">Jul 20, 2026 &middot; Medium</div><div class=\"ds-card-title\">Quantitative Comparison: x&sup2; + 2 vs. 2x</div><div class=\"ds-card-desc\">Quantitative Comparison</div></a>",
+      "css": ".ds-card { display: block; background: #ded7d5; color: #1d0b08; border: 1px solid oklch(0.922 0 0); border-radius: 14px; padding: 24px; text-decoration: none; transition: border-color 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1); } .ds-card:hover { border-color: oklch(from #1d0b08 l c h / 0.5); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); } .ds-card-meta { font-size: 12px; color: oklch(0.556 0 0); margin-bottom: 12px; } .ds-card-title { font-family: Geist, sans-serif; font-weight: 700; font-size: 20px; line-height: 1.3; margin-bottom: 12px; } .ds-card-desc { font-size: 14px; color: oklch(0.556 0 0); }"
+    },
+    {
+      "name": "Top Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-top",
+      "description": "Sticky top navigation with icon + label link pattern.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg><span>Home</span></a></nav>",
+      "css": ".ds-nav { background: rgba(231,224,222,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid oklch(0.922 0 0); padding: 12px 24px; } .ds-nav-link { display: inline-flex; align-items: center; gap: 8px; color: #1d0b08; font-family: Geist, sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: background-color 0.15s; } .ds-nav-link:hover { background: oklch(0.97 0 0); } .ds-nav-link:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.708 0 0 / 0.5); }"
+    },
+    {
+      "name": "Info Callout",
+      "kind": "custom",
+      "refersTo": "callout-info",
+      "description": "MDX admonition box; the same pattern informs quiz correct/incorrect answer states.",
+      "html": "<div class=\"ds-callout\"><svg class=\"ds-callout-icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 16v-4M12 8h.01\"/></svg><div class=\"ds-callout-body\">This guide assumes basic knowledge of React and JavaScript.</div></div>",
+      "css": ".ds-callout { display: flex; gap: 12px; align-items: flex-start; background: color-mix(in oklch, #1d0b08 5%, transparent); border: 1px solid color-mix(in oklch, #1d0b08 10%, transparent); border-radius: 8px; padding: 16px; color: #1d0b08; font-family: Geist, sans-serif; font-size: 14px; line-height: 1.6; } .ds-callout-icon { flex-shrink: 0; margin-top: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Ink & Paper",
+    "overview": "The system is built from exactly two colors doing all the work: a warm paper background (#e7e0de) and a near-black ink foreground (#1d0b08) that is also the primary action color — there is no separate accent hue anywhere in the palette. Depth comes from tonal variation of the same paper (a slightly deeper #ded7d5 for cards), not from a rainbow of semantic colors. This is a portfolio for a full-stack developer who wants the work — not the chrome — to be the subject: minimal, precise, confident. Personality lives in restraint, generous whitespace, and typographic weight contrast, never in decoration. This system explicitly rejects gradient accents, glassmorphism-as-decoration, multi-color semantic palettes, and side-stripe card borders. A streamlining pass (2026-07-25) removed the drift an earlier scan had flagged here: quiz-state colors are now real --success/--warning tokens, the unused dark-mode CSS and all inert dark: utility classes were removed outright, and the article reading-surface now uses bg-card instead of a separate bg-white/80.",
+    "keyCharacteristics": [
+      "Two-color foundation (ink + paper), tonal variation instead of hue variation for depth",
+      "Flat surfaces at rest; shadow is earned only on hover or when an element floats above content",
+      "Single sans typeface (Geist) at every text role; mono (Geist Mono) reserved for code and technical labels",
+      "Border-first component definition (1px hairline borders), not shadow-first",
+      "Radius scales with element size: small controls get tight corners, cards and hero art get the loosest"
+    ],
+    "rules": [
+      { "name": "The One Ink Rule", "body": "There is exactly one primary color, and it is the same value as body text. Never introduce a second saturated \"brand\" accent color — the restraint IS the brand.", "section": "colors" },
+      { "name": "Known gap: --destructive fails its own contrast bar", "body": "At oklch(0.577 0.245 27.325) it measures 3.66:1 against paper, under the 4.5:1 body-text minimum this system targets. Fine on tinted backgrounds (bg-destructive/10), too light as direct text color. Not fixed in the 2026-07-25 pass — flagged, not touched.", "section": "colors" },
+      { "name": "The Single Voice Rule", "body": "One family (Geist) for everything except code. If a second typeface is ever introduced, it should be for code/mono contexts only, never a second display face.", "section": "typography" },
+      { "name": "The Earned Shadow Rule", "body": "Nothing carries a shadow at rest. Shadow appears only on hover, focus, or genuine floating/overlay content — never as static card decoration.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use ink (#1d0b08) as the only primary/accent color — resist adding a second saturated brand hue.",
+      "Do keep cards and buttons flat (border-only) at rest; earn shadow only on hover or for genuinely floating elements.",
+      "Do reuse the existing card pattern (rounded-xl border bg-card p-6, hover lift) for any new listing/collection UI rather than inventing a new card style.",
+      "Do use Geist for everything; reserve Geist Mono strictly for code and technical labels.",
+      "Do use the --success/--warning tokens (not raw Tailwind color literals) for any new semantic state."
+    ],
+    "donts": [
+      "Don't introduce a second saturated brand accent color — the one-ink-color restraint is the point.",
+      "Don't add ambient/decorative shadows to elements at rest; shadow is a state response only.",
+      "Don't use border-left/border-right as a colored accent stripe on cards or callouts.",
+      "Don't use gradient text (background-clip: text) — emphasis comes from weight/size, not gradient fills.",
+      "Don't build a new nav pattern without first asking whether the existing top-nav/floating-nav split should be consolidated rather than extended to a third variant.",
+      "Don't leave new semantic colors (success/warning/danger states) as raw Tailwind utility values — wire them into globals.css alongside every other token."
+    ]
+  }
+}

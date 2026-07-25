@@ -31,7 +31,7 @@ export default function AboutPage() {
                 <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12 bg-white rounded-2xl">
                     {/* Article Content */}
                     <article className="mx-auto w-full max-w-5xl">
-                        <div className="prose prose-neutral prose-sm sm:prose-lg dark:prose-invert max-w-none">
+                        <div className="prose prose-neutral prose-sm sm:prose-lg max-w-none">
                             <Content />
                         </div>
                     </article>

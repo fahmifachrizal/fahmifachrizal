@@ -38,7 +38,7 @@ export function CopyButton({
     >
       <span className="sr-only">Copy</span>
       {hasCopied ? (
-        <Check className="size-full text-green-500" />
+        <Check className="size-full text-success" />
       ) : (
         <Copy className="size-full" />
       )}

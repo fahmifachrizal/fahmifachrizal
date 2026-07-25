@@ -176,8 +176,8 @@ export function Presentation({ children }: PresentationProps) {
             className={cn(
                 "relative border-y my-12 overflow-hidden transition-all duration-300 rounded-lg",
                 isFullscreen
-                    ? "fixed inset-0 top-16 z-40 my-0 border-0 rounded-none bg-slate-50 dark:bg-slate-900 w-screen h-[calc(100vh-4rem)]"
-                    : "w-full h-[600px] md:h-[700px] lg:h-[800px] bg-slate-50/80 dark:bg-slate-900/80"
+                    ? "fixed inset-0 top-16 z-40 my-0 border-0 rounded-none bg-slate-50 w-screen h-[calc(100vh-4rem)]"
+                    : "w-full h-[600px] md:h-[700px] lg:h-[800px] bg-slate-50/80"
             )}
         >
             {/* Lighter ambient background effects */}
@@ -198,7 +198,7 @@ export function Presentation({ children }: PresentationProps) {
                         <div
                             key={currentStep}
                             className={cn(
-                                "prose prose-lg dark:prose-invert max-w-5xl mx-auto w-full transition-all duration-500 ease-out",
+                                "prose prose-lg max-w-5xl mx-auto w-full transition-all duration-500 ease-out",
                                 isAnimating && direction === "forward" && "animate-out fade-out-0 slide-out-to-left-8",
                                 isAnimating && direction === "backward" && "animate-out fade-out-0 slide-out-to-right-8",
                                 !isAnimating && "animate-in fade-in-0 slide-in-from-right-8 duration-500"

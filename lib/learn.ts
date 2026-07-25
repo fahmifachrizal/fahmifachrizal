@@ -31,10 +31,18 @@ export interface Question {
   content: string
 }
 
-export function getPreps(): PrepInfo[] {
-  if (!fs.existsSync(learnDirectory)) return []
+let prepsCache: PrepInfo[] | null = null
+const questionsCache = new Map<string, Question[]>()
 
-  return fs
+export function getPreps(): PrepInfo[] {
+  if (prepsCache) return prepsCache
+
+  if (!fs.existsSync(learnDirectory)) {
+    prepsCache = []
+    return prepsCache
+  }
+
+  prepsCache = fs
     .readdirSync(learnDirectory, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => {
@@ -45,11 +53,19 @@ export function getPreps(): PrepInfo[] {
         description: PREP_CONFIG[id]?.description ?? "",
       }
     })
+
+  return prepsCache
 }
 
 export async function getQuestions(prep: string): Promise<Question[]> {
+  const cached = questionsCache.get(prep)
+  if (cached) return cached
+
   const prepDirectory = path.join(learnDirectory, prep)
-  if (!fs.existsSync(prepDirectory)) return []
+  if (!fs.existsSync(prepDirectory)) {
+    questionsCache.set(prep, [])
+    return []
+  }
 
   const files = fs.readdirSync(prepDirectory)
 
@@ -73,6 +89,7 @@ export async function getQuestions(prep: string): Promise<Question[]> {
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
+  questionsCache.set(prep, questions)
   return questions
 }
 
@@ -80,21 +97,6 @@ export async function getQuestion(
   prep: string,
   slug: string
 ): Promise<Question | null> {
-  try {
-    const filePath = path.join(learnDirectory, prep, `${slug}.mdx`)
-    const fileContent = fs.readFileSync(filePath, "utf8")
-    const { data, content } = matter(fileContent)
-
-    return {
-      slug,
-      prep,
-      title: data.title,
-      topic: data.topic,
-      difficulty: data.difficulty,
-      date: data.date,
-      content,
-    }
-  } catch {
-    return null
-  }
+  const questions = await getQuestions(prep)
+  return questions.find((q) => q.slug === slug) ?? null
 }

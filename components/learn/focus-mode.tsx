@@ -65,7 +65,7 @@ export function FocusMode({
       className={cn(
         "relative",
         isFocus &&
-          "fixed inset-0 top-16 z-40 overflow-y-auto bg-slate-50 dark:bg-slate-900"
+          "fixed inset-0 top-16 z-40 overflow-y-auto bg-slate-50"
       )}
     >
       {isFocus && (

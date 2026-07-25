@@ -38,7 +38,7 @@ export default function MDXDemoPage() {
             </p>
           </div>
 
-          <div className="prose prose-neutral prose-sm sm:prose-base dark:prose-invert mx-auto max-w-3xl">
+          <div className="prose prose-neutral prose-sm sm:prose-base mx-auto max-w-3xl">
             {/* Typography */}
             <h2>Typography</h2>
             <h1>Heading 1</h1>

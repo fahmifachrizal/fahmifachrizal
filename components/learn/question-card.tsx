@@ -1,9 +1,9 @@
 import Link from "next/link"
 
 const difficultyStyles: Record<string, string> = {
-  easy: "text-green-700 dark:text-green-400",
-  medium: "text-yellow-700 dark:text-yellow-400",
-  hard: "text-red-700 dark:text-red-400",
+  easy: "text-success",
+  medium: "text-warning",
+  hard: "text-destructive",
 }
 
 interface QuestionCardProps {

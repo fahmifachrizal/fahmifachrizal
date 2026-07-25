@@ -59,15 +59,15 @@ export function Choice({ label, children }: ChoiceProps) {
         "flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-colors",
         !isAnswered && "hover:border-primary/50 hover:bg-accent",
         isAnswered && "disabled:cursor-default",
-        isAnswered && isCorrect && "border-green-500/50 bg-green-500/10",
-        isAnswered && isSelected && !isCorrect && "border-red-500/50 bg-red-500/10"
+        isAnswered && isCorrect && "border-success/50 bg-success/10",
+        isAnswered && isSelected && !isCorrect && "border-destructive/50 bg-destructive/10"
       )}
     >
       <span
         className={cn(
           "flex size-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold",
-          isAnswered && isCorrect && "border-green-500 bg-green-500 text-white",
-          isAnswered && isSelected && !isCorrect && "border-red-500 bg-red-500 text-white"
+          isAnswered && isCorrect && "border-success bg-success text-white",
+          isAnswered && isSelected && !isCorrect && "border-destructive bg-destructive text-white"
         )}
       >
         {isAnswered && isCorrect ? (

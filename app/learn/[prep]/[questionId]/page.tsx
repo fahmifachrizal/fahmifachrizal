@@ -5,6 +5,7 @@ import { getPreps, getQuestion, getQuestions } from "@/lib/learn"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
+import "katex/dist/katex.min.css"
 import { mdxComponents } from "@/components/mdx-components"
 import { TopNavbar } from "@/components/layout/top-navbar"
 import { Footer } from "@/components/layout/footer"
@@ -77,7 +78,7 @@ export default async function QuestionPage({
         </div>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-          <article className="w-full rounded-2xl border bg-white/80 p-6 shadow-sm md:p-12">
+          <article className="w-full rounded-2xl border bg-card p-6 shadow-sm md:p-12">
             <FocusMode
               prep={prep}
               currentSlug={question.slug}
@@ -95,7 +96,7 @@ export default async function QuestionPage({
                 </h1>
               </header>
 
-              <div className="prose prose-neutral prose-sm sm:prose-base dark:prose-invert max-w-none">
+              <div className="prose prose-neutral prose-sm sm:prose-base max-w-none">
                 <MDXRemote
                   source={question.content}
                   components={mdxComponents}

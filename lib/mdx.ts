@@ -13,7 +13,11 @@ export interface BlogPost {
   content: string
 }
 
+let postsCache: BlogPost[] | null = null
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
+  if (postsCache) return postsCache
+
   const files = fs.readdirSync(contentDirectory)
 
   const posts = files
@@ -35,24 +39,11 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
+  postsCache = posts
   return posts
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  try {
-    const filePath = path.join(contentDirectory, `${slug}.mdx`)
-    const fileContent = fs.readFileSync(filePath, "utf8")
-    const { data, content } = matter(fileContent)
-
-    return {
-      slug,
-      title: data.title,
-      description: data.description,
-      date: data.date,
-      readTime: data.readTime,
-      content,
-    }
-  } catch {
-    return null
-  }
+  const posts = await getBlogPosts()
+  return posts.find((p) => p.slug === slug) ?? null
 }

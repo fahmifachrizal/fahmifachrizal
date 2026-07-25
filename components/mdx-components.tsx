@@ -63,9 +63,9 @@ const Callout = ({ type = "info", className, children, ...props }: CalloutProps)
 
   const styles = {
     info: "bg-primary/5 border-primary/10 text-primary",
-    warning: "bg-yellow-500/10 border-yellow-500/20 text-yellow-700 dark:text-yellow-400",
-    danger: "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400",
-    success: "bg-green-500/10 border-green-500/20 text-green-700 dark:text-green-400",
+    warning: "bg-warning/10 border-warning/20 text-warning",
+    danger: "bg-destructive/10 border-destructive/20 text-destructive",
+    success: "bg-success/10 border-success/20 text-success",
   }
 
   return (

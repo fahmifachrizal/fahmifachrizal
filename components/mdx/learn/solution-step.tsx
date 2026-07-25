@@ -14,7 +14,7 @@ export function SolutionStep({ number, title, children }: SolutionStepProps) {
       </div>
       <div className="flex-1 space-y-2 pt-0.5">
         <h4 className="font-semibold">{title}</h4>
-        <div className="prose prose-neutral prose-sm dark:prose-invert max-w-none text-muted-foreground [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+        <div className="prose prose-neutral prose-sm max-w-none text-muted-foreground [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
           {children}
         </div>
       </div>
