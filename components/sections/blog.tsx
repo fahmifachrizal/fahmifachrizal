@@ -19,7 +19,7 @@ export function BlogSection({ posts }: BlogSectionProps) {
           {recentPosts.map((blog, index) => (
             <article
               key={index}
-              className="group flex flex-col justify-between space-y-4 rounded-lg border border-border bg-card p-6 shadow-md transition-all hover:shadow-xl">
+              className="group flex flex-col justify-between space-y-4 rounded-xl border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg">
               <div>
                 <div className="text-sm text-muted-foreground">{blog.date}</div>
                 <h3 className="mt-2 text-xl font-semibold text-foreground group-hover:text-primary line-clamp-2">

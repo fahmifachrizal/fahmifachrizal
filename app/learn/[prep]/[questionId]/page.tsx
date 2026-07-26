@@ -12,7 +12,7 @@ import { Footer } from "@/components/layout/footer"
 import { FocusMode } from "@/components/learn/focus-mode"
 
 export async function generateStaticParams() {
-  const preps = getPreps()
+  const preps = await getPreps()
   const params: { prep: string; questionId: string }[] = []
 
   for (const prep of preps) {
@@ -78,7 +78,7 @@ export default async function QuestionPage({
         </div>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-          <article className="w-full rounded-2xl border bg-card p-6 shadow-sm md:p-12">
+          <article className="w-full rounded-2xl border bg-white p-6 shadow-sm md:p-12">
             <FocusMode
               prep={prep}
               currentSlug={question.slug}

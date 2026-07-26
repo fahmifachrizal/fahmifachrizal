@@ -67,7 +67,7 @@ export default async function BlogPostPage({
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_240px] xl:grid-cols-[1fr_280px]">
             {/* Article Content */}
-            <article className="mx-auto w-full max-w-3xl bg-card rounded-2xl border p-6 shadow-sm md:p-12">
+            <article className="mx-auto w-full max-w-3xl bg-white rounded-2xl border p-6 shadow-sm md:p-12">
               <header className="mb-12">
                 <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
                   <time dateTime={post.date}>

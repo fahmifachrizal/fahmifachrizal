@@ -8,7 +8,8 @@ import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
 
 export async function generateStaticParams() {
-  return getPreps().map((prep) => ({ prep: prep.id }))
+  const preps = await getPreps()
+  return preps.map((prep) => ({ prep: prep.id }))
 }
 
 export async function generateMetadata({
@@ -17,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ prep: string }>
 }) {
   const { prep: prepId } = await params
-  const prep = getPreps().find((p) => p.id === prepId)
+  const prep = (await getPreps()).find((p) => p.id === prepId)
 
   if (!prep) {
     return {}
@@ -35,7 +36,7 @@ export default async function PrepPage({
   params: Promise<{ prep: string }>
 }) {
   const { prep: prepId } = await params
-  const prep = getPreps().find((p) => p.id === prepId)
+  const prep = (await getPreps()).find((p) => p.id === prepId)
 
   if (!prep) {
     notFound()

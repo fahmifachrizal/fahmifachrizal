@@ -1,8 +1,6 @@
-import fs from "fs"
-import path from "path"
-import matter from "gray-matter"
-
-const learnDirectory = path.join(process.cwd(), "content/learn")
+const SUPABASE_URL = process.env.SUPABASE_URL!
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const SUPABASE_DB_SCHEMA = process.env.SUPABASE_DB_SCHEMA!
 
 export const PREP_CONFIG: Record<string, { name: string; description: string }> = {
   gre: {
@@ -31,28 +29,40 @@ export interface Question {
   content: string
 }
 
+async function supabaseFetch(query: string) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      "Accept-Profile": SUPABASE_DB_SCHEMA,
+    },
+  })
+
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`Supabase request failed (${res.status}): ${text}`)
+  }
+
+  return res.json()
+}
+
 let prepsCache: PrepInfo[] | null = null
 const questionsCache = new Map<string, Question[]>()
 
-export function getPreps(): PrepInfo[] {
+export async function getPreps(): Promise<PrepInfo[]> {
   if (prepsCache) return prepsCache
 
-  if (!fs.existsSync(learnDirectory)) {
-    prepsCache = []
-    return prepsCache
-  }
+  const rows: { prep: string }[] = await supabaseFetch(
+    "questions?select=prep&order=prep"
+  )
 
-  prepsCache = fs
-    .readdirSync(learnDirectory, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => {
-      const id = entry.name
-      return {
-        id,
-        name: PREP_CONFIG[id]?.name ?? id.toUpperCase(),
-        description: PREP_CONFIG[id]?.description ?? "",
-      }
-    })
+  const uniquePreps = Array.from(new Set(rows.map((row) => row.prep)))
+
+  prepsCache = uniquePreps.map((id) => ({
+    id,
+    name: PREP_CONFIG[id]?.name ?? id.toUpperCase(),
+    description: PREP_CONFIG[id]?.description ?? "",
+  }))
 
   return prepsCache
 }
@@ -61,33 +71,9 @@ export async function getQuestions(prep: string): Promise<Question[]> {
   const cached = questionsCache.get(prep)
   if (cached) return cached
 
-  const prepDirectory = path.join(learnDirectory, prep)
-  if (!fs.existsSync(prepDirectory)) {
-    questionsCache.set(prep, [])
-    return []
-  }
-
-  const files = fs.readdirSync(prepDirectory)
-
-  const questions = files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const slug = file.replace(/\.mdx$/, "")
-      const filePath = path.join(prepDirectory, file)
-      const fileContent = fs.readFileSync(filePath, "utf8")
-      const { data, content } = matter(fileContent)
-
-      return {
-        slug,
-        prep,
-        title: data.title,
-        topic: data.topic,
-        difficulty: data.difficulty,
-        date: data.date,
-        content,
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  const questions: Question[] = await supabaseFetch(
+    `questions?prep=eq.${encodeURIComponent(prep)}&select=slug,prep,title,topic,difficulty,date,content&order=date.desc`
+  )
 
   questionsCache.set(prep, questions)
   return questions

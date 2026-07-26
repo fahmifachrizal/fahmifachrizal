@@ -5,9 +5,10 @@ import { QuestionCard } from "@/components/learn/question-card"
 import { TopNavbar } from "@/components/layout/top-navbar"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
+import { cn } from "@/lib/utils"
 
 export default async function LearnPage() {
-  const preps = getPreps()
+  const preps = await getPreps()
   const sections = await Promise.all(
     preps.map(async (prep) => ({
       prep,
@@ -52,7 +53,14 @@ export default async function LearnPage() {
                   </Link>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div
+                  className={cn(
+                    "grid gap-6",
+                    questions.length === 1 && "max-w-sm",
+                    questions.length === 2 && "sm:grid-cols-2 lg:max-w-2xl",
+                    questions.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3"
+                  )}
+                >
                   {questions.map((question) => (
                     <QuestionCard
                       key={question.slug}

@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-07-25T04:40:37.900Z",
         "reason": "User confirmed: this is the blockquote element's standard left-rule convention for quoted text, not a card/list/callout/alert accent"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "components/mdx-components.tsx"
+        ],
+        "createdAt": "2026-07-25T05:25:08.728Z",
+        "reason": "User confirmed: generic img passthrough renderer for MDX content, no default src by design (forwards whatever src the MDX author passes), not an actual broken/missing image in rendered content"
       }
     ]
   }

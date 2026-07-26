@@ -6,6 +6,7 @@ import { User, Briefcase, BookOpen, Mail } from "lucide-react"
 
 export function FloatingNavbar() {
   const [isFloating, setIsFloating] = useState(false)
+  const [nearFooter, setNearFooter] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +18,20 @@ export function FloatingNavbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const footer = document.querySelector("footer")
+    if (!footer) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setNearFooter(entry.isIntersecting),
+      { rootMargin: "0px 0px -10% 0px" }
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
+  const visible = isFloating && !nearFooter
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -26,8 +41,10 @@ export function FloatingNavbar() {
 
   return (
     <nav
-      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-500 ease-out bottom-2 max-w-fit ${isFloating &&
-        "rounded-full border border-border shadow-2xl bg-background/40 backdrop-blur-2xl"
+      aria-hidden={!visible}
+      className={`fixed left-1/2 z-50 w-full -translate-x-1/2 transition-all duration-500 ease-out bottom-2 max-w-fit ${visible
+          ? "rounded-full border border-border shadow-2xl bg-background/40 backdrop-blur-2xl opacity-100"
+          : "pointer-events-none opacity-0"
         }`}>
       <div className="mx-auto flex items-center justify-center px-1 md:px-2 md:py-2 transition-all duration-500 ease-out md:gap-2">
         <Button

@@ -9,7 +9,7 @@ colors:
   surface-neutral: "oklch(0.97 0 0)"
   hairline: "oklch(0.922 0 0)"
   focus-ring: "oklch(0.708 0 0)"
-  alert-red: "oklch(0.577 0.245 27.325)"
+  alert-red: "oklch(0.5 0.22 27.325)"
   success: "oklch(0.48 0.14 150)"
   warning: "oklch(0.5 0.13 65)"
 typography:
@@ -79,7 +79,7 @@ components:
 
 The system is built from exactly two colors doing all the work: a warm paper background (#e7e0de) and a near-black ink foreground (#1d0b08) that is *also* the primary action color — there is no separate accent hue anywhere in the palette. Depth comes from tonal variation of the same paper (a slightly deeper #ded7d5 for cards), not from a rainbow of semantic colors. This is a portfolio for a full-stack developer who wants the work — not the chrome — to be the subject: minimal, precise, confident. Personality lives in restraint, generous whitespace, and typographic weight contrast, never in decoration.
 
-This system explicitly rejects gradient accents, glassmorphism-as-decoration, multi-color semantic palettes, and side-stripe card borders. A streamlining pass (2026-07-25) removed the drift an earlier scan had flagged here: quiz-state colors are now real `--success`/`--warning` tokens instead of raw Tailwind values, the unused dark-mode CSS and all inert `dark:` utility classes were removed outright (nothing ever toggled them), and the article reading-surface now uses `bg-card` instead of a separate `bg-white/80`.
+This system explicitly rejects gradient accents, glassmorphism-as-decoration, multi-color semantic palettes, and side-stripe card borders. A streamlining pass (2026-07-25) removed the drift an earlier scan had flagged here: quiz-state colors are now real `--success`/`--warning` tokens instead of raw Tailwind values, and the unused dark-mode CSS and all inert `dark:` utility classes were removed outright (nothing ever toggled them). The article reading-surface briefly moved to `bg-card` during that pass, then was set back to plain white by explicit user preference — white gives the reading surface (long-form blog prose, `/learn` question text) a sharper, more paper-like contrast against the tinted page background than the card token did; `bg-card` remains correct for listing cards and inline content boxes.
 
 **Key Characteristics:**
 - Two-color foundation (ink + paper), tonal variation instead of hue variation for depth
@@ -108,7 +108,7 @@ The palette is monochrome by design: everything is a shade of ink or a shade of 
 ### Named Rules
 **The One Ink Rule.** There is exactly one primary color, and it is the same value as body text. Never introduce a second saturated "brand" accent color — the restraint IS the brand.
 
-**Known gap: `--destructive` fails its own contrast bar.** At oklch(0.577 0.245 27.325) it measures 3.66:1 against paper — under the 4.5:1 body-text minimum this system targets. It reads fine on tinted backgrounds (`bg-destructive/10`) but is too light wherever it's used as direct text color (e.g. `text-destructive` in error pages). Not fixed in the 2026-07-25 pass — flagged, not touched, since it wasn't part of that pass's agreed scope and darkening it would ripple into every button/error surface using it.
+**Alert Red** (oklch(0.5 0.22 27.325)): Destructive/error/urgent states — button destructive variant, MDX danger callout, incorrect-answer state in `/learn`, the "hard" difficulty label. Darkened during the 2026-07-25 polish pass from oklch(0.577 0.245 27.325), which measured only 3.66:1 against paper as direct text (under the 4.5:1 minimum). The new value hits 4.89:1 against paper and 6.38:1 against white button text — comfortable on both pairs it's actually used in.
 
 ## 3. Typography
 
@@ -134,7 +134,7 @@ Flat by default. Cards, buttons, and callouts rest on a 1px hairline border alon
 ### Shadow Vocabulary
 - **Hover lift** (`shadow-lg`): Applied on `:hover` to interactive cards (blog post cards, question cards) alongside a border-color shift toward the primary/ink color at reduced opacity.
 - **Floating panel** (`shadow-2xl` + `backdrop-blur-md`): Reserved for elements that overlay page content rather than sit within its flow — dropdown menus, the focus-mode bottom-right control cluster.
-- **Reading-surface lift** (`shadow-sm`): The lightest tier, used on the blog/learn article card itself (`bg-white/80 shadow-sm`) to lift it slightly off the muted page background.
+- **Reading-surface lift** (`shadow-sm`): The lightest tier, used on the blog/learn article card itself (`bg-white shadow-sm`) to lift it off the muted page background.
 
 ### Named Rules
 **The Earned Shadow Rule.** Nothing carries a shadow at rest. Shadow appears only on hover, focus, or genuine floating/overlay content — never as static card decoration.
@@ -151,7 +151,7 @@ Flat by default. Cards, buttons, and callouts rest on a 1px hairline border alon
 
 ### Cards / Containers
 - **Corner Style:** `rounded-xl` (14px) — one step looser than buttons, the system's default "content container" radius.
-- **Background:** Soft Paper (`bg-card`) for both listing cards and the article reading surface — consolidated from a separate `bg-white/80` on 2026-07-25.
+- **Background:** Soft Paper (`bg-card`) for listing cards and inline content boxes (e.g. the question stem in `/learn`). The main reading-surface article container (blog post body, `/learn` question detail page) is plain white — a deliberate exception that gives long-form reading content a crisper, more paper-like surface than the card token.
 - **Shadow Strategy:** Flat at rest, `shadow-lg` + border-color shift on hover (see Elevation).
 - **Border:** 1px hairline, always present.
 - **Internal Padding:** `p-6` standard; `p-6 md:p-12` for the main reading-surface article container.

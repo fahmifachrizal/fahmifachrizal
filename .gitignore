@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local automation scripts (not part of the deployed app)
+/scripts
+
 # vercel
 .vercel
 

@@ -41,7 +41,7 @@ export function ExperienceSection() {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="group rounded-lg border border-border bg-card p-6 shadow-md transition-all hover:shadow-xl">
+              className="group rounded-xl border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg">
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
                   <h3 className="text-2xl font-semibold text-foreground">

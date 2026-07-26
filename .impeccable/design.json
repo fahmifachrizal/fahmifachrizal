@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-25T12:00:00Z",
+  "generatedAt": "2026-07-25T18:00:00Z",
   "title": "Design System: fahmifachrizal",
   "extensions": {
     "colorMeta": {
@@ -62,7 +62,7 @@
       "alert-red": {
         "role": "danger",
         "displayName": "Alert Red",
-        "canonical": "oklch(0.577 0.245 27.325)"
+        "canonical": "oklch(0.5 0.22 27.325)"
       },
       "success": {
         "role": "success",
@@ -141,7 +141,7 @@
   ],
   "narrative": {
     "northStar": "Ink & Paper",
-    "overview": "The system is built from exactly two colors doing all the work: a warm paper background (#e7e0de) and a near-black ink foreground (#1d0b08) that is also the primary action color — there is no separate accent hue anywhere in the palette. Depth comes from tonal variation of the same paper (a slightly deeper #ded7d5 for cards), not from a rainbow of semantic colors. This is a portfolio for a full-stack developer who wants the work — not the chrome — to be the subject: minimal, precise, confident. Personality lives in restraint, generous whitespace, and typographic weight contrast, never in decoration. This system explicitly rejects gradient accents, glassmorphism-as-decoration, multi-color semantic palettes, and side-stripe card borders. A streamlining pass (2026-07-25) removed the drift an earlier scan had flagged here: quiz-state colors are now real --success/--warning tokens, the unused dark-mode CSS and all inert dark: utility classes were removed outright, and the article reading-surface now uses bg-card instead of a separate bg-white/80.",
+    "overview": "The system is built from exactly two colors doing all the work: a warm paper background (#e7e0de) and a near-black ink foreground (#1d0b08) that is also the primary action color — there is no separate accent hue anywhere in the palette. Depth comes from tonal variation of the same paper (a slightly deeper #ded7d5 for cards), not from a rainbow of semantic colors. This is a portfolio for a full-stack developer who wants the work — not the chrome — to be the subject: minimal, precise, confident. Personality lives in restraint, generous whitespace, and typographic weight contrast, never in decoration. This system explicitly rejects gradient accents, glassmorphism-as-decoration, multi-color semantic palettes, and side-stripe card borders. A streamlining pass (2026-07-25) removed the drift an earlier scan had flagged here: quiz-state colors are now real --success/--warning tokens, and the unused dark-mode CSS and all inert dark: utility classes were removed outright. The article reading-surface (blog post body, /learn question detail) is plain white by explicit user preference — a deliberate exception from bg-card, giving long-form reading content a crisper paper-like surface.",
     "keyCharacteristics": [
       "Two-color foundation (ink + paper), tonal variation instead of hue variation for depth",
       "Flat surfaces at rest; shadow is earned only on hover or when an element floats above content",
@@ -151,9 +151,9 @@
     ],
     "rules": [
       { "name": "The One Ink Rule", "body": "There is exactly one primary color, and it is the same value as body text. Never introduce a second saturated \"brand\" accent color — the restraint IS the brand.", "section": "colors" },
-      { "name": "Known gap: --destructive fails its own contrast bar", "body": "At oklch(0.577 0.245 27.325) it measures 3.66:1 against paper, under the 4.5:1 body-text minimum this system targets. Fine on tinted backgrounds (bg-destructive/10), too light as direct text color. Not fixed in the 2026-07-25 pass — flagged, not touched.", "section": "colors" },
       { "name": "The Single Voice Rule", "body": "One family (Geist) for everything except code. If a second typeface is ever introduced, it should be for code/mono contexts only, never a second display face.", "section": "typography" },
-      { "name": "The Earned Shadow Rule", "body": "Nothing carries a shadow at rest. Shadow appears only on hover, focus, or genuine floating/overlay content — never as static card decoration.", "section": "elevation" }
+      { "name": "The Earned Shadow Rule", "body": "Nothing carries a shadow at rest. Shadow appears only on hover, focus, or genuine floating/overlay content — never as static card decoration.", "section": "elevation" },
+      { "name": "The Reduced-Motion Floor", "body": "A global @media (prefers-reduced-motion: reduce) rule in globals.css collapses every animation and transition site-wide. Components never need to opt in individually — the floor is systemic, not per-component.", "section": "elevation" }
     ],
     "dos": [
       "Do use ink (#1d0b08) as the only primary/accent color — resist adding a second saturated brand hue.",

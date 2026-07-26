@@ -36,4 +36,6 @@ A 2026-07-25 streamlining pass removed the first round of this drift: the dead `
 
 ## Accessibility & Inclusion
 
-WCAG 2.1 AA target: verified contrast ratios (body text ≥4.5:1, large text ≥3:1), full keyboard navigation, visible focus states, and `prefers-reduced-motion` alternatives for all animation — including the existing blog `Presentation`/slideshow component and the `/learn` focus-mode overlay, neither of which currently has a reduced-motion fallback.
+WCAG 2.1 AA target: verified contrast ratios (body text ≥4.5:1, large text ≥3:1), full keyboard navigation, visible focus states, and `prefers-reduced-motion` alternatives for all animation.
+
+A 2026-07-25 polish pass closed the two gaps this section originally flagged: a global `@media (prefers-reduced-motion: reduce)` rule in `globals.css` now collapses every animation/transition site-wide (covers the blog `Presentation` slideshow, the `/learn` focus-mode overlay, and any future animated component in one place), and `--destructive` was darkened from a failing 3.66:1 to 4.89:1 against paper.
