@@ -1,6 +1,19 @@
-const SUPABASE_URL = process.env.SUPABASE_URL!
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const SUPABASE_DB_SCHEMA = process.env.SUPABASE_DB_SCHEMA!
+import { Pool } from "pg"
+
+const connectionString = process.env.DATABASE_URL
+const schema = process.env.DATABASE_SCHEMA
+
+if (!connectionString || !schema) {
+  throw new Error("DATABASE_URL and DATABASE_SCHEMA must be set")
+}
+
+// Reuse one pool across dev hot-reloads instead of leaking a new one per reload.
+const globalForPg = globalThis as unknown as { pgPool?: Pool }
+const pool = globalForPg.pgPool ?? new Pool({ connectionString })
+if (process.env.NODE_ENV !== "production") globalForPg.pgPool = pool
+
+// The schema name contains a dot ("fahmifachrizal.com"), so it must be quoted.
+const questionsTable = `"${schema.replace(/"/g, '""')}".questions`
 
 export const PREP_CONFIG: Record<string, { name: string; description: string }> = {
   gre: {
@@ -29,36 +42,17 @@ export interface Question {
   content: string
 }
 
-async function supabaseFetch(query: string) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
-    headers: {
-      apikey: SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-      "Accept-Profile": SUPABASE_DB_SCHEMA,
-    },
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Supabase request failed (${res.status}): ${text}`)
-  }
-
-  return res.json()
-}
-
 let prepsCache: PrepInfo[] | null = null
 const questionsCache = new Map<string, Question[]>()
 
 export async function getPreps(): Promise<PrepInfo[]> {
   if (prepsCache) return prepsCache
 
-  const rows: { prep: string }[] = await supabaseFetch(
-    "questions?select=prep&order=prep"
+  const { rows } = await pool.query<{ prep: string }>(
+    `SELECT DISTINCT prep FROM ${questionsTable} ORDER BY prep`
   )
 
-  const uniquePreps = Array.from(new Set(rows.map((row) => row.prep)))
-
-  prepsCache = uniquePreps.map((id) => ({
+  prepsCache = rows.map(({ prep: id }) => ({
     id,
     name: PREP_CONFIG[id]?.name ?? id.toUpperCase(),
     description: PREP_CONFIG[id]?.description ?? "",
@@ -71,12 +65,19 @@ export async function getQuestions(prep: string): Promise<Question[]> {
   const cached = questionsCache.get(prep)
   if (cached) return cached
 
-  const questions: Question[] = await supabaseFetch(
-    `questions?prep=eq.${encodeURIComponent(prep)}&select=slug,prep,title,topic,difficulty,date,content&order=date.desc`
+  // to_char keeps `date` a plain "YYYY-MM-DD" string; node-pg would otherwise
+  // hand back a JS Date (shifted by the local timezone).
+  const { rows } = await pool.query<Question>(
+    `SELECT slug, prep, title, topic, difficulty,
+            to_char(date, 'YYYY-MM-DD') AS date, content
+       FROM ${questionsTable} AS q
+      WHERE prep = $1
+      ORDER BY q.date DESC`,
+    [prep]
   )
 
-  questionsCache.set(prep, questions)
-  return questions
+  questionsCache.set(prep, rows)
+  return rows
 }
 
 export async function getQuestion(
