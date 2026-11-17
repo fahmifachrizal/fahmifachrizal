@@ -15,6 +15,7 @@ export function Presentation({ children }: PresentationProps) {
     const [isAnimating, setIsAnimating] = React.useState(false)
     const [isFullscreen, setIsFullscreen] = React.useState(false)
     const containerRef = React.useRef<HTMLDivElement>(null)
+    const slideAreaRef = React.useRef<HTMLDivElement>(null)
 
     // Filter children to remove whitespace/nulls
     const steps = React.Children.toArray(children).filter(Boolean)
@@ -120,6 +121,11 @@ export function Presentation({ children }: PresentationProps) {
         return () => window.removeEventListener("keydown", handleKeyDown)
     }, [currentStep, isAnimating, totalSteps, isFullscreen, isPresentationMode])
 
+    // Each slide starts from its top: tall slides scroll inside the slide area.
+    React.useEffect(() => {
+        slideAreaRef.current?.scrollTo({ top: 0 })
+    }, [currentStep])
+
     // Disable body scroll when formatted as presentation (fullscreen)
     React.useEffect(() => {
         if (isFullscreen) {
@@ -176,7 +182,7 @@ export function Presentation({ children }: PresentationProps) {
             className={cn(
                 "relative border-y my-12 overflow-hidden transition-all duration-300",
                 isFullscreen
-                    ? "fixed inset-0 top-16 z-40 my-0 border-0 bg-background w-screen h-[calc(100vh-4rem)]"
+                    ? "fixed inset-0 z-[60] my-0 border-0 bg-background w-screen h-dvh"
                     : "w-full h-[600px] md:h-[700px] lg:h-[800px] bg-card"
             )}
         >
@@ -184,9 +190,15 @@ export function Presentation({ children }: PresentationProps) {
                 "h-full flex flex-col relative z-10",
                 isFullscreen ? "container mx-auto" : "w-full"
             )}>
-                {/* Slide Content Area - Full Height */}
-                <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24 xl:px-32 overflow-hidden">
-                    <div className="relative w-full h-full flex items-center justify-center">
+                {/* Slide content area: centred when the slide fits, scrollable from
+                    the top when it is taller than the screen (never clipped). */}
+                <div
+                    ref={slideAreaRef}
+                    tabIndex={0}
+                    aria-label={`Slide ${currentStep + 1} of ${totalSteps}`}
+                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 md:px-16 lg:px-24 xl:px-32"
+                >
+                    <div className="relative flex min-h-full w-full items-center justify-center py-10 md:py-14">
                         {/* Slide with transitions */}
                         <div
                             key={currentStep}
@@ -203,12 +215,7 @@ export function Presentation({ children }: PresentationProps) {
                 </div>
 
                 {/* Navigation Controls */}
-                <div className={cn(
-                    "flex items-center transition-all duration-300",
-                    isFullscreen
-                        ? "absolute bottom-8 right-8 w-auto border bg-background p-4 gap-6"
-                        : "justify-between border-t bg-background px-8 py-5 w-full"
-                )}>
+                <div className="flex w-full shrink-0 items-center justify-between gap-6 border-t bg-background px-6 py-4 md:px-8">
                     <div className={cn("flex items-center gap-4", isFullscreen && "hidden md:flex")}>
                         <div className="flex flex-col gap-1">
                             <span className="text-sm text-muted-foreground font-medium">
