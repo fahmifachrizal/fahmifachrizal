@@ -18,13 +18,20 @@ Success = recruiters/clients reach out, and the site reads as sharp and intentio
 
 ## Brand Personality
 
-Minimal, precise, confident. Quiet craftsmanship — let the work speak, no decorative flourishes, engineer-clean. The existing warm neutral palette (cream background, near-black ink) stays as-is; personality comes from restraint and consistency, not a visual overhaul.
+Minimal, precise, confident. Quiet craftsmanship — let the work speak, no decorative flourishes, engineer-clean. The warm two-colour palette (paper background, espresso near-black ink, #16100d since 2026-11-17) carries everything; personality comes from large light type, generous space and restraint, not decoration.
 
 ## Anti-references
 
 No specific named anti-references. The failure mode to actively avoid: visual and structural drift accumulated feature-by-feature — e.g. `/learn` evolving a different card style than `/blog`, ad-hoc spacing decisions, untokenized one-off colors. "Streamline" means removing that drift, not introducing a new aesthetic.
 
-A 2026-07-25 streamlining pass removed the first round of this drift: the dead `Navbar.tsx` shim, the `bg-white/80`/`bg-card` inconsistency, untokenized quiz-state colors, and all unused dark-mode CSS. Remaining nav surface is exactly two deliberate patterns (`top-navbar.tsx` for content pages, `floating-navbar.tsx` for home in-page jumps) — don't add a third without asking whether these two should consolidate first.
+A 2026-07-25 streamlining pass removed the first round of this drift: the dead `Navbar.tsx` shim, the `bg-white/80`/`bg-card` inconsistency, untokenized quiz-state colors, and all unused dark-mode CSS.
+
+The 2026-11 editorial redesign settled the open navigation question: `top-navbar.tsx` and `floating-navbar.tsx` were consolidated into one sticky `SiteHeader` (wordmark, About / Projects / Blog / Resume, a "Let's talk" button, and a full-screen menu on small screens). There is now exactly one navigation pattern. Extend `components/layout/nav-items.ts` rather than adding another, and keep `/learn` out of it.
+
+Also out of bounds:
+- copying the layout reference's words, photos, logos or statistics
+- invented clients, numbers or testimonials (every figure on the site comes from existing copy or the CV)
+- white surfaces of any kind
 
 ## Design Principles
 

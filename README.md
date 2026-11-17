@@ -84,7 +84,7 @@ Integrated AI capabilities into a customer service chatbot, improving response a
   [![Email](https://img.shields.io/badge/Email-fahmi%40example.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mff.online.acc@gmail.com)
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/fahmi-fachrizal-8a5102102)
   [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fahmifachrizal)
-  [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-1D0B08?style=for-the-badge&logo=google-chrome&logoColor=white)](https://fahmifachrizal.vercel.app)
+  [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-16100D?style=for-the-badge&logo=google-chrome&logoColor=white)](https://fahmifachrizal.vercel.app)
 
 </div>
 
