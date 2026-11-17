@@ -95,6 +95,10 @@
         "displayName": "Eyebrow",
         "purpose": "Uppercase section labels, 0.2em tracking."
       },
+      "eyebrow-md": {
+        "displayName": "Eyebrow (md+)",
+        "purpose": "The eyebrow at the md breakpoint and up, 14px."
+      },
       "meta": {
         "displayName": "Meta",
         "purpose": "Dates, read time, difficulty, tech lists, footer headings."

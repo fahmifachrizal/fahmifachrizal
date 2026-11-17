@@ -48,7 +48,13 @@ typography:
     lineHeight: 1.625
   eyebrow:
     fontFamily: "var(--font-geist-sans), Geist, sans-serif"
-    fontSize: "0.75rem / 0.875rem"
+    fontSize: "0.75rem"
+    fontWeight: 500
+    letterSpacing: "0.2em"
+    textTransform: "uppercase"
+  eyebrow-md:
+    fontFamily: "var(--font-geist-sans), Geist, sans-serif"
+    fontSize: "0.875rem"
     fontWeight: 500
     letterSpacing: "0.2em"
     textTransform: "uppercase"
