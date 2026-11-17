@@ -33,7 +33,7 @@ export function IntroSection() {
         </div>
         <div className="relative min-h-[28rem] lg:min-h-full">
           <Image
-            src="/profile.jpg"
+            src="/profile-intro.webp"
             alt="Fahmi Fachrizal standing against a plain wall"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"

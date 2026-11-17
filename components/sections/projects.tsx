@@ -19,9 +19,9 @@ const projects: Project[] = [
       "Foundational engineering team member for the Wondr digital banking platform. Built investment modules (Bonds, Mutual Funds) and internal developer tools.",
     technologies: ["React Native", "TypeScript", "Micro-frontends"],
     images: [
-      { src: "/wondr-gold.jpeg", alt: "Wondr gold savings screen", width: 710, height: 1600 },
-      { src: "/wondr-mutual_funds.jpeg", alt: "Wondr mutual funds screen", width: 738, height: 1600 },
-      { src: "/wondr-retirement_fund.jpeg", alt: "Wondr retirement fund screen", width: 578, height: 1035 },
+      { src: "/wondr-gold.webp", alt: "Wondr gold savings screen", width: 480, height: 1082 },
+      { src: "/wondr-mutual_funds.webp", alt: "Wondr mutual funds screen", width: 480, height: 1041 },
+      { src: "/wondr-retirement_fund.webp", alt: "Wondr retirement fund screen", width: 480, height: 860 },
     ],
   },
   {
