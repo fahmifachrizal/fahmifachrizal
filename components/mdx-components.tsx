@@ -62,16 +62,16 @@ const Callout = ({ type = "info", className, children, ...props }: CalloutProps)
   }
 
   const styles = {
-    info: "bg-primary/5 border-primary/10 text-primary",
-    warning: "bg-warning/10 border-warning/20 text-warning",
-    danger: "bg-destructive/10 border-destructive/20 text-destructive",
-    success: "bg-success/10 border-success/20 text-success",
+    info: "border-border [&>div:first-child]:text-muted-foreground",
+    warning: "border-warning/50 [&>div:first-child]:text-warning",
+    danger: "border-destructive/50 [&>div:first-child]:text-destructive",
+    success: "border-success/50 [&>div:first-child]:text-success",
   }
 
   return (
     <div
       className={cn(
-        "my-6 flex gap-3 rounded-lg border p-4",
+        "my-6 flex gap-3 border bg-card p-4 text-foreground",
         styles[type],
         className
       )}
