@@ -10,21 +10,21 @@ export function NumbersSection() {
   return (
     <section aria-labelledby="numbers-heading" className="surface-ink">
       <div className="page-container py-28 lg:py-40">
-        <div data-reveal className="max-w-4xl">
+        <div data-reveal className="mx-auto max-w-4xl text-center">
           <p className="eyebrow text-muted-foreground">Track record</p>
           <h2 id="numbers-heading" className="display mt-5 text-4xl leading-[1.1] md:text-5xl lg:text-6xl">
             From weather models to digital banking.
           </h2>
         </div>
-        <dl className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+        <dl className="mx-auto mt-16 grid max-w-6xl gap-x-10 gap-y-12 text-center sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
           {facts.map((fact, i) => (
             <div
               key={fact.value}
               data-reveal
               style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
-              className="flex flex-col-reverse justify-end gap-4 border-t pt-6"
+              className="flex flex-col-reverse justify-end gap-4"
             >
-              <dt className="text-muted-foreground">{fact.label}</dt>
+              <dt className="mx-auto max-w-[16rem] text-sm leading-relaxed text-muted-foreground">{fact.label}</dt>
               <dd className="display text-6xl lg:text-7xl">{fact.value}</dd>
             </div>
           ))}
