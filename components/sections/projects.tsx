@@ -1,12 +1,6 @@
-import Image from "next/image"
+import { cn } from "@/lib/utils"
 import { SectionIntro } from "./section-intro"
-
-type Module = {
-  release: number
-  name: string
-  description: string
-  screens: { file: string; alt: string }[]
-}
+import { WondrReleases, type Module } from "./wondr-releases"
 
 type Project = {
   title: string
@@ -17,18 +11,17 @@ type Project = {
 }
 
 // Content from the Experience section and the CV. Wondr is the latest work, so
-// it is the one ink feature and lists the modules built for it, in release
-// order, with their screenshots. No links: none are published yet.
+// it is the one ink feature: summary on the left, a carousel of the modules
+// built for it (in release order) on the right. No links: none are published yet.
 const projects: Project[] = [
   {
     title: "Wondr by BNI",
     period: "June 2023 – present",
     description:
       "Foundational engineering team member for the Wondr digital banking platform, building a feature module in each release, plus internal developer tools.",
-    technologies: ["React Native", "TypeScript", "Micro-frontends"],
+    technologies: ["Miniprograms", "TypeScript", "Micro-frontends"],
     modules: [
       {
-        release: 2,
         name: "Bonds",
         description:
           "Government bonds and sukuk (ORI, SBR, ST) in the app: browse open series with their remaining national quota, coupon rate and ordering window, then track holdings and estimated coupons in the portfolio.",
@@ -40,7 +33,6 @@ const projects: Project[] = [
         ],
       },
       {
-        release: 3,
         name: "Mutual Funds",
         description:
           "A risk-profile check with recommended allocations, a fund catalogue filtered by category with side-by-side comparison, and fund detail pages with performance history.",
@@ -52,7 +44,6 @@ const projects: Project[] = [
         ],
       },
       {
-        release: 4,
         name: "DPLK",
         description:
           "A retirement fund opened in a few steps: an inflation-aware retirement simulation, package selection, account opening, then balance and growth tracking.",
@@ -64,7 +55,6 @@ const projects: Project[] = [
         ],
       },
       {
-        release: 5,
         name: "Gold",
         description:
           "Gold savings bought and sold by the gram, with live buy and sell prices, a price-history chart and the gold portfolio in one place.",
@@ -76,7 +66,6 @@ const projects: Project[] = [
         ],
       },
       {
-        release: 6,
         name: "Lifestyle",
         description:
           "A lifestyle hub for train and flight tickets, events and vouchers, with payment from a Wondr account and a filterable transaction history.",
@@ -125,35 +114,14 @@ function TechList({ items }: { items: string[] }) {
   )
 }
 
-function ModuleList({ modules }: { modules: Module[] }) {
+function Summary({ project, className }: { project: Project; className?: string }) {
   return (
-    <ol aria-label="Modules by release" className="mt-16 border-t md:mt-24">
-      {modules.map((m) => (
-        <li key={m.name} className="grid gap-8 border-b py-12 md:py-16 lg:grid-cols-12 lg:gap-16">
-          <div data-reveal className="lg:col-span-4">
-            <p className="eyebrow text-muted-foreground">
-              <span aria-hidden>R{m.release}</span>
-              <span className="sr-only">Release {m.release}</span>
-            </p>
-            <h4 className="display mt-4 text-3xl md:text-4xl">{m.name}</h4>
-            <p className="mt-5 max-w-[65ch] leading-relaxed text-muted-foreground">{m.description}</p>
-          </div>
-          <div data-reveal className="grid grid-cols-2 items-start gap-3 md:grid-cols-4 md:gap-5 lg:col-span-8">
-            {m.screens.map((s) => (
-              <Image
-                key={s.file}
-                src={`/wondr/${s.file}.webp`}
-                alt={s.alt}
-                width={600}
-                height={1300}
-                sizes="(min-width: 1024px) 14vw, (min-width: 768px) 22vw, 45vw"
-                className="h-auto w-full"
-              />
-            ))}
-          </div>
-        </li>
-      ))}
-    </ol>
+    <>
+      <p className={cn("max-w-[65ch] text-lg leading-relaxed text-muted-foreground", className)}>
+        {project.description}
+      </p>
+      <TechList items={project.technologies} />
+    </>
   )
 }
 
@@ -170,25 +138,24 @@ export function ProjectsSection() {
           aria-labelledby={`project-${i}`}
           className={project.modules ? "surface-ink" : "border-t"}
         >
-          <div className="page-container section-y">
-            <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-              <div data-reveal className="lg:col-span-6">
-                <p className="eyebrow text-muted-foreground">
-                  {project.period}
-                  {project.modules && " · Latest work"}
-                </p>
-                <h3 id={`project-${i}`} className="display mt-5 text-4xl md:text-5xl lg:text-6xl">
-                  {project.title}
-                </h3>
-              </div>
-              <div data-reveal className="lg:col-span-6">
-                <p className="max-w-[65ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  {project.description}
-                </p>
-                <TechList items={project.technologies} />
-              </div>
+          <div className="page-container section-y grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <div data-reveal className={project.modules ? "lg:col-span-4" : "lg:col-span-6"}>
+              <p className="eyebrow text-muted-foreground">
+                {project.period}
+                {project.modules && " · Latest work"}
+              </p>
+              <h3 id={`project-${i}`} className="display mt-5 text-4xl md:text-5xl lg:text-6xl">
+                {project.title}
+              </h3>
+              {project.modules && <Summary project={project} className="mt-8" />}
             </div>
-            {project.modules && <ModuleList modules={project.modules} />}
+            {project.modules ? (
+              <WondrReleases modules={project.modules} className="lg:col-span-8" />
+            ) : (
+              <div data-reveal className="lg:col-span-6">
+                <Summary project={project} className="md:text-xl" />
+              </div>
+            )}
           </div>
         </article>
       ))}
