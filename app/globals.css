@@ -268,3 +268,8 @@
     display: none;
   }
 }
+
+/* The mobile menu is a modal <dialog>; keep the page behind it still. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}

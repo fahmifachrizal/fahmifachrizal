@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { ScrollReveal } from "@/components/motion/scroll-reveal"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,10 +65,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Marks JS as available so scroll-reveal may start content hidden;
+            without JS everything renders visible. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <ScrollReveal />
       </body>
     </html>
   )

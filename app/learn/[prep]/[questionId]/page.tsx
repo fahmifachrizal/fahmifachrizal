@@ -7,7 +7,7 @@ import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import "katex/dist/katex.min.css"
 import { mdxComponents } from "@/components/mdx-components"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { Footer } from "@/components/layout/footer"
 import { FocusMode } from "@/components/learn/focus-mode"
 
@@ -62,7 +62,7 @@ export default async function QuestionPage({
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
 
       <div className="min-h-screen bg-muted/20">
         <div className="border-b bg-background/50 backdrop-blur-sm">

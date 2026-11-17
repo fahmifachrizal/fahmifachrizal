@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { getPreps, getQuestions } from "@/lib/learn"
 import { QuestionCard } from "@/components/learn/question-card"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
 import { cn } from "@/lib/utils"
@@ -18,7 +18,7 @@ export default async function LearnPage() {
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
       <MainLayout>
         <div className="py-12 md:py-16 lg:py-24">
           <header className="mb-12 text-center">

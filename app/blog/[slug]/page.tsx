@@ -8,7 +8,7 @@ import rehypeKatex from "rehype-katex"
 import "katex/dist/katex.min.css"
 import { mdxComponents } from "@/components/mdx-components"
 import { TableOfContents } from "@/components/table-of-contents"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { Footer } from "@/components/layout/footer"
 
 export async function generateStaticParams() {
@@ -48,7 +48,7 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
 
       <div className="min-h-screen bg-muted/20">
         {/* Breadcrumb Navigation */}

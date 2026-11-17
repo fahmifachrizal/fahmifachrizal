@@ -1,93 +1,79 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail } from "lucide-react"
-import { forwardRef } from "react"
 import { email, github, linkedin } from "@/lib/constant"
+import { navItems } from "./nav-items"
+import { Wordmark } from "./wordmark"
 
-export const Footer = forwardRef<HTMLElement>((props, ref) => {
+const linkClass = "text-[0.9375rem] underline-offset-[6px] decoration-1 hover:underline"
+
+export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer ref={ref} className="border-t bg-card/30 backdrop-blur-sm">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-3">
-          {/* Brand Section */}
-          <div className="space-y-3">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-lg font-bold hover:text-primary transition-colors">
-              <span className="text-2xl">✦</span>
-              <span>fahmifachrizal</span>
+    <footer className="border-t bg-background">
+      <div className="page-container py-16 md:py-20">
+        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
+          <div className="space-y-4">
+            <Link href="/" aria-label="Fahmi Fachrizal, home" className="inline-block text-xl">
+              <Wordmark />
             </Link>
-            <p className="text-sm text-muted-foreground">
-              Full Stack Developer crafting elegant solutions with modern
-              technologies.
+            <p className="max-w-xs text-sm text-muted-foreground">
+              Crafting elegant solutions with modern technologies.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Quick Links</h3>
-            <nav className="flex flex-col gap-2 text-sm">
-              <Link
-                href="/#about"
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                About
-              </Link>
-              <Link
-                href="/#experience"
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                Experience
-              </Link>
-              <Link
-                href="/blog"
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                Blog
-              </Link>
-              <Link
-                href="/#contact"
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                Contact
-              </Link>
-            </nav>
+          <nav aria-label="Footer" className="space-y-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              Site
+            </h2>
+            <ul className="space-y-2">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={linkClass}
+                    {...("external" in item && item.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="space-y-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              Elsewhere
+            </h2>
+            <ul className="space-y-2">
+              <li>
+                <a href={github} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a href={linkedin} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Social Links */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Connect</h3>
-            <div className="flex gap-3">
-              <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
-                <Github className="size-4" />
-                <span className="sr-only">GitHub</span>
-              </a>
-              <a
-                href={linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
-                <Linkedin className="size-4" />
-                <span className="sr-only">LinkedIn</span>
-              </a>
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex size-9 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent hover:text-accent-foreground">
-                <Mail className="size-4" />
-                <span className="sr-only">Email</span>
-              </a>
-            </div>
+          <div className="space-y-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              Contact
+            </h2>
+            <a href={`mailto:${email}`} className={`${linkClass} break-all`}>
+              {email}
+            </a>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
-          <p>© {currentYear} fahmifachrizal. All rights reserved.</p>
+        <div className="mt-16 border-t pt-6 text-sm text-muted-foreground">
+          <p>© {currentYear} Fahmi Fachrizal</p>
         </div>
       </div>
     </footer>
   )
-})
-
-Footer.displayName = "Footer"
+}

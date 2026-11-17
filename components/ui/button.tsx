@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "border border-foreground/30 bg-transparent text-foreground hover:border-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-foreground/10",
         ghost: "hover:bg-foreground/5",
-        link: "group/link text-foreground underline-offset-[6px] decoration-1 hover:underline [&>svg]:transition-transform [&>svg]:duration-300 hover:[&>svg]:translate-x-1",
+        link: "text-foreground underline-offset-[6px] decoration-1 hover:underline [&>svg]:transition-transform [&>svg]:duration-300 hover:[&>svg]:translate-x-1",
       },
       size: {
         default: "h-10 px-6 has-[>svg]:px-5",

@@ -1,5 +1,5 @@
 import { mdxComponents } from "@/components/mdx-components"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 
 export default function MDXDemoPage() {
@@ -26,7 +26,7 @@ export default function MDXDemoPage() {
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
       <MainLayout>
         <div className="py-12 md:py-16">
           <div className="mb-12 text-center">

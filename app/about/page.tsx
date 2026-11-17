@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { Footer } from "@/components/layout/footer"
 import Content from "./content.mdx"
 
@@ -12,7 +12,7 @@ export const metadata = {
 export default function AboutPage() {
     return (
         <>
-            <TopNavbar />
+            <SiteHeader />
 
             <div className="min-h-screen bg-background pb-8">
                 {/* Breadcrumb Navigation */}

@@ -1,58 +1,57 @@
-import { Button } from "@/components/ui/button"
-import { Mail, FileText } from "lucide-react"
-import { email } from "@/lib/constant"
 import Image from "next/image"
+import { ArrowDown } from "lucide-react"
+
+const line = "block overflow-hidden"
 
 export function HeroSection() {
   return (
-    <section className="flex min-h-screen items-center justify-center px-8 py-16 md:px-16 lg:px-24">
-  <div className="grid h-full w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
-    
-    {/* Left: Set explicit height (e.g. 60vh or 70vh) to scale the picture up */}
-    <div className="relative h-[65vh] w-full [mask-image:linear-gradient(to_bottom,black_75%,transparent_100%)]">
-<Image
-  src="/hero_picture.webp"
-  alt="Fahmi Fachrizal"
-  fill={true}
-  className="object-cover object-top mix-blend-multiply saturate-80"
-  priority
-/>
-    </div>
+    <section aria-label="Introduction" className="page-container pt-12 md:pt-20 lg:pt-24">
+      <h1 id="hero-wordmark">
+        <span className={line}>
+          <span className="block animate-rise text-[clamp(3.25rem,11.5vw,9.75rem)] font-black uppercase leading-[0.9] tracking-tighter">
+            Fahmi
+          </span>
+        </span>
+        <span className={line}>
+          <span className="block animate-rise text-[clamp(3.25rem,11.5vw,9.75rem)] font-black uppercase leading-[0.9] tracking-tighter [animation-delay:120ms]">
+            Fachrizal
+          </span>
+        </span>
+        <span className={`${line} pb-[0.12em]`}>
+          <span className="display block animate-rise text-[clamp(2.25rem,6vw,4.5rem)] [animation-delay:240ms]">
+            Full Stack Developer
+          </span>
+        </span>
+      </h1>
 
-    {/* Right: Caption/Description */}
-    <div className="flex flex-col justify-center space-y-6 lg:space-y-8">
-      <div className="space-y-4">
-        <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-          Fahmi Fachrizal
-        </h1>
-        <p className="text-2xl font-semibold text-primary sm:text-3xl">
-          Full Stack Developer
+      <a
+        href="#tech"
+        aria-label="Scroll to content"
+        className="mt-8 inline-flex size-10 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowDown className="size-5" />
+      </a>
+
+      <div className="mt-10 grid items-end gap-10 md:mt-16 lg:grid-cols-12 lg:gap-16">
+        <div className="relative h-[60vh] min-h-[22rem] w-full lg:col-span-7 lg:h-[78vh] [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]">
+          <Image
+            src="/hero_picture.webp"
+            alt="Portrait of Fahmi Fachrizal"
+            fill
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            className="object-cover object-top mix-blend-multiply saturate-80"
+            priority
+          />
+        </div>
+        <p
+          data-reveal
+          className="display pb-12 text-2xl leading-[1.25] text-muted-foreground md:text-3xl lg:col-span-5 lg:pb-24"
+        >
+          <span className="text-foreground">Crafting elegant solutions with modern technologies.</span>{" "}
+          Specialized in building scalable web applications with clean,
+          maintainable code.
         </p>
       </div>
-
-      <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-        Crafting elegant solutions with modern technologies. Passionate
-        about creating exceptional digital experiences that make a
-        difference. Specialized in building scalable web applications with
-        clean, maintainable code.
-      </p>
-
-      <div className="flex flex-wrap gap-4 pt-4">
-        <Button size="lg" className="shadow-lg" asChild>
-          <a href={`mailto:${email}`}>
-            <Mail className="mr-2 size-4" />
-            Get in Touch
-          </a>
-        </Button>
-        <Button size="lg" variant="secondary" className="shadow-md" asChild>
-          <a href="/resume" target="_blank" rel="noopener noreferrer">
-            <FileText className="mr-2 size-4" />
-            View Resume
-          </a>
-        </Button>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
   )
 }

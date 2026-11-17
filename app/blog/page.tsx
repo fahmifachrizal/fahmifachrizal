@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { getBlogPosts } from "@/lib/mdx"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
 
@@ -9,7 +9,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
       <MainLayout>
         <div className="py-12 md:py-16 lg:py-24">
           <header className="mb-12 text-center">

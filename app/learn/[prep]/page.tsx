@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
 import { getPreps, getQuestions } from "@/lib/learn"
 import { QuestionCard } from "@/components/learn/question-card"
-import { TopNavbar } from "@/components/layout/top-navbar"
+import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
 
@@ -46,7 +46,7 @@ export default async function PrepPage({
 
   return (
     <>
-      <TopNavbar />
+      <SiteHeader />
       <MainLayout>
         <div className="py-12 md:py-16 lg:py-24">
           <div className="mb-8">
