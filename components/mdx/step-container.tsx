@@ -16,6 +16,8 @@ export function Presentation({ children }: PresentationProps) {
     const [isFullscreen, setIsFullscreen] = React.useState(false)
     const containerRef = React.useRef<HTMLDivElement>(null)
     const slideAreaRef = React.useRef<HTMLDivElement>(null)
+    const fitRef = React.useRef<HTMLDivElement>(null)
+    const [fit, setFit] = React.useState({ scale: 1, height: 0 })
 
     // Filter children to remove whitespace/nulls
     const steps = React.Children.toArray(children).filter(Boolean)
@@ -121,10 +123,24 @@ export function Presentation({ children }: PresentationProps) {
         return () => window.removeEventListener("keydown", handleKeyDown)
     }, [currentStep, isAnimating, totalSteps, isFullscreen, isPresentationMode])
 
-    // Each slide starts from its top: tall slides scroll inside the slide area.
-    React.useEffect(() => {
-        slideAreaRef.current?.scrollTo({ top: 0 })
-    }, [currentStep])
+    // Slides never scroll: a slide taller than the slide area is scaled down to
+    // fit it. Transforms don't change layout size, so offsetHeight is always the
+    // slide's natural height; the observer re-fits on resize and image loads.
+    React.useLayoutEffect(() => {
+        const area = slideAreaRef.current
+        const content = fitRef.current
+        if (!isPresentationMode || !area || !content) return
+        const measure = () => {
+            const height = content.offsetHeight
+            const scale = height > 0 ? Math.min(1, area.clientHeight / height) : 1
+            setFit((f) => (f.scale === scale && f.height === height ? f : { scale, height }))
+        }
+        measure()
+        const observer = new ResizeObserver(measure)
+        observer.observe(area)
+        observer.observe(content)
+        return () => observer.disconnect()
+    }, [currentStep, isPresentationMode])
 
     // Disable body scroll when formatted as presentation (fullscreen)
     React.useEffect(() => {
@@ -190,15 +206,18 @@ export function Presentation({ children }: PresentationProps) {
                 "h-full flex flex-col relative z-10",
                 isFullscreen ? "container mx-auto" : "w-full"
             )}>
-                {/* Slide content area: centred when the slide fits, scrollable from
-                    the top when it is taller than the screen (never clipped). */}
+                {/* Slide content area: the slide is centred, and scaled down when
+                    it is taller than the area, so it never scrolls or clips. */}
                 <div
                     ref={slideAreaRef}
-                    tabIndex={0}
-                    aria-label={`Slide ${currentStep + 1} of ${totalSteps}`}
-                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 md:px-16 lg:px-24 xl:px-32"
+                    className="flex min-h-0 flex-1 items-center justify-center overflow-hidden px-6 md:px-16 lg:px-24 xl:px-32"
                 >
-                    <div className="relative flex min-h-full w-full items-center justify-center py-10 md:py-14">
+                    <div className="w-full" style={{ height: fit.height ? fit.height * fit.scale : undefined }}>
+                    <div
+                        ref={fitRef}
+                        className="w-full py-8 md:py-12"
+                        style={{ transform: `scale(${fit.scale})`, transformOrigin: "top center" }}
+                    >
                         {/* Slide with transitions */}
                         <div
                             key={currentStep}
@@ -211,6 +230,7 @@ export function Presentation({ children }: PresentationProps) {
                         >
                             {steps[currentStep]}
                         </div>
+                    </div>
                     </div>
                 </div>
 
