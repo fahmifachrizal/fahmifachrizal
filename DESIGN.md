@@ -173,7 +173,7 @@ An ink section re-points the same tokens instead of introducing a second set of 
 - **Section rhythm** (the `section-y` utility): `py-16 md:py-24 lg:py-36`.
 - **Bands**: the numbers and closing bands use `py-28 lg:py-40`.
 - **Measure**: running text is capped at 65ch.
-- **Home order**: hero (paper), tech marquee (paper), intro (ink, split with portrait), guide cards (paper), projects (heading on paper, then features alternating ink, paper, ink, paper), writing (paper), numbers (ink, centred), let's talk (ink, centred), footer (paper).
+- **Home order**: hero (paper), tech marquee (paper), intro (ink, text only: the portrait lives in the hero), guide cards (paper), projects (heading on paper, then the latest work, Wondr, as the one ink feature with its modules listed by release, then the earlier projects on paper with hairlines), writing (paper), numbers (ink, centred), let's talk (ink, centred), footer (paper).
 
 ## 5. Elevation
 
