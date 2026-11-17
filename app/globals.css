@@ -4,6 +4,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-soft: var(--paper-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -37,56 +40,175 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Ink & Paper. Two colours, no white anywhere: every surface the shadcn
+   defaults would paint white resolves to paper (#e7e0de) or soft paper
+   (#ded7d5). Text and lines are ink (#1d0b08) or a solid mix of the two. */
 :root {
-  --radius: 0.625rem;
-  --background: #e7e0de;
-  --foreground: #1d0b08;
-  --card: #ded7d5;
-  --card-foreground: #1d0b08;
-  --popover: #ded7d5;
-  --popover-foreground: #1d0b08;
-  --primary: #1d0b08;
-  --primary-foreground: #e7e0de;
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --radius: 0px;
+  --ink: #1d0b08;
+  --paper: #e7e0de;
+  --paper-soft: #ded7d5;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-soft);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-soft);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-soft);
+  --muted-foreground: #5a4b48; /* 6.4:1 on paper, 5.8:1 on soft paper */
+  --accent: var(--paper-soft);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.5 0.22 27.325);
   --warning: oklch(0.5 0.13 65);
   --success: oklch(0.48 0.14 150);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #c9c0be; /* ink at 15% on paper: a hairline */
+  --input: #827673; /* ink at 50%: 3.4:1, enough for a control boundary */
+  --ring: var(--ink);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: #e7e0de;
-  --sidebar-foreground: #1d0b08;
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: #e7e0de;
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-soft);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: #c9c0be;
+  --sidebar-ring: var(--ink);
 }
 
 @layer base {
+  /* An ink section re-points the same tokens, so every component inside it
+     (buttons, links, borders, focus rings) inverts without a second dialect. */
+  .surface-ink {
+    --background: var(--ink);
+    --foreground: var(--paper);
+    --card: #2a1714;
+    --card-foreground: var(--paper);
+    --primary: var(--paper);
+    --primary-foreground: var(--ink);
+    --muted-foreground: #aaa09e; /* 7.5:1 on ink */
+    --border: #453633; /* paper at 20% on ink */
+    --input: #786b68;
+    --ring: var(--paper);
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+  }
+  html {
+    scroll-padding-top: 5rem;
   }
   body {
     @apply bg-background text-foreground;
   }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+/* Type and rhythm helpers. One family (Geist); display sizes run light. */
+@utility eyebrow {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  @variant md {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+@utility display {
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+@utility page-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+  @variant md {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 4rem;
+  @variant md {
+    padding-block: 6rem;
+  }
+  @variant lg {
+    padding-block: 9rem;
+  }
+}
+
+/* Motion. Hidden-until-revealed only applies when JS is running and the
+   visitor has not asked for reduced motion, so content is never stranded. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    filter: blur(6px);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo),
+      filter 0.9s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-rise {
+  animation: rise 1.2s var(--ease-out-expo) both;
+}
+
+@utility animate-marquee {
+  animation: marquee 60s linear infinite;
 }
 
 /* Respect the visitor's reduced-motion preference site-wide: every
@@ -114,7 +236,7 @@
   }
 
   .scrollbar-thumb-border {
-    scrollbar-color: hsl(var(--border)) transparent;
+    scrollbar-color: var(--border) transparent;
   }
 
   /* Webkit browsers */
@@ -128,12 +250,12 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
+    background: var(--border);
     border-radius: var(--radius-sm);
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
+    background: var(--muted-foreground);
   }
 
   /* Hide scrollbar but keep functionality */
