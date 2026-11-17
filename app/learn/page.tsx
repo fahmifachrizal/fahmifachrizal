@@ -5,6 +5,7 @@ import { QuestionCard } from "@/components/learn/question-card"
 import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
+import { PageIntro } from "@/components/layout/page-intro"
 import { cn } from "@/lib/utils"
 
 export default async function LearnPage() {
@@ -20,22 +21,14 @@ export default async function LearnPage() {
     <>
       <SiteHeader />
       <MainLayout>
-        <div className="py-12 md:py-16 lg:py-24">
-          <header className="mb-12 text-center">
-            <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-              Learn
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
-              Practice questions for GRE, GMAT, and more
-            </p>
-          </header>
+        <PageIntro eyebrow="Practice" title="Learn" description="Practice questions for GRE, GMAT, and more" />
 
-          <main className="mx-auto max-w-5xl space-y-16">
+          <div className="mt-16 space-y-20 md:mt-24">
             {sections.map(({ prep, questions }) => (
               <section key={prep.id}>
                 <div className="mb-6 flex items-end justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
+                    <h2 className="display text-3xl md:text-4xl">
                       {prep.name}
                     </h2>
                     {prep.description && (
@@ -46,7 +39,7 @@ export default async function LearnPage() {
                   </div>
                   <Link
                     href={`/learn/${prep.id}`}
-                    className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    className="inline-flex shrink-0 items-center gap-2 text-sm font-medium underline-offset-[6px] decoration-1 hover:underline"
                   >
                     View all
                     <ArrowRight className="size-4" />
@@ -55,7 +48,7 @@ export default async function LearnPage() {
 
                 <div
                   className={cn(
-                    "grid gap-6",
+                    "grid gap-x-8 gap-y-12",
                     questions.length === 1 && "max-w-sm",
                     questions.length === 2 && "sm:grid-cols-2 lg:max-w-2xl",
                     questions.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3"
@@ -74,8 +67,7 @@ export default async function LearnPage() {
                 </div>
               </section>
             ))}
-          </main>
-        </div>
+          </div>
       </MainLayout>
       <Footer />
     </>

@@ -135,7 +135,7 @@ export function Presentation({ children }: PresentationProps) {
     if (!isPresentationMode) {
         return (
             <div className="my-8 space-y-8">
-                <div className="flex flex-col md:flex-row gap-6 p-6 rounded-xl border bg-card/50 backdrop-blur-sm">
+                <div className="flex flex-col md:flex-row gap-6 p-6 border bg-card">
                     <div className="flex-1 space-y-2">
                         <h3 className="font-semibold text-lg flex items-center gap-2">
                             <div className="flex items-center justify-center size-6 rounded-full bg-foreground/10 text-foreground">
@@ -149,7 +149,7 @@ export function Presentation({ children }: PresentationProps) {
                     </div>
 
                     <div className="flex flex-col gap-3 min-w-[200px]">
-                        <Button onClick={enterPresentation} className="w-full gap-2 shadow-sm" size="lg">
+                        <Button onClick={enterPresentation} className="w-full gap-2" size="lg">
                             <Maximize className="size-4" />
                             Start Presentation
                         </Button>
@@ -174,19 +174,12 @@ export function Presentation({ children }: PresentationProps) {
         <div
             ref={containerRef}
             className={cn(
-                "relative border-y my-12 overflow-hidden transition-all duration-300 rounded-lg",
+                "relative border-y my-12 overflow-hidden transition-all duration-300",
                 isFullscreen
-                    ? "fixed inset-0 top-16 z-40 my-0 border-0 rounded-none bg-slate-50 w-screen h-[calc(100vh-4rem)]"
-                    : "w-full h-[600px] md:h-[700px] lg:h-[800px] bg-slate-50/80"
+                    ? "fixed inset-0 top-16 z-40 my-0 border-0 bg-background w-screen h-[calc(100vh-4rem)]"
+                    : "w-full h-[600px] md:h-[700px] lg:h-[800px] bg-card"
             )}
         >
-            {/* Lighter ambient background effects */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-accent/10 blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
-            </div>
-
             <div className={cn(
                 "h-full flex flex-col relative z-10",
                 isFullscreen ? "container mx-auto" : "w-full"
@@ -213,8 +206,8 @@ export function Presentation({ children }: PresentationProps) {
                 <div className={cn(
                     "flex items-center transition-all duration-300",
                     isFullscreen
-                        ? "absolute bottom-8 right-8 w-auto rounded-2xl border bg-background/80 shadow-2xl backdrop-blur-md p-4 gap-6"
-                        : "justify-between border-t bg-card/80 backdrop-blur-xl px-8 py-5 shadow-lg w-full"
+                        ? "absolute bottom-8 right-8 w-auto border bg-background p-4 gap-6"
+                        : "justify-between border-t bg-background px-8 py-5 w-full"
                 )}>
                     <div className={cn("flex items-center gap-4", isFullscreen && "hidden md:flex")}>
                         <div className="flex flex-col gap-1">

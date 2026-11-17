@@ -6,6 +6,7 @@ import { QuestionCard } from "@/components/learn/question-card"
 import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Footer } from "@/components/layout/footer"
+import { PageIntro } from "@/components/layout/page-intro"
 
 export async function generateStaticParams() {
   const preps = await getPreps()
@@ -48,30 +49,17 @@ export default async function PrepPage({
     <>
       <SiteHeader />
       <MainLayout>
-        <div className="py-12 md:py-16 lg:py-24">
-          <div className="mb-8">
-            <Link
-              href="/learn"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <ChevronLeft className="size-4" />
-              Back to Learn
-            </Link>
-          </div>
+          <Link
+            href="/learn"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ChevronLeft className="size-4" />
+            Back to Learn
+          </Link>
 
-          <header className="mb-12 text-center">
-            <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-              {prep.name}
-            </h1>
-            {prep.description && (
-              <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
-                {prep.description}
-              </p>
-            )}
-          </header>
+          <PageIntro className="mt-10" eyebrow="Learn" title={prep.name} description={prep.description || undefined} />
 
-          <main className="mx-auto max-w-5xl">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-24 lg:grid-cols-3">
               {questions.map((question) => (
                 <QuestionCard
                   key={question.slug}
@@ -82,9 +70,7 @@ export default async function PrepPage({
                   date={question.date}
                 />
               ))}
-            </div>
-          </main>
-        </div>
+          </div>
       </MainLayout>
       <Footer />
     </>

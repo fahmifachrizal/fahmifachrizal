@@ -64,9 +64,9 @@ export default async function QuestionPage({
     <>
       <SiteHeader />
 
-      <div className="min-h-screen bg-muted/20">
-        <div className="border-b bg-background/50 backdrop-blur-sm">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen">
+        <div className="border-b">
+          <div className="page-container py-4">
             <Link
               href={`/learn/${prep}`}
               className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -78,7 +78,7 @@ export default async function QuestionPage({
         </div>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-          <article className="w-full rounded-2xl border bg-white p-6 shadow-sm md:p-12">
+          <article className="w-full border p-6 md:p-12">
             <FocusMode
               prep={prep}
               currentSlug={question.slug}
@@ -86,12 +86,12 @@ export default async function QuestionPage({
               questions={siblingQuestions}
             >
               <header className="mb-8">
-                <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   <span>{question.topic}</span>
                   <span>•</span>
                   <span className="capitalize">{question.difficulty}</span>
                 </div>
-                <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+                <h1 className="display text-3xl md:text-4xl lg:text-5xl">
                   {question.title}
                 </h1>
               </header>

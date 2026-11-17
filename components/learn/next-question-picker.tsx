@@ -47,7 +47,7 @@ export function NextQuestionPicker({
   }
 
   return (
-    <div className="inline-flex rounded-md shadow-xs">
+    <div className="inline-flex">
       <Button
         onClick={() => goToRandom(currentTopic)}
         className="gap-2 rounded-r-none"

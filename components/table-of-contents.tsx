@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface TOCItem {
@@ -14,11 +14,10 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ content }: TableOfContentsProps) {
-  const [toc, setToc] = useState<TOCItem[]>([])
   const [activeId, setActiveId] = useState<string>("")
   const tocRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  const toc = useMemo(() => {
     // Parse headings from markdown content
     const headingRegex = /^\s*(#{1,3})\s+(.+)$/gm
     const headings: TOCItem[] = []
@@ -35,7 +34,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       headings.push({ id, text, level })
     }
 
-    setToc(headings)
+    return headings
   }, [content])
 
   useEffect(() => {

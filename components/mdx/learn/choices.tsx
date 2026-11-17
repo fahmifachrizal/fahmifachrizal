@@ -66,8 +66,8 @@ export function Choice({ label, children }: ChoiceProps) {
       <span
         className={cn(
           "flex size-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold",
-          isAnswered && isCorrect && "border-success bg-success text-white",
-          isAnswered && isSelected && !isCorrect && "border-destructive bg-destructive text-white"
+          isAnswered && isCorrect && "border-success bg-success text-paper",
+          isAnswered && isSelected && !isCorrect && "border-destructive bg-destructive text-paper"
         )}
       >
         {isAnswered && isCorrect ? (

@@ -17,7 +17,7 @@ export default function AboutPage() {
             <div className="min-h-screen bg-background pb-8">
                 {/* Breadcrumb Navigation */}
                 <div className="border-b">
-                    <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+                    <div className="page-container py-4">
                         <Link
                             href="/"
                             className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -28,7 +28,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12 bg-white rounded-2xl">
+                <div className="page-container py-8 lg:py-12">
                     {/* Article Content */}
                     <article className="mx-auto w-full max-w-5xl">
                         <div className="prose prose-neutral prose-sm sm:prose-lg max-w-none">

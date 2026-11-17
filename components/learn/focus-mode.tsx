@@ -65,21 +65,9 @@ export function FocusMode({
       className={cn(
         "relative",
         isFocus &&
-          "fixed inset-0 top-16 z-40 overflow-y-auto bg-slate-50"
+          "fixed inset-0 top-16 z-40 overflow-y-auto bg-background"
       )}
     >
-      {isFocus && (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-pulse"
-            style={{ animationDuration: "4s" }}
-          />
-          <div
-            className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-accent/10 blur-3xl animate-pulse"
-            style={{ animationDuration: "6s", animationDelay: "1s" }}
-          />
-        </div>
-      )}
 
       <div
         className={cn(
@@ -116,7 +104,7 @@ export function FocusMode({
       </div>
 
       {isFocus && (
-        <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3 rounded-2xl border bg-background/80 p-3 shadow-2xl backdrop-blur-md">
+        <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3 border bg-background p-3">
           <NextQuestionPicker
             prep={prep}
             currentSlug={currentSlug}

@@ -14,37 +14,29 @@ interface QuestionCardProps {
   date: string
 }
 
-export function QuestionCard({
-  href,
-  title,
-  topic,
-  difficulty,
-  date,
-}: QuestionCardProps) {
+export function QuestionCard({ href, title, topic, difficulty, date }: QuestionCardProps) {
   return (
-    <Link
-      href={href}
-      className="group rounded-xl border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg"
-    >
-      <div className="space-y-3">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <time dateTime={date}>
-            {new Date(date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </time>
-          <span>•</span>
-          <span className={difficultyStyles[difficulty] ?? ""}>
-            {difficulty}
-          </span>
-        </div>
-        <h3 className="text-xl font-bold leading-tight transition-colors group-hover:text-primary">
+    <article className="group relative flex flex-col border-t pt-6">
+      <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        <time dateTime={date}>
+          {new Date(date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}
+        </time>
+        <span aria-hidden> · </span>
+        <span className={difficultyStyles[difficulty] ?? ""}>{difficulty}</span>
+      </p>
+      <h3 className="display mt-4 text-xl leading-tight md:text-2xl">
+        <Link
+          href={href}
+          className="after:absolute after:inset-0 group-hover:underline group-hover:decoration-1 group-hover:underline-offset-[6px]"
+        >
           {title}
-        </h3>
-        <p className="text-sm text-muted-foreground">{topic}</p>
-      </div>
-    </Link>
+        </Link>
+      </h3>
+      <p className="mt-3 text-sm text-muted-foreground">{topic}</p>
+    </article>
   )
 }

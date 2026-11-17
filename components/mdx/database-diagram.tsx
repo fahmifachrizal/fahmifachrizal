@@ -80,10 +80,10 @@ export function DatabaseDiagram({ tables, relationships = [], className }: Datab
                 startOnLoad: false,
                 theme: "base",
                 themeVariables: {
-                    primaryColor: '#ffffff',
+                    primaryColor: '#e7e0de',
                     primaryTextColor: '#1d0b08',
-                    lineColor: '#737373',
-                    secondaryColor: '#f5f5f5',
+                    lineColor: '#5a4b48',
+                    secondaryColor: '#ded7d5',
                     tertiaryColor: '#ded7d5',
                 },
                 er: {
@@ -91,8 +91,8 @@ export function DatabaseDiagram({ tables, relationships = [], className }: Datab
                     layoutDirection: 'TB',
                     minEntityWidth: 200,
                     entityPadding: 15,
-                    stroke: '#e5e5e5',
-                    fill: '#ffffff',
+                    stroke: '#c9c0be',
+                    fill: '#e7e0de',
                     fontSize: 14,
                 }
             })

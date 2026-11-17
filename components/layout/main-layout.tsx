@@ -1,15 +1,5 @@
 import { ReactNode } from "react"
 
-interface MainLayoutProps {
-  children: ReactNode
-}
-
-export function MainLayout({ children }: MainLayoutProps) {
-  return (
-    <main className="bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {children}
-      </div>
-    </main>
-  )
+export function MainLayout({ children }: { children: ReactNode }) {
+  return <main className="page-container section-y">{children}</main>
 }

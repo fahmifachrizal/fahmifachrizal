@@ -50,10 +50,10 @@ export default async function BlogPostPage({
     <>
       <SiteHeader />
 
-      <div className="min-h-screen bg-muted/20">
+      <div className="min-h-screen">
         {/* Breadcrumb Navigation */}
-        <div className="border-b bg-background/50 backdrop-blur-sm">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+        <div className="border-b">
+          <div className="page-container py-4">
             <Link
               href="/blog"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -64,12 +64,12 @@ export default async function BlogPostPage({
         </div>
 
         {/* Main Content Area */}
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_240px] xl:grid-cols-[1fr_280px]">
+        <div className="page-container py-12 md:py-16 lg:py-24">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_240px] xl:grid-cols-[1fr_280px]">
             {/* Article Content */}
-            <article className="mx-auto w-full max-w-3xl bg-white rounded-2xl border p-6 shadow-sm md:p-12">
-              <header className="mb-12">
-                <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <article className="mx-auto w-full max-w-3xl">
+              <header className="mb-12 border-b pb-12">
+                <div className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   <time dateTime={post.date}>
                     {new Date(post.date).toLocaleDateString("en-US", {
                       month: "long",
@@ -80,7 +80,7 @@ export default async function BlogPostPage({
                   <span>•</span>
                   <span>{post.readTime}</span>
                 </div>
-                <h1 className="text-4xl font-black tracking-tight sm:text-5xl">
+                <h1 className="display text-4xl md:text-5xl lg:text-6xl">
                   {post.title}
                 </h1>
                 <p className="mt-4 text-lg text-muted-foreground sm:text-xl">

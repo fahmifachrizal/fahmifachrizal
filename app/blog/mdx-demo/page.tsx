@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { mdxComponents } from "@/components/mdx-components"
 import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
@@ -335,7 +336,7 @@ export const config = {
             <Callout type="info">
               <p className="font-semibold">Learn More</p>
               <p>
-                Check out the <a href="/blog">blog</a> for more examples and
+                Check out the <Link href="/blog">blog</Link> for more examples and
                 tutorials on using these components effectively.
               </p>
             </Callout>

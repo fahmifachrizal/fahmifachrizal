@@ -16,7 +16,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   // On the home page the big hero wordmark stands in for the logo, so the
   // header's small wordmark only fades in once the hero one has scrolled away.
-  const [heroWordmarkVisible, setHeroWordmarkVisible] = useState(pathname === "/")
+  const [heroWordmarkVisible, setHeroWordmarkVisible] = useState(true)
+  const hideWordmark = pathname === "/" && heroWordmarkVisible
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -27,10 +28,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     const target = document.getElementById("hero-wordmark")
-    if (!target) {
-      setHeroWordmarkVisible(false)
-      return
-    }
+    if (!target) return
     const observer = new IntersectionObserver(
       ([entry]) => setHeroWordmarkVisible(entry.isIntersecting),
       { rootMargin: "-64px 0px 0px 0px" }
@@ -57,9 +55,9 @@ export function SiteHeader() {
           aria-label="Fahmi Fachrizal, home"
           className={cn(
             "text-[0.8125rem] transition-opacity duration-500",
-            heroWordmarkVisible && "pointer-events-none opacity-0"
+            hideWordmark && "pointer-events-none opacity-0"
           )}
-          tabIndex={heroWordmarkVisible ? -1 : undefined}
+          tabIndex={hideWordmark ? -1 : undefined}
         >
           <Wordmark />
         </Link>
