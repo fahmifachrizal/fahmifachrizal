@@ -19,19 +19,25 @@ export function WondrReleases({ modules, className }: { modules: Module[]; class
   const trackRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
 
+  // Slides are separated by a gap, so positions come from the slides
+  // themselves rather than from the track width.
+  const slideLeft = (track: HTMLDivElement, i: number) =>
+    (track.children[i] as HTMLElement).offsetLeft
+
   const goTo = (i: number) => {
     const track = trackRef.current
     if (!track) return
     const index = Math.max(0, Math.min(modules.length - 1, i))
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    track.scrollTo({ left: index * track.clientWidth, behavior: reduce ? "auto" : "smooth" })
+    track.scrollTo({ left: slideLeft(track, index), behavior: reduce ? "auto" : "smooth" })
     setActive(index)
   }
 
   const onScroll = () => {
     const track = trackRef.current
     if (!track) return
-    const index = Math.round(track.scrollLeft / track.clientWidth)
+    const stride = slideLeft(track, 1) - slideLeft(track, 0)
+    const index = Math.round(track.scrollLeft / stride)
     if (index !== active) setActive(index)
   }
 
@@ -92,7 +98,7 @@ export function WondrReleases({ modules, className }: { modules: Module[]; class
         tabIndex={0}
         aria-live="polite"
         aria-label="Modules"
-        className="relative mt-10 flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] md:mt-12 [&::-webkit-scrollbar]:hidden"
+        className="relative mt-10 flex gap-12 snap-x snap-mandatory overflow-x-auto md:gap-16 [scrollbar-width:none] md:mt-12 [&::-webkit-scrollbar]:hidden"
       >
         {modules.map((m, i) => (
           <div
@@ -102,13 +108,15 @@ export function WondrReleases({ modules, className }: { modules: Module[]; class
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${modules.length}: ${m.name}`}
             inert={i !== active}
-            className="w-full shrink-0 snap-start"
+            className="flex w-full shrink-0 snap-start flex-col"
           >
             <h4 className="display text-3xl md:text-4xl">{m.name}</h4>
             <p className="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">
               {m.description}
             </p>
-            <div className="mt-8 grid grid-cols-2 items-start gap-3 md:grid-cols-4 md:gap-4">
+            {/* Slides stretch to the tallest one; mt-auto pins every screen row
+                to the bottom so it sits at the same height on every slide. */}
+            <div className="mt-auto grid grid-cols-2 gap-3 pt-8 md:grid-cols-4 md:gap-4">
               {m.screens.map((s) => (
                 <Image
                   key={s.file}
@@ -117,7 +125,7 @@ export function WondrReleases({ modules, className }: { modules: Module[]; class
                   width={600}
                   height={1300}
                   sizes="(min-width: 1024px) 13vw, (min-width: 768px) 22vw, 45vw"
-                  className="h-auto w-full"
+                  className="aspect-[6/13] h-auto w-full object-cover object-top"
                 />
               ))}
             </div>
