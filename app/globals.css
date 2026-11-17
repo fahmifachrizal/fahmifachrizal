@@ -51,10 +51,10 @@
 
 /* Ink & Paper. Two colours, no white anywhere: every surface the shadcn
    defaults would paint white resolves to paper (#e7e0de) or soft paper
-   (#ded7d5). Text and lines are ink (#1d0b08) or a solid mix of the two. */
+   (#ded7d5). Text and lines are ink (#17090b) or a solid mix of the two. */
 :root {
   --radius: 0px;
-  --ink: #1d0b08;
+  --ink: #17090b;
   --paper: #e7e0de;
   --paper-soft: #ded7d5;
   --background: var(--paper);
@@ -68,14 +68,14 @@
   --secondary: var(--paper-soft);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-soft);
-  --muted-foreground: #5a4b48; /* 6.4:1 on paper, 5.8:1 on soft paper */
+  --muted-foreground: #554a4a; /* 6.5:1 on paper, 6.0:1 on soft paper */
   --accent: var(--paper-soft);
   --accent-foreground: var(--ink);
   --destructive: oklch(0.5 0.22 27.325);
   --warning: oklch(0.5 0.13 65);
   --success: oklch(0.48 0.14 150);
-  --border: #c9c0be; /* ink at 15% on paper: a hairline */
-  --input: #827673; /* ink at 50%: 3.4:1, enough for a control boundary */
+  --border: #c8c0be; /* ink at 15% on paper: a hairline */
+  --input: #7f7575; /* ink at 50%: 3.4:1, enough for a control boundary */
   --ring: var(--ink);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -88,7 +88,7 @@
   --sidebar-primary-foreground: var(--paper);
   --sidebar-accent: var(--paper-soft);
   --sidebar-accent-foreground: var(--ink);
-  --sidebar-border: #c9c0be;
+  --sidebar-border: #c8c0be;
   --sidebar-ring: var(--ink);
 }
 
@@ -98,13 +98,13 @@
   .surface-ink {
     --background: var(--ink);
     --foreground: var(--paper);
-    --card: #2a1714;
+    --card: #26181a;
     --card-foreground: var(--paper);
     --primary: var(--paper);
     --primary-foreground: var(--ink);
-    --muted-foreground: #aaa09e; /* 7.5:1 on ink */
-    --border: #453633; /* paper at 20% on ink */
-    --input: #786b68;
+    --muted-foreground: #a99f9f; /* 7.5:1 on ink */
+    --border: #413435; /* paper at 20% on ink */
+    --input: #756a6a;
     --ring: var(--paper);
     background-color: var(--background);
     color: var(--foreground);

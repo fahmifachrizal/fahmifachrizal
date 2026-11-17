@@ -81,17 +81,19 @@ export function DatabaseDiagram({ tables, relationships = [], className }: Datab
                 theme: "base",
                 themeVariables: {
                     primaryColor: '#e7e0de',
-                    primaryTextColor: '#1d0b08',
-                    lineColor: '#5a4b48',
+                    primaryTextColor: '#17090b',
+                    lineColor: '#554a4a',
                     secondaryColor: '#ded7d5',
                     tertiaryColor: '#ded7d5',
+                    rowOdd: '#e7e0de',
+                    rowEven: '#ded7d5',
                 },
                 er: {
                     diagramPadding: 20,
                     layoutDirection: 'TB',
                     minEntityWidth: 200,
                     entityPadding: 15,
-                    stroke: '#c9c0be',
+                    stroke: '#c8c0be',
                     fill: '#e7e0de',
                     fontSize: 14,
                 }
@@ -115,7 +117,7 @@ export function DatabaseDiagram({ tables, relationships = [], className }: Datab
         <div
             ref={containerRef}
             className={cn(
-                "w-full overflow-x-auto rounded-lg border bg-card p-8 flex justify-center",
+                "w-full overflow-x-auto border bg-card p-8 flex justify-center [&_[fill=white]]:fill-card",
                 className
             )}
             dangerouslySetInnerHTML={{ __html: svgContent }}

@@ -91,7 +91,7 @@ export const mdxComponents = {
       <h1
         id={id}
         className={cn(
-          "mt-2 scroll-m-20 text-4xl font-bold tracking-tight",
+          "mt-2 scroll-m-20 text-4xl font-light tracking-[-0.025em] leading-[1.1]",
           className
         )}
         {...props}
@@ -106,7 +106,7 @@ export const mdxComponents = {
       <h2
         id={id}
         className={cn(
-          "mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+          "mt-12 scroll-m-20 border-b pb-3 text-3xl font-light tracking-[-0.025em] leading-[1.15] first:mt-0",
           className
         )}
         {...props}
@@ -121,7 +121,7 @@ export const mdxComponents = {
       <h3
         id={id}
         className={cn(
-          "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight",
+          "mt-10 scroll-m-20 text-2xl font-normal tracking-tight",
           className
         )}
         {...props}
