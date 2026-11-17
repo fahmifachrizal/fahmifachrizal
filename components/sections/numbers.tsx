@@ -1,8 +1,9 @@
-// Every figure here is taken from the CV (public/…Curriculum Vitae.pdf).
+// Figures from the CV (public/…Curriculum Vitae.pdf); the Wondr module count
+// follows the module list Fahmi gave in 2026-11.
 const facts = [
   { value: "2017", label: "First role: research analyst at the ITB Meteorology Laboratory, running the WRF weather model." },
   { value: "2023", label: "Joined the foundational engineering team behind Wondr by BNI." },
-  { value: "4", label: "Investment modules built end-to-end for Wondr: Bonds/Sukuk, Mutual Funds, Diaspora and DPLK." },
+  { value: "5", label: "Modules built end-to-end for Wondr, one per release: Bonds/Sukuk, Mutual Funds, DPLK, Gold and Lifestyle." },
   { value: "93.6", label: "Honor Award score at the Hacktiv8 Full Stack JavaScript Immersive program." },
 ]
 
