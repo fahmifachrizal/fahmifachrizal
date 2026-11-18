@@ -1,13 +1,17 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "@/lib/utils"
 
 type Shot = { src: string; alt: string }
 
+// Image width lives in --item. By default the strip shows one and a half
+// images (the part-shown one signals more): (100cqw - one 12px gap) / 1.5.
+// With `fill`, from lg up the strip takes the height its parent gives it and
+// the width follows the 6:13 screen ratio. Fewer than two images are visible
+// either way, so two clones of the first images make the wrap seamless.
 const GAP = 12 // px between images
-const VISIBLE = 1.5 // the part-shown next image signals there is more in the rotation
-const GAPS = Math.floor(VISIBLE) // whole gaps inside the visible width
-const CLONES = Math.ceil(VISIBLE) // copies of the first images, for a seamless wrap
+const CLONES = 2
 
 // One random seed per page load. The server snapshot is null, so the static
 // HTML and hydration keep the authored order and the shuffle applies right after.
@@ -34,18 +38,21 @@ function shuffled<T>(items: T[], seed: number): T[] {
 // Auto-rotating image strip with no controls: advances one image every
 // `interval` ms and loops; `shuffle` randomises the order on every visit,
 // keeping the first `pinned` images in place.
-// Pauses while hovered or focused. Under reduced motion it never moves; the
+// `fill` makes it as tall as its parent allows (the parent must be a flex
+// column from lg up). Pauses while hovered or focused. Under reduced motion it never moves; the
 // strip becomes a native horizontal scroll instead.
 export function AutoCarousel({
   images: authored,
   interval = 3000,
   shuffle = false,
   pinned = 0,
+  fill = false,
 }: {
   images: Shot[]
   interval?: number
   shuffle?: boolean
   pinned?: number
+  fill?: boolean
 }) {
   const seed = React.useSyncExternalStore(noop, () => pageSeed, () => null)
   const images = React.useMemo(
@@ -83,10 +90,10 @@ export function AutoCarousel({
     requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)))
   }
 
-  const item = `calc((100cqw - ${GAPS * GAP}px) / ${VISIBLE})`
   const items = reduced ? images : [...images, ...images.slice(0, CLONES)]
 
   return (
+    <div className={cn(fill && "lg:relative lg:min-h-0 lg:flex-1")}>
     <div
       role="region"
       aria-roledescription="carousel"
@@ -96,14 +103,18 @@ export function AutoCarousel({
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      className={reduced ? "overflow-x-auto [container-type:inline-size]" : "overflow-hidden [container-type:inline-size]"}
+      className={cn(
+        "[container-type:inline-size] [--item:calc((100cqw_-_12px)/1.5)]",
+        reduced ? "overflow-x-auto" : "overflow-hidden",
+        fill && "lg:absolute lg:inset-0 lg:[container-type:size] lg:[--item:calc(100cqh*6/13)]"
+      )}
     >
       <div
         onTransitionEnd={onTransitionEnd}
-        className="flex"
+        className={cn("flex", fill && "lg:h-full")}
         style={{
           gap: GAP,
-          transform: reduced ? undefined : `translateX(calc(${-index} * (${item} + ${GAP}px)))`,
+          transform: reduced ? undefined : `translateX(calc(${-index} * (var(--item) + ${GAP}px)))`,
           transition: animate && !reduced ? "transform 700ms cubic-bezier(0.16, 1, 0.3, 1)" : "none",
         }}
       >
@@ -118,11 +129,12 @@ export function AutoCarousel({
             aria-hidden={i >= images.length || undefined}
             width={600}
             height={1300}
-            className="aspect-[6/13] h-auto shrink-0 border object-cover object-top"
-            style={{ width: item }}
+            className={cn("aspect-[6/13] h-auto shrink-0 border object-cover object-top", fill && "lg:h-full")}
+            style={{ width: "var(--item)" }}
           />
         ))}
       </div>
+    </div>
     </div>
   )
 }
