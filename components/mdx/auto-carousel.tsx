@@ -5,7 +5,8 @@ import * as React from "react"
 type Shot = { src: string; alt: string }
 
 const GAP = 12 // px between images
-const VISIBLE = 2.5 // the half image signals there is more in the rotation
+const VISIBLE = 1.5 // the part-shown next image signals there is more in the rotation
+const GAPS = Math.floor(VISIBLE) // whole gaps inside the visible width
 const CLONES = Math.ceil(VISIBLE) // copies of the first images, for a seamless wrap
 
 // One random seed per page load. The server snapshot is null, so the static
@@ -31,22 +32,28 @@ function shuffled<T>(items: T[], seed: number): T[] {
 }
 
 // Auto-rotating image strip with no controls: advances one image every
-// `interval` ms and loops; `shuffle` randomises the order on every visit.
+// `interval` ms and loops; `shuffle` randomises the order on every visit,
+// keeping the first `pinned` images in place.
 // Pauses while hovered or focused. Under reduced motion it never moves; the
 // strip becomes a native horizontal scroll instead.
 export function AutoCarousel({
   images: authored,
   interval = 3000,
   shuffle = false,
+  pinned = 0,
 }: {
   images: Shot[]
   interval?: number
   shuffle?: boolean
+  pinned?: number
 }) {
   const seed = React.useSyncExternalStore(noop, () => pageSeed, () => null)
   const images = React.useMemo(
-    () => (shuffle && seed !== null ? shuffled(authored, seed) : authored),
-    [authored, shuffle, seed]
+    () =>
+      shuffle && seed !== null
+        ? [...authored.slice(0, pinned), ...shuffled(authored.slice(pinned), seed)]
+        : authored,
+    [authored, shuffle, pinned, seed]
   )
   const [index, setIndex] = React.useState(0)
   const [animate, setAnimate] = React.useState(true)
@@ -76,7 +83,7 @@ export function AutoCarousel({
     requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)))
   }
 
-  const item = `calc((100cqw - ${2 * GAP}px) / ${VISIBLE})`
+  const item = `calc((100cqw - ${GAPS * GAP}px) / ${VISIBLE})`
   const items = reduced ? images : [...images, ...images.slice(0, CLONES)]
 
   return (
