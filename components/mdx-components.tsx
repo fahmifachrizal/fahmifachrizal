@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { FileIcon, AlertCircle, Info, CheckCircle, AlertTriangle } from "lucide-react"
 import { Presentation } from "@/components/mdx/step-container"
 import { AutoCarousel } from "@/components/mdx/auto-carousel"
+import { Icon } from "@/components/mdx/icon"
 import { DatabaseDiagram } from "@/components/mdx/database-diagram"
 import { CopyButton } from "@/components/mdx/copy-button"
 import { LatestBlog } from "@/components/mdx/latest-blog"
@@ -312,6 +313,7 @@ export const mdxComponents = {
   Callout,
   Presentation,
   AutoCarousel,
+  Icon,
   DatabaseDiagram,
   LatestBlog,
   Step: ({ title, children }: { title?: string; children: React.ReactNode }) => (

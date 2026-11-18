@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { mdxComponents } from "@/components/mdx-components"
+import { Icon } from "@/components/mdx/icon"
 import { SiteHeader } from "@/components/layout/site-header"
 import { MainLayout } from "@/components/layout/main-layout"
 
@@ -186,22 +187,22 @@ npm start`}</code>
               <tbody>
                 <tr>
                   <td>Markdown</td>
-                  <td>✅ Yes</td>
+                  <td><Icon name="check" className="mr-1.5" />Yes</td>
                   <td>Full support</td>
                 </tr>
                 <tr>
                   <td>JSX Components</td>
-                  <td>✅ Yes</td>
+                  <td><Icon name="check" className="mr-1.5" />Yes</td>
                   <td>React components</td>
                 </tr>
                 <tr>
                   <td>TypeScript</td>
-                  <td>✅ Yes</td>
+                  <td><Icon name="check" className="mr-1.5" />Yes</td>
                   <td>Type-safe content</td>
                 </tr>
                 <tr>
                   <td>Syntax Highlighting</td>
-                  <td>✅ Yes</td>
+                  <td><Icon name="check" className="mr-1.5" />Yes</td>
                   <td>Multiple languages</td>
                 </tr>
               </tbody>

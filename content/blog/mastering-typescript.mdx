@@ -290,25 +290,25 @@ const user = await apiFetch('/users/:id', { id: '123' }) // Type: User
 ### Avoid Excessive Type Complexity
 
 ```typescript
-// ❌ Bad: Too complex
+// Bad: Too complex
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object
     ? DeepPartial<T[P]>
     : T[P]
 }
 
-// ✅ Good: Simple and clear
+// Good: Simple and clear
 type PartialUser = Partial<User>
 ```
 
 ### Use Type Inference
 
 ```typescript
-// ❌ Bad: Redundant type annotations
+// Bad: Redundant type annotations
 const names: string[] = ['Alice', 'Bob', 'Charlie']
 const numbers: number[] = [1, 2, 3, 4, 5]
 
-// ✅ Good: Let TypeScript infer
+// Good: Let TypeScript infer
 const names = ['Alice', 'Bob', 'Charlie']
 const numbers = [1, 2, 3, 4, 5]
 ```
@@ -376,4 +376,4 @@ Keep practicing these patterns in your projects, and you'll soon find yourself w
 - [Type Challenges](https://github.com/type-challenges/type-challenges)
 - [Effective TypeScript](https://effectivetypescript.com/)
 
-Happy typing! 💙
+Happy typing!
