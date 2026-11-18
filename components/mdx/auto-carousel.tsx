@@ -7,7 +7,7 @@ type Shot = { src: string; alt: string }
 
 // Image width lives in --item. By default the strip shows one and a half
 // images (the part-shown one signals more): (100cqw - 16px inset - one 12px
-// gap) / 1.5. The right edge fades out over the part-shown image.
+// gap) / 1.5. The last 3rem fade softly (to 25% opacity, not fully out).
 // With `fill`, from lg up the strip takes the height its parent gives it and
 // the width follows the 6:13 screen ratio. Fewer than two images are visible
 // either way, so two clones of the first images make the wrap seamless.
@@ -115,7 +115,7 @@ export function AutoCarousel({
       onBlur={() => setPaused(false)}
       className={cn(
         "[container-type:inline-size] [--item:calc((100cqw_-_28px)/1.5)]",
-        "[mask-image:linear-gradient(to_right,#000_calc(100%_-_5rem),transparent)]",
+        "[mask-image:linear-gradient(to_right,#000_calc(100%_-_3rem),rgb(0_0_0/0.7)_calc(100%_-_1.5rem),rgb(0_0_0/0.25))]",
         reduced ? "overflow-x-auto" : "overflow-hidden",
         fill && "lg:absolute lg:inset-0 lg:[container-type:size] lg:[--item:calc(100cqh*6/13)]"
       )}
