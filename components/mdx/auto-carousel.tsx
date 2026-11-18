@@ -6,11 +6,14 @@ import { cn } from "@/lib/utils"
 type Shot = { src: string; alt: string }
 
 // Image width lives in --item. By default the strip shows one and a half
-// images (the part-shown one signals more): (100cqw - one 12px gap) / 1.5.
+// images (the part-shown one signals more): (100cqw - 16px inset - one 12px
+// gap) / 1.5. The right edge fades out over the part-shown image.
 // With `fill`, from lg up the strip takes the height its parent gives it and
 // the width follows the 6:13 screen ratio. Fewer than two images are visible
 // either way, so two clones of the first images make the wrap seamless.
 const GAP = 12 // px between images
+const INSET = 16 // px of left padding before the leading image
+const SLIDE_MS = 450
 const CLONES = 2
 
 // One random seed per page load. The server snapshot is null, so the static
@@ -44,12 +47,14 @@ function shuffled<T>(items: T[], seed: number): T[] {
 export function AutoCarousel({
   images: authored,
   interval = 3000,
+  firstDelay = 1000,
   shuffle = false,
   pinned = 0,
   fill = false,
 }: {
   images: Shot[]
   interval?: number
+  firstDelay?: number
   shuffle?: boolean
   pinned?: number
   fill?: boolean
@@ -75,11 +80,16 @@ export function AutoCarousel({
     () => false
   )
 
+  // The first move comes after `firstDelay`, every later one after `interval`.
+  const started = React.useRef(false)
   React.useEffect(() => {
     if (paused || reduced) return
-    const id = window.setInterval(() => setIndex((i) => i + 1), interval)
-    return () => window.clearInterval(id)
-  }, [paused, reduced, interval])
+    const id = window.setTimeout(() => {
+      started.current = true
+      setIndex((i) => i + 1)
+    }, started.current ? interval : firstDelay)
+    return () => window.clearTimeout(id)
+  }, [paused, reduced, interval, firstDelay, index])
 
   // After sliding onto the clones, jump back to the real first image without a
   // transition, then turn the transition back on a frame later.
@@ -104,7 +114,8 @@ export function AutoCarousel({
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
       className={cn(
-        "[container-type:inline-size] [--item:calc((100cqw_-_12px)/1.5)]",
+        "[container-type:inline-size] [--item:calc((100cqw_-_28px)/1.5)]",
+        "[mask-image:linear-gradient(to_right,#000_calc(100%_-_5rem),transparent)]",
         reduced ? "overflow-x-auto" : "overflow-hidden",
         fill && "lg:absolute lg:inset-0 lg:[container-type:size] lg:[--item:calc(100cqh*6/13)]"
       )}
@@ -114,8 +125,9 @@ export function AutoCarousel({
         className={cn("flex", fill && "lg:h-full")}
         style={{
           gap: GAP,
+          paddingLeft: INSET,
           transform: reduced ? undefined : `translateX(calc(${-index} * (var(--item) + ${GAP}px)))`,
-          transition: animate && !reduced ? "transform 700ms cubic-bezier(0.16, 1, 0.3, 1)" : "none",
+          transition: animate && !reduced ? `transform ${SLIDE_MS}ms cubic-bezier(0.16, 1, 0.3, 1)` : "none",
         }}
       >
         {items.map((shot, i) => (
