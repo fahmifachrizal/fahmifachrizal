@@ -70,23 +70,13 @@
 
       <div className="lg:col-span-2">
         <h3 className="text-lg font-bold mb-4">Work at Wondr by BNI</h3>
-        <div className="grid grid-cols-5 gap-2 lg:grid-cols-3 lg:gap-3">
-          <div className="overflow-hidden">
-             ![Wondr Bonds](/wondr/bonds-dashboard.webp)
-          </div>
-          <div className="overflow-hidden">
-             ![Wondr Mutual Funds](/wondr/mutualfunds-dashboard.webp)
-          </div>
-          <div className="overflow-hidden">
-             ![Wondr DPLK retirement fund](/wondr/dplk-dashboard.webp)
-          </div>
-          <div className="overflow-hidden">
-             ![Wondr Gold](/wondr/gold-dashboard.webp)
-          </div>
-          <div className="overflow-hidden">
-             ![Wondr Lifestyle](/wondr/lifestyle-dashboard.webp)
-          </div>
-        </div>
+        <AutoCarousel images={[
+          { src: "/wondr/bonds-dashboard.webp", alt: "Wondr Bonds" },
+          { src: "/wondr/mutualfunds-dashboard.webp", alt: "Wondr Mutual Funds" },
+          { src: "/wondr/dplk-dashboard.webp", alt: "Wondr DPLK retirement fund" },
+          { src: "/wondr/gold-dashboard.webp", alt: "Wondr Gold" },
+          { src: "/wondr/lifestyle-dashboard.webp", alt: "Wondr Lifestyle" },
+        ]} />
       </div>
     </div>
   </Step>
